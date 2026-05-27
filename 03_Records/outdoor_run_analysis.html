@@ -449,7 +449,7 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.2</div>
+          <div>Ver. 0.1.3</div>
           <div class="update-line">Update: 2026.05.27</div>
         </div>
       </div>
@@ -527,15 +527,27 @@
       </article>
 
       <article class="panel">
-        <h2>補充圖：時間 × 距離 × 配速關係</h2>
+        <h2>補充圖：2.4公里完成趨勢</h2>
         <p class="desc">
-          這張保留下來當第二層判讀。當你先確認趨勢後，再回頭看單次訓練，
-          就能知道某一次是因為跑得久才跑得遠，還是真的效率變高。
+          這張圖專門看你每次室外跑步時，達到 2.4 公里的時間點有沒有越來越快。
+          因為 2.4 公里是固定目標，所以用完成時間看趨勢最直覺，越低就代表越快達標。
         </p>
         <div class="chart-wrap">
-          <svg id="relationshipChart" viewBox="0 0 760 420" aria-label="時間距離配速關係圖"></svg>
+          <svg id="target2400Chart" viewBox="0 0 760 360" aria-label="2.4公里完成時間趨勢圖"></svg>
         </div>
+        <div class="legend" id="target2400Summary"></div>
       </article>
+    </section>
+
+    <section class="panel" style="margin-top: 20px;">
+      <h2>補充圖：時間 × 距離 × 配速關係</h2>
+      <p class="desc">
+        這張保留下來當第二層判讀。當你先確認趨勢後，再回頭看單次訓練，
+        就能知道某一次是因為跑得久才跑得遠，還是真的效率變高。
+      </p>
+      <div class="chart-wrap">
+        <svg id="relationshipChart" viewBox="0 0 760 420" aria-label="時間距離配速關係圖"></svg>
+      </div>
     </section>
 
     <section class="panel" style="margin-top: 20px;">
@@ -567,20 +579,31 @@
 
   <script>
     const rawData = [
-      { date: "2026-04-12", type: "室外跑步", duration: "0:20:26", distanceKm: 2.76, pace: "7'24\"", heartRate: 158, effort: 7, effortLabel: "困難" },
-      { date: "2026-04-20", type: "室外跑步", duration: "0:23:14", distanceKm: 2.62, pace: "8'52\"", heartRate: 142, effort: 6, effortLabel: "適中" },
-      { date: "2026-05-12", type: "室外跑步", duration: "0:20:38", distanceKm: 2.59, pace: "7'57\"", heartRate: 150, effort: 6, effortLabel: "適中" },
-      { date: "2026-05-15", type: "室外跑步", duration: "0:27:06", distanceKm: 2.90, pace: "9'20\"", heartRate: 145, effort: 6, effortLabel: "適中" },
-      { date: "2026-05-17", type: "室外跑步", duration: "0:34:07", distanceKm: 3.50, pace: "9'44\"", heartRate: 135, effort: 5, effortLabel: "適中" },
-      { date: "2026-05-20", type: "室外跑步", duration: "0:38:49", distanceKm: 4.09, pace: "9'29\"", heartRate: 145, effort: 6, effortLabel: "適中" },
-      { date: "2026-05-22", type: "室外跑步", duration: "0:22:57", distanceKm: 2.92, pace: "7'51\"", heartRate: 151, effort: 6, effortLabel: "適中" },
-      { date: "2026-05-23", type: "室外跑步", duration: "0:36:01", distanceKm: 3.77, pace: "9'33\"", heartRate: 139, effort: 5, effortLabel: "適中" },
-      { date: "2026-05-27", type: "室外跑步", duration: "0:35:28", distanceKm: 4.24, pace: "8'21\"", heartRate: 146, effort: 6, effortLabel: "適中" }
+      { date: "2026-04-12", type: "室外跑步", duration: "0:20:26", distanceKm: 2.76, pace: "7'24\"", heartRate: 158, effort: 7, effortLabel: "困難", target2400: "17:36" },
+      { date: "2026-04-20", type: "室外跑步", duration: "0:23:14", distanceKm: 2.62, pace: "8'52\"", heartRate: 142, effort: 6, effortLabel: "適中", target2400: "20:31" },
+      { date: "2026-05-12", type: "室外跑步", duration: "0:20:38", distanceKm: 2.59, pace: "7'57\"", heartRate: 150, effort: 6, effortLabel: "適中", target2400: "18:27" },
+      { date: "2026-05-15", type: "室外跑步", duration: "0:27:06", distanceKm: 2.90, pace: "9'20\"", heartRate: 145, effort: 6, effortLabel: "適中", target2400: "20:55" },
+      { date: "2026-05-17", type: "室外跑步", duration: "0:34:07", distanceKm: 3.50, pace: "9'44\"", heartRate: 135, effort: 5, effortLabel: "適中", target2400: "19:31" },
+      { date: "2026-05-20", type: "室外跑步", duration: "0:38:49", distanceKm: 4.09, pace: "9'29\"", heartRate: 145, effort: 6, effortLabel: "適中", target2400: "19:12" },
+      { date: "2026-05-22", type: "室外跑步", duration: "0:22:57", distanceKm: 2.92, pace: "7'51\"", heartRate: 151, effort: 6, effortLabel: "適中", target2400: "17:13" },
+      { date: "2026-05-23", type: "室外跑步", duration: "0:36:01", distanceKm: 3.77, pace: "9'33\"", heartRate: 139, effort: 5, effortLabel: "適中", target2400: "21:48" },
+      { date: "2026-05-27", type: "室外跑步", duration: "0:35:28", distanceKm: 4.24, pace: "8'21\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:19" }
     ];
 
     function parseDurationToMinutes(text) {
       const parts = text.split(":").map(Number);
       return parts[0] * 60 + parts[1] + parts[2] / 60;
+    }
+
+    function parseClockTextToMinutes(text) {
+      const parts = text.split(":").map(Number);
+      if (parts.length === 2) {
+        return parts[0] + parts[1] / 60;
+      }
+      if (parts.length === 3) {
+        return parts[0] * 60 + parts[1] + parts[2] / 60;
+      }
+      return null;
     }
 
     function parsePaceToMinutes(text) {
@@ -611,6 +634,7 @@
       ...item,
       durationMinutes: parseDurationToMinutes(item.duration),
       paceMinutes: parsePaceToMinutes(item.pace),
+      target2400Minutes: item.target2400 ? parseClockTextToMinutes(item.target2400) : null,
       dateLabel: item.date.slice(5)
     }));
 
@@ -877,6 +901,73 @@
       `;
     }
 
+    function renderTarget2400Chart() {
+      const svg = document.getElementById("target2400Chart");
+      const summary = document.getElementById("target2400Summary");
+      const width = 760;
+      const height = 360;
+      const margin = { top: 32, right: 20, bottom: 54, left: 68 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+      const targetRuns = runs.filter((run) => run.target2400Minutes !== null);
+
+      if (!targetRuns.length) {
+        svg.innerHTML = "";
+        summary.innerHTML = `<span>目前還沒有 2.4 公里完成時間資料</span>`;
+        return;
+      }
+
+      const best = [...targetRuns].sort((a, b) => a.target2400Minutes - b.target2400Minutes)[0];
+      const latest = targetRuns[targetRuns.length - 1];
+      const deltaToBest = latest.target2400Minutes - best.target2400Minutes;
+      const yMin = Math.floor((Math.min(...targetRuns.map((run) => run.target2400Minutes)) - 0.5) * 2) / 2;
+      const yMax = Math.ceil((Math.max(...targetRuns.map((run) => run.target2400Minutes)) + 0.5) * 2) / 2;
+      const xDivisor = Math.max(targetRuns.length - 1, 1);
+      const yDivisor = Math.max(yMax - yMin, 0.5);
+      const xScale = (index) => margin.left + (index / xDivisor) * chartWidth;
+      const yScale = (value) => margin.top + chartHeight - ((value - yMin) / yDivisor) * chartHeight;
+      const yTicks = [];
+
+      for (let tick = yMin; tick <= yMax + 0.001; tick += 1) {
+        yTicks.push(Number(tick.toFixed(2)));
+      }
+
+      const linePoints = targetRuns.map((run, index) => `${xScale(index)},${yScale(run.target2400Minutes)}`).join(" ");
+      const summaryText = `${deltaToBest > 0 ? "較最佳慢" : deltaToBest < 0 ? "比原最佳更快" : "與最佳相同"} ${formatMinutesToClock(Math.abs(deltaToBest))}`;
+
+      svg.innerHTML = `
+        ${yTicks.map((tick) => `
+          <line x1="${margin.left}" y1="${yScale(tick)}" x2="${margin.left + chartWidth}" y2="${yScale(tick)}"
+            stroke="rgba(221,230,232,0.95)" stroke-dasharray="4 6" />
+          <text x="${margin.left - 12}" y="${yScale(tick) + 4}" text-anchor="end" font-size="12" fill="#fd6d57">${formatMinutesToClock(tick)}</text>
+        `).join("")}
+        ${targetRuns.map((run, index) => `
+          <text x="${xScale(index)}" y="${height - 18}" text-anchor="middle" font-size="12" fill="#6d8d9a">${run.dateLabel}</text>
+        `).join("")}
+        <line x1="${margin.left}" y1="${margin.top + chartHeight}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <polyline points="${linePoints}" fill="none" stroke="#fd6d57" stroke-width="3.2"></polyline>
+        ${targetRuns.map((run, index) => `
+          <g>
+            <circle cx="${xScale(index)}" cy="${yScale(run.target2400Minutes)}" r="${run.date === best.date || run.date === latest.date ? 8 : 6}" fill="${run.date === best.date ? "#00d96d" : "#fd6d57"}" stroke="#ffffff" stroke-width="3">
+              <title>${run.date}｜2.4 公里 ${run.target2400}</title>
+            </circle>
+            ${run.date === best.date || run.date === latest.date ? `
+              <text x="${xScale(index)}" y="${yScale(run.target2400Minutes) - 14}" text-anchor="middle" font-size="11" fill="${run.date === best.date ? "#00a95a" : "#fd6d57"}">${run.target2400}</text>
+            ` : ""}
+          </g>
+        `).join("")}
+        <text x="${margin.left}" y="${margin.top - 10}" font-size="13" fill="#6d8d9a">2.4 公里完成時間（越低越快）</text>
+        <text x="${margin.left + chartWidth / 2}" y="${height - 2}" text-anchor="middle" font-size="13" fill="#6d8d9a">日期</text>
+      `;
+
+      summary.innerHTML = `
+        <span><i class="swatch" style="background:#fd6d57;"></i> 2.4 公里完成時間趨勢</span>
+        <span><i class="swatch" style="background:#00d96d;"></i> 最佳 ${best.date}｜${best.target2400}</span>
+        <span>最新 ${latest.date}｜${latest.target2400}｜${summaryText}</span>
+      `;
+    }
+
     function renderCumulativeTrendChart() {
       const svg = document.getElementById("cumulativeTrendChart");
       const width = 640;
@@ -938,6 +1029,9 @@
       const fastest = [...runs].sort((a, b) => a.paceMinutes - b.paceMinutes)[0];
       const longest = [...runs].sort((a, b) => b.durationMinutes - a.durationMinutes)[0];
       const farthest = [...runs].sort((a, b) => b.distanceKm - a.distanceKm)[0];
+      const targetRuns = runs.filter((run) => run.target2400Minutes !== null);
+      const targetBest = [...targetRuns].sort((a, b) => a.target2400Minutes - b.target2400Minutes)[0];
+      const targetLatest = targetRuns[targetRuns.length - 1];
       const firstHalf = runs.slice(0, Math.floor(runs.length / 2));
       const secondHalf = runs.slice(Math.floor(runs.length / 2));
       const firstHalfAvgPace = average(firstHalf.map((run) => run.paceMinutes));
@@ -948,10 +1042,14 @@
       const distanceShift = secondHalfAvgDistance - firstHalfAvgDistance;
       const totalDuration = cumulativeRuns[cumulativeRuns.length - 1].cumulativeDuration;
       const totalDistance = cumulativeRuns[cumulativeRuns.length - 1].cumulativeDistance;
+      const targetInsight = targetRuns.length
+        ? `2.4 公里目標目前最佳是 ${targetBest.date} 的 ${targetBest.target2400}；最新一次是 ${targetLatest.date} 的 ${targetLatest.target2400}，和最佳相比 ${targetLatest.target2400Minutes > targetBest.target2400Minutes ? "慢了" : "快了"} ${formatMinutesToClock(Math.abs(targetLatest.target2400Minutes - targetBest.target2400Minutes))}。`
+        : "目前還沒有足夠的 2.4 公里完成時間資料，所以這一版先不對 2.4 公里目標做趨勢判讀。";
 
       const insights = [
         `從目前 ${runs.length} 次跑步來看，你已累積約 ${Math.round(totalDuration)} 分鐘、${totalDistance.toFixed(2)} km 的跑量，代表訓練不是零星單點，而是有開始堆量。`,
         `前半段與後半段相比，後半段單次平均距離 ${distanceShift > 0 ? "增加" : "下降"} ${Math.abs(distanceShift).toFixed(2)} km，平均配速則 ${paceShift > 0 ? "變慢" : "變快"} ${formatPace(Math.abs(paceShift))} 左右。`,
+        targetInsight,
         `最長訓練是 ${longest.date} 的 ${longest.duration}；最遠距離是 ${farthest.date} 的 ${farthest.distanceKm.toFixed(2)} km；最快配速則出現在 ${fastest.date} 的 ${fastest.pace}。`,
         `目前這個頁面先固定以室外跑步為主，後續如果你要再分成室外跑步趨勢版或室外跑步教練判讀版，我可以直接在這個基礎上繼續調整。`
       ];
@@ -976,6 +1074,7 @@
     renderStats();
     renderProgressOverviewChart();
     renderDistanceTrendChart();
+    renderTarget2400Chart();
     renderCumulativeTrendChart();
     renderRelationshipChart();
     renderInsights();
