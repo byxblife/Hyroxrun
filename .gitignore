@@ -4,12 +4,10 @@
 *
 
 # Allow target folder path
-!04_Workflow/
-!04_Workflow/Stage_1_Research/
-!04_Workflow/Stage_1_Research/2026-05-26_hyperframes_demo/
+!03_Records/
 
 # Allow only this HTML file
-!04_Workflow/Stage_1_Research/2026-05-26_hyperframes_demo/index.html
+!03_Records/outdoor_run_analysis.html
 
 # Allow gitignore itself
 !.gitignore

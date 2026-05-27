@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>跑步訓練關係圖表預覽</title>
+  <style>
+    :root {
+      --bg: #edfaff;
+      --panel: #ffffff;
+      --ink: #2a5b6d;
+      --muted: #6d8d9a;
+      --line: #dde6e8;
+      --accent: #59a8ff;
+      --accent-soft: rgba(89, 168, 255, 0.12);
+      --accent-deep: #2a5b6d;
+      --blue: #2a5b6d;
+      --blue-soft: rgba(89, 168, 255, 0.10);
+      --good: #00d96d;
+      --warn: #fd6d57;
+      --shadow: 0 18px 50px rgba(42, 91, 109, 0.08);
+      --shadow-strong: 0 20px 44px rgba(89, 168, 255, 0.16);
+      --panel-strong: linear-gradient(180deg, rgba(89, 168, 255, 0.16), rgba(255, 255, 255, 0.98));
+      --panel-soft: rgba(255, 255, 255, 0.88);
+      --card-emphasis: rgba(89, 168, 255, 0.28);
+      --card-soft: rgba(221, 230, 232, 0.95);
+      --meta-gray: #7a7a7a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "PingFang TC", "Noto Sans TC", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(89, 168, 255, 0.16), transparent 32%),
+        linear-gradient(180deg, #f7fdff 0%, var(--bg) 100%);
+    }
+
+    .shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 32px 20px 72px;
+    }
+
+    .hero {
+      display: grid;
+      gap: 20px;
+      padding: 28px;
+      border: 1px solid rgba(221, 230, 232, 0.95);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent-deep);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .version-meta {
+      flex-shrink: 0;
+      text-align: right;
+      color: var(--meta-gray);
+      font-size: 10px;
+      font-weight: 800;
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+    }
+
+    .version-meta .update-line {
+      color: var(--meta-gray);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.1;
+    }
+
+    .hero p {
+      max-width: 860px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .notice {
+      padding: 14px 16px;
+      border-left: 4px solid var(--warn);
+      border-radius: 12px;
+      background: rgba(253, 109, 87, 0.10);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(180px, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .panel,
+    .note-card {
+      border: 1px solid rgba(221, 230, 232, 0.95);
+      border-radius: 24px;
+      background: var(--panel-soft);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card {
+      border: 1px solid var(--card-emphasis);
+      border-radius: 24px;
+      background: var(--panel-strong);
+      box-shadow: var(--shadow-strong);
+      padding: 18px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent), rgba(89, 168, 255, 0.28));
+    }
+
+    .stat-label {
+      color: var(--accent-deep);
+      font-size: 13px;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--ink);
+    }
+
+    .stat-sub {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .panel {
+      padding: 20px;
+      border-color: var(--card-soft);
+    }
+
+    .panel h2 {
+      font-size: 20px;
+      margin-bottom: 8px;
+      color: var(--ink);
+    }
+
+    .panel .desc {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    .chart-wrap {
+      width: 100%;
+      overflow: auto;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(89, 168, 255, 0.08), rgba(255, 255, 255, 0.96));
+      border: 1px solid rgba(221, 230, 232, 0.95);
+      padding: 12px;
+    }
+
+    svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      min-width: 520px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .note-card {
+      padding: 18px;
+      background: rgba(255, 255, 255, 0.82);
+      border-color: rgba(221, 230, 232, 0.86);
+    }
+
+    .note-card h3 {
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+
+    .note-card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .swatch {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .table-wrap {
+      margin-top: 20px;
+      overflow: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(221, 230, 232, 0.95);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: rgba(89, 168, 255, 0.08);
+    }
+
+    .footnote {
+      margin-top: 20px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    @media (max-width: 980px) {
+      .grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        padding: 20px 14px 56px;
+      }
+
+      .hero-top {
+        flex-direction: column;
+      }
+
+      .version-meta {
+        text-align: left;
+        font-size: 10px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(4, minmax(160px, 1fr));
+      }
+
+      .hero,
+      .panel,
+      .note-card,
+      .stat-card {
+        border-radius: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div class="hero-top">
+        <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
+        <div class="version-meta" aria-label="版本資訊">
+          <div>Ver. 0.1.0</div>
+          <div class="update-line">Update: 2026.05.27</div>
+        </div>
+      </div>
+      <h1>跑步訓練狀態圖表預覽</h1>
+      <p>
+        這個頁面先用 <code>03_Records/outdoor_run.csv</code> 裡的室外跑步資料做第一版視覺化。
+        這次改成更偏「進步趨勢」的看法，先把「訓練時間、距離、平均配速」三條變化線排在同一個時間軸上，
+        讓你先看最近是不是變得更能跑、更能撐，或只是總量上升但速度還沒跟上。
+      </p>
+      <div class="notice">
+        這一版圖表先完全以「室外跑步」為主做分析與判讀。
+        目前已排除步行資料，避免不同運動型態混在一起影響判讀。
+      </div>
+    </section>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>主圖：進步趨勢總覽</h2>
+        <p class="desc">
+          三個指標都共用同一條日期軸，但分成三排獨立顯示，這樣你不用被不同單位搞混，
+          還是能直接對照同一天的時間、距離與配速是否一起進步。
+          第一排看有沒有越跑越久，第二排看有沒有越跑越遠，第三排看平均配速有沒有改善。
+        </p>
+        <div class="chart-wrap">
+          <svg id="progressOverviewChart" viewBox="0 0 760 560" aria-label="進步趨勢總覽圖"></svg>
+        </div>
+        <div class="legend">
+          <span><i class="swatch" style="background:#59a8ff;"></i> 訓練時間趨勢</span>
+          <span><i class="swatch" style="background:#2a5b6d;"></i> 距離趨勢</span>
+          <span><i class="swatch" style="background:#00d96d;"></i> 平均配速趨勢</span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>補充圖：累積訓練時間 / 距離</h2>
+        <p class="desc">
+          如果你想知道最近是不是穩定累積，而不是偶爾跑一次，這張圖最有用。
+          它把總訓練時間和總距離一路往上累加，幫你看整體訓練量是不是有持續堆起來。
+        </p>
+        <div class="chart-wrap">
+          <svg id="cumulativeTrendChart" viewBox="0 0 640 400" aria-label="累積訓練時間與距離圖"></svg>
+        </div>
+      </article>
+    </section>
+
+    <section class="two-col">
+      <article class="note-card">
+        <h3>為什麼我會這樣畫</h3>
+        <ul>
+          <li>你現在想先看「有沒有進步」，所以我把日期放成主軸，而不是先把單次效率放成主角。</li>
+          <li>三排趨勢共用同一組日期，最容易對照出「時間變長時，距離有沒有一起變長，配速有沒有一起變好」。</li>
+          <li>再補一張累積圖，是為了區分你是穩定累積，還是只是偶爾出現一次高峰。</li>
+          <li>先把步行排除，只保留跑步，避免不同運動型態混在一起讓判讀失真。</li>
+        </ul>
+      </article>
+
+      <article class="note-card">
+        <h3>這版先幫你回答的問題</h3>
+        <ul id="insights"></ul>
+      </article>
+    </section>
+
+    <section class="grid" style="margin-top: 20px;">
+      <article class="panel">
+        <h2>補充圖：距離趨勢放大看</h2>
+        <p class="desc">
+          這張圖只放大看距離，是因為距離通常最能代表耐力底子有沒有慢慢變厚。
+          如果你之後要做 Hyrox 訓練安排，這張圖會比單看配速更容易判斷底量是否夠。
+        </p>
+        <div class="chart-wrap">
+          <svg id="distanceTrendChart" viewBox="0 0 760 360" aria-label="距離趨勢圖"></svg>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>補充圖：時間 × 距離 × 配速關係</h2>
+        <p class="desc">
+          這張保留下來當第二層判讀。當你先確認趨勢後，再回頭看單次訓練，
+          就能知道某一次是因為跑得久才跑得遠，還是真的效率變高。
+        </p>
+        <div class="chart-wrap">
+          <svg id="relationshipChart" viewBox="0 0 560 420" aria-label="時間距離配速關係圖"></svg>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel" style="margin-top: 20px;">
+      <h2>跑步資料明細</h2>
+      <p class="desc">
+        這裡保留每筆原始紀錄的重要欄位，方便你對照圖表，確認資料是否符合你的訓練記憶。
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>運動類型</th>
+              <th>時間</th>
+              <th>距離</th>
+              <th>平均配速</th>
+              <th>平均心率</th>
+              <th>耗力等級</th>
+            </tr>
+          </thead>
+          <tbody id="dataTable"></tbody>
+        </table>
+      </div>
+      <p class="footnote">
+        資料來源：<code>03_Records/outdoor_run.csv</code>。目前圖表只納入「室外跑步」資料，未納入步行。
+      </p>
+    </section>
+  </div>
+
+  <script>
+    const rawData = [
+      { date: "2026-04-12", type: "室外跑步", duration: "0:20:26", distanceKm: 2.76, pace: "7'24\"", heartRate: 158, effort: 7, effortLabel: "困難" },
+      { date: "2026-04-20", type: "室外跑步", duration: "0:23:14", distanceKm: 2.62, pace: "8'52\"", heartRate: 142, effort: 6, effortLabel: "適中" },
+      { date: "2026-05-12", type: "室外跑步", duration: "0:20:38", distanceKm: 2.59, pace: "7'57\"", heartRate: 150, effort: 6, effortLabel: "適中" },
+      { date: "2026-05-15", type: "室外跑步", duration: "0:27:06", distanceKm: 2.90, pace: "9'20\"", heartRate: 145, effort: 6, effortLabel: "適中" },
+      { date: "2026-05-17", type: "室外跑步", duration: "0:34:07", distanceKm: 3.50, pace: "9'44\"", heartRate: 135, effort: 5, effortLabel: "適中" },
+      { date: "2026-05-20", type: "室外跑步", duration: "0:38:49", distanceKm: 4.09, pace: "9'29\"", heartRate: 145, effort: 6, effortLabel: "適中" },
+      { date: "2026-05-22", type: "室外跑步", duration: "0:22:57", distanceKm: 2.92, pace: "7'51\"", heartRate: 151, effort: 6, effortLabel: "適中" },
+      { date: "2026-05-23", type: "室外跑步", duration: "0:36:01", distanceKm: 3.77, pace: "9'33\"", heartRate: 139, effort: 5, effortLabel: "適中" }
+    ];
+
+    function parseDurationToMinutes(text) {
+      const parts = text.split(":").map(Number);
+      return parts[0] * 60 + parts[1] + parts[2] / 60;
+    }
+
+    function parsePaceToMinutes(text) {
+      const cleaned = text.replace("\"", "");
+      const [minutesText, secondsText] = cleaned.split("'");
+      return Number(minutesText) + Number(secondsText) / 60;
+    }
+
+    function formatMinutesToClock(value) {
+      const totalSeconds = Math.round(value * 60);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    function formatPace(value) {
+      const totalSeconds = Math.round(value * 60);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      return `${minutes}'${String(seconds).padStart(2, "0")}"`;
+    }
+
+    function average(numbers) {
+      return numbers.reduce((sum, value) => sum + value, 0) / numbers.length;
+    }
+
+    const runs = rawData.map((item) => ({
+      ...item,
+      durationMinutes: parseDurationToMinutes(item.duration),
+      paceMinutes: parsePaceToMinutes(item.pace),
+      dateLabel: item.date.slice(5)
+    }));
+
+    const cumulativeRuns = runs.reduce((result, run) => {
+      const previous = result[result.length - 1];
+      result.push({
+        ...run,
+        cumulativeDuration: (previous?.cumulativeDuration || 0) + run.durationMinutes,
+        cumulativeDistance: (previous?.cumulativeDistance || 0) + run.distanceKm
+      });
+      return result;
+    }, []);
+
+    function renderStats() {
+      const avgDuration = average(runs.map((run) => run.durationMinutes));
+      const avgDistance = average(runs.map((run) => run.distanceKm));
+      const avgPace = average(runs.map((run) => run.paceMinutes));
+      const longest = [...runs].sort((a, b) => b.durationMinutes - a.durationMinutes)[0];
+      const cards = [
+        {
+          label: "跑步筆數",
+          value: `${runs.length} 次`,
+          sub: "已排除步行資料"
+        },
+        {
+          label: "平均訓練時間",
+          value: formatMinutesToClock(avgDuration),
+          sub: "每次跑步平均投入時間"
+        },
+        {
+          label: "平均距離",
+          value: `${avgDistance.toFixed(2)} km`,
+          sub: "單次平均完成距離"
+        },
+        {
+          label: "平均配速",
+          value: formatPace(avgPace),
+          sub: `最長單次訓練：${longest.date}｜${longest.distanceKm.toFixed(2)} km`
+        }
+      ];
+
+      document.getElementById("stats").innerHTML = cards.map((card) => `
+        <article class="stat-card">
+          <div class="stat-label">${card.label}</div>
+          <div class="stat-value">${card.value}</div>
+          <div class="stat-sub">${card.sub}</div>
+        </article>
+      `).join("");
+    }
+
+    function renderProgressOverviewChart() {
+      const svg = document.getElementById("progressOverviewChart");
+      const width = 760;
+      const height = 560;
+      const margin = { top: 28, right: 28, bottom: 54, left: 72 };
+      const chartWidth = width - margin.left - margin.right;
+      const rowHeight = 130;
+      const rowGap = 34;
+      const rows = [
+        {
+          key: "durationMinutes",
+          label: "體能訓練時間（分鐘）",
+          color: "#59a8ff",
+          values: runs.map((run) => run.durationMinutes),
+          format: (value) => `${Math.round(value)} 分`
+        },
+        {
+          key: "distanceKm",
+          label: "距離（公里）",
+          color: "#2a5b6d",
+          values: runs.map((run) => run.distanceKm),
+          format: (value) => `${value.toFixed(2)} km`
+        },
+        {
+          key: "paceMinutes",
+          label: "平均配速（每公里）",
+          color: "#00d96d",
+          values: runs.map((run) => run.paceMinutes),
+          format: (value) => formatPace(value),
+          invert: true,
+          hint: "越低代表越快"
+        }
+      ];
+
+      const xScale = (index) => margin.left + (index / (runs.length - 1)) * chartWidth;
+
+      const markup = rows.map((row, rowIndex) => {
+        const top = margin.top + rowIndex * (rowHeight + rowGap);
+        const bottom = top + rowHeight;
+        const min = Math.min(...row.values);
+        const max = Math.max(...row.values);
+        const padding = (max - min) * 0.15 || 1;
+        const domainMin = min - padding;
+        const domainMax = max + padding;
+        const yScale = (value) => {
+          const normalized = (value - domainMin) / (domainMax - domainMin);
+          const base = row.invert ? normalized : 1 - normalized;
+          return top + base * rowHeight;
+        };
+        const points = runs.map((run, index) => `${xScale(index)},${yScale(run[row.key])}`).join(" ");
+        const firstLabel = row.format(row.values[0]);
+        const lastLabel = row.format(row.values[row.values.length - 1]);
+        const delta = row.values[row.values.length - 1] - row.values[0];
+        const trendText = row.invert
+          ? `${delta < 0 ? "較快" : "較慢"} ${formatPace(Math.abs(delta))}`
+          : `${delta > 0 ? "增加" : "下降"} ${row.key === "distanceKm" ? `${Math.abs(delta).toFixed(2)} km` : `${Math.round(Math.abs(delta))} 分`}`;
+
+        return `
+          <g>
+            <rect x="${margin.left}" y="${top}" width="${chartWidth}" height="${rowHeight}" rx="18" fill="rgba(255,255,255,0.86)" stroke="rgba(221,230,232,0.95)" />
+            <text x="${margin.left}" y="${top - 8}" font-size="13" fill="#6d8d9a">${row.label}${row.hint ? `｜${row.hint}` : ""}</text>
+            <text x="${margin.left + chartWidth}" y="${top - 8}" text-anchor="end" font-size="12" fill="${row.color}">起點 ${firstLabel}｜最新 ${lastLabel}｜${trendText}</text>
+            ${runs.map((run, index) => `
+              <line x1="${xScale(index)}" y1="${top}" x2="${xScale(index)}" y2="${bottom}" stroke="rgba(221,230,232,0.95)" stroke-dasharray="3 6" />
+            `).join("")}
+            <polyline points="${points}" fill="none" stroke="${row.color}" stroke-width="3.5"></polyline>
+            ${runs.map((run, index) => `
+              <g>
+                <circle cx="${xScale(index)}" cy="${yScale(run[row.key])}" r="6" fill="${row.color}" stroke="#ffffff" stroke-width="3">
+                  <title>${run.date}｜${row.label} ${row.format(run[row.key])}</title>
+                </circle>
+                <text x="${xScale(index)}" y="${bottom + 18}" text-anchor="middle" font-size="11" fill="#6d8d9a">${run.dateLabel}</text>
+              </g>
+            `).join("")}
+          </g>
+        `;
+      }).join("");
+
+      svg.innerHTML = `
+        <rect x="0" y="0" width="${width}" height="${height}" rx="18" fill="transparent"></rect>
+        ${markup}
+      `;
+    }
+
+    function renderRelationshipChart() {
+      const svg = document.getElementById("relationshipChart");
+      const width = 760;
+      const height = 420;
+      const margin = { top: 32, right: 24, bottom: 56, left: 68 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+
+      const xValues = runs.map((run) => run.durationMinutes);
+      const yValues = runs.map((run) => run.distanceKm);
+
+      const xMin = Math.floor((Math.min(...xValues) - 2) / 2) * 2;
+      const xMax = Math.ceil((Math.max(...xValues) + 2) / 2) * 2;
+      const yMin = Math.max(2, Math.floor((Math.min(...yValues) - 0.3) * 2) / 2);
+      const yMax = Math.ceil((Math.max(...yValues) + 0.4) * 2) / 2;
+
+      const xScale = (value) => margin.left + ((value - xMin) / (xMax - xMin)) * chartWidth;
+      const yScale = (value) => margin.top + chartHeight - ((value - yMin) / (yMax - yMin)) * chartHeight;
+
+      const xTicks = [];
+      for (let tick = xMin; tick <= xMax; tick += 4) xTicks.push(tick);
+
+      const yTicks = [];
+      for (let tick = yMin; tick <= yMax + 0.001; tick += 0.5) yTicks.push(Number(tick.toFixed(1)));
+
+      const paceGuides = [7.5, 8.0, 8.5, 9.0, 9.5, 10.0];
+      const guideLines = paceGuides.map((pace) => {
+        const points = [];
+        for (let minute = xMin; minute <= xMax; minute += 0.5) {
+          const distance = minute / pace;
+          if (distance >= yMin && distance <= yMax) {
+            points.push(`${xScale(minute)},${yScale(distance)}`);
+          }
+        }
+        const labelX = xMax - 1.5;
+        const labelY = yScale(labelX / pace);
+        return {
+          path: points.join(" "),
+          labelX: xScale(labelX),
+          labelY: labelY - 6,
+          label: `${formatPace(pace)} /km`
+        };
+      }).filter((item) => item.path);
+
+      const gridLines = [
+        ...xTicks.map((tick) => `
+          <line x1="${xScale(tick)}" y1="${margin.top}" x2="${xScale(tick)}" y2="${margin.top + chartHeight}"
+            stroke="rgba(221,230,232,0.95)" stroke-dasharray="4 6" />
+          <text x="${xScale(tick)}" y="${height - 18}" text-anchor="middle" font-size="12" fill="#6d8d9a">${tick} 分</text>
+        `),
+        ...yTicks.map((tick) => `
+          <line x1="${margin.left}" y1="${yScale(tick)}" x2="${margin.left + chartWidth}" y2="${yScale(tick)}"
+            stroke="rgba(221,230,232,0.95)" stroke-dasharray="4 6" />
+          <text x="${margin.left - 14}" y="${yScale(tick) + 4}" text-anchor="end" font-size="12" fill="#6d8d9a">${tick.toFixed(1)}</text>
+        `)
+      ].join("");
+
+      const guidesMarkup = guideLines.map((guide) => `
+        <polyline points="${guide.path}" fill="none" stroke="#59a8ff" stroke-width="1.8" stroke-dasharray="8 6" opacity="0.82" />
+        <text x="${guide.labelX}" y="${guide.labelY}" text-anchor="end" font-size="11" fill="#59a8ff">${guide.label}</text>
+      `).join("");
+
+      const pointMarkup = runs.map((run) => `
+        <g>
+          <circle cx="${xScale(run.durationMinutes)}" cy="${yScale(run.distanceKm)}" r="8" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
+            <title>${run.date}｜${run.duration}｜${run.distanceKm.toFixed(2)} km｜${run.pace}</title>
+          </circle>
+          <text x="${xScale(run.durationMinutes)}" y="${yScale(run.distanceKm) - 14}" text-anchor="middle" font-size="11" fill="#2a5b6d">
+            ${run.dateLabel}
+          </text>
+        </g>
+      `).join("");
+
+      svg.innerHTML = `
+        <rect x="0" y="0" width="${width}" height="${height}" rx="18" fill="transparent"></rect>
+        ${gridLines}
+        <line x1="${margin.left}" y1="${margin.top + chartHeight}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        ${guidesMarkup}
+        ${pointMarkup}
+        <text x="${margin.left + chartWidth / 2}" y="${height - 2}" text-anchor="middle" font-size="13" fill="#6d8d9a">體能訓練時間（分鐘）</text>
+        <text x="18" y="${margin.top + chartHeight / 2}" text-anchor="middle" font-size="13" fill="#6d8d9a" transform="rotate(-90 18 ${margin.top + chartHeight / 2})">距離（公里）</text>
+      `;
+    }
+
+    function renderDistanceTrendChart() {
+      const svg = document.getElementById("distanceTrendChart");
+      const width = 760;
+      const height = 360;
+      const margin = { top: 26, right: 20, bottom: 54, left: 60 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+
+      const distanceValues = runs.map((run) => run.distanceKm);
+      const distanceMin = Math.floor((Math.min(...distanceValues) - 0.2) * 4) / 4;
+      const distanceMax = Math.ceil((Math.max(...distanceValues) + 0.2) * 4) / 4;
+
+      const xScale = (index) => margin.left + (index / (runs.length - 1)) * chartWidth;
+      const yScale = (value) => margin.top + chartHeight - ((value - distanceMin) / (distanceMax - distanceMin)) * chartHeight;
+
+      const yTicks = [];
+      for (let tick = distanceMin; tick <= distanceMax + 0.001; tick += 0.5) {
+        yTicks.push(Number(tick.toFixed(2)));
+      }
+
+      const linePoints = runs.map((run, index) => `${xScale(index)},${yScale(run.distanceKm)}`).join(" ");
+
+      svg.innerHTML = `
+        ${yTicks.map((tick) => `
+          <line x1="${margin.left}" y1="${yScale(tick)}" x2="${margin.left + chartWidth}" y2="${yScale(tick)}"
+            stroke="rgba(221,230,232,0.95)" stroke-dasharray="4 6" />
+          <text x="${margin.left - 12}" y="${yScale(tick) + 4}" text-anchor="end" font-size="12" fill="#6d8d9a">${tick.toFixed(1)} km</text>
+        `).join("")}
+        ${runs.map((run, index) => `
+          <text x="${xScale(index)}" y="${height - 18}" text-anchor="middle" font-size="12" fill="#6d8d9a">${run.dateLabel}</text>
+        `).join("")}
+        <line x1="${margin.left}" y1="${margin.top + chartHeight}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <polyline points="${linePoints}" fill="none" stroke="#2a5b6d" stroke-width="3"></polyline>
+        ${runs.map((run, index) => `
+          <g>
+            <circle cx="${xScale(index)}" cy="${yScale(run.distanceKm)}" r="7" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
+              <title>${run.date}｜距離 ${run.distanceKm.toFixed(2)} km</title>
+            </circle>
+            <text x="${xScale(index)}" y="${yScale(run.distanceKm) - 14}" text-anchor="middle" font-size="11" fill="#2a5b6d">${run.distanceKm.toFixed(2)}</text>
+          </g>
+        `).join("")}
+        <text x="${margin.left + chartWidth / 2}" y="${height - 2}" text-anchor="middle" font-size="13" fill="#6d8d9a">日期</text>
+        <text x="18" y="${margin.top + chartHeight / 2}" text-anchor="middle" font-size="13" fill="#6d8d9a" transform="rotate(-90 18 ${margin.top + chartHeight / 2})">距離（公里）</text>
+      `;
+    }
+
+    function renderCumulativeTrendChart() {
+      const svg = document.getElementById("cumulativeTrendChart");
+      const width = 640;
+      const height = 400;
+      const margin = { top: 58, right: 70, bottom: 54, left: 72 };
+      const chartWidth = width - margin.left - margin.right;
+      const chartHeight = height - margin.top - margin.bottom;
+
+      const durationValues = cumulativeRuns.map((run) => run.cumulativeDuration);
+      const distanceValues = cumulativeRuns.map((run) => run.cumulativeDistance);
+      const durationMax = Math.ceil(Math.max(...durationValues) / 10) * 10;
+      const distanceMax = Math.ceil(Math.max(...distanceValues));
+
+      const xScale = (index) => margin.left + (index / (cumulativeRuns.length - 1)) * chartWidth;
+      const yDuration = (value) => margin.top + chartHeight - (value / durationMax) * chartHeight;
+      const yDistance = (value) => margin.top + chartHeight - (value / distanceMax) * chartHeight;
+
+      const durationTicks = [];
+      for (let tick = 0; tick <= durationMax; tick += 20) {
+        durationTicks.push(tick);
+      }
+
+      const durationLinePoints = cumulativeRuns.map((run, index) => `${xScale(index)},${yDuration(run.cumulativeDuration)}`).join(" ");
+      const distanceLinePoints = cumulativeRuns.map((run, index) => `${xScale(index)},${yDistance(run.cumulativeDistance)}`).join(" ");
+
+      svg.innerHTML = `
+        ${durationTicks.map((tick) => `
+          <line x1="${margin.left}" y1="${yDuration(tick)}" x2="${margin.left + chartWidth}" y2="${yDuration(tick)}"
+            stroke="rgba(221,230,232,0.95)" stroke-dasharray="4 6" />
+          <text x="${margin.left - 12}" y="${yDuration(tick) + 4}" text-anchor="end" font-size="12" fill="#59a8ff">${tick} 分</text>
+        `).join("")}
+        ${cumulativeRuns.map((run, index) => `
+          <text x="${xScale(index)}" y="${height - 18}" text-anchor="middle" font-size="12" fill="#6d8d9a">${run.dateLabel}</text>
+        `).join("")}
+        <text x="${margin.left}" y="${margin.top - 28}" font-size="13" font-weight="700" fill="#59a8ff">累積訓練時間（分鐘）</text>
+        <text x="${margin.left + chartWidth}" y="${margin.top - 28}" text-anchor="end" font-size="13" font-weight="700" fill="#2a5b6d">累積距離（公里）</text>
+        <line x1="${margin.left}" y1="${margin.top - 18}" x2="${margin.left + 22}" y2="${margin.top - 18}" stroke="#59a8ff" stroke-width="3" stroke-linecap="round" />
+        <line x1="${margin.left + chartWidth - 22}" y1="${margin.top - 18}" x2="${margin.left + chartWidth}" y2="${margin.top - 18}" stroke="#2a5b6d" stroke-width="3" stroke-linecap="round" />
+        <line x1="${margin.left}" y1="${margin.top + chartHeight}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <line x1="${margin.left + chartWidth}" y1="${margin.top}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
+        <polyline points="${durationLinePoints}" fill="none" stroke="#59a8ff" stroke-width="3"></polyline>
+        <polyline points="${distanceLinePoints}" fill="none" stroke="#2a5b6d" stroke-width="3"></polyline>
+        ${cumulativeRuns.map((run, index) => `
+          <g>
+            <circle cx="${xScale(index)}" cy="${yDuration(run.cumulativeDuration)}" r="6" fill="#59a8ff" stroke="#ffffff" stroke-width="3">
+              <title>${run.date}｜累積訓練時間 ${Math.round(run.cumulativeDuration)} 分</title>
+            </circle>
+            <circle cx="${xScale(index)}" cy="${yDistance(run.cumulativeDistance)}" r="6" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
+              <title>${run.date}｜累積距離 ${run.cumulativeDistance.toFixed(2)} km</title>
+            </circle>
+          </g>
+        `).join("")}
+        <text x="${margin.left + chartWidth / 2}" y="${height - 2}" text-anchor="middle" font-size="13" fill="#6d8d9a">日期</text>
+      `;
+    }
+
+    function renderInsights() {
+      const fastest = [...runs].sort((a, b) => a.paceMinutes - b.paceMinutes)[0];
+      const longest = [...runs].sort((a, b) => b.durationMinutes - a.durationMinutes)[0];
+      const farthest = [...runs].sort((a, b) => b.distanceKm - a.distanceKm)[0];
+      const firstHalf = runs.slice(0, Math.floor(runs.length / 2));
+      const secondHalf = runs.slice(Math.floor(runs.length / 2));
+      const firstHalfAvgPace = average(firstHalf.map((run) => run.paceMinutes));
+      const secondHalfAvgPace = average(secondHalf.map((run) => run.paceMinutes));
+      const paceShift = secondHalfAvgPace - firstHalfAvgPace;
+      const firstHalfAvgDistance = average(firstHalf.map((run) => run.distanceKm));
+      const secondHalfAvgDistance = average(secondHalf.map((run) => run.distanceKm));
+      const distanceShift = secondHalfAvgDistance - firstHalfAvgDistance;
+      const totalDuration = cumulativeRuns[cumulativeRuns.length - 1].cumulativeDuration;
+      const totalDistance = cumulativeRuns[cumulativeRuns.length - 1].cumulativeDistance;
+
+      const insights = [
+        `從目前 8 次跑步來看，你已累積約 ${Math.round(totalDuration)} 分鐘、${totalDistance.toFixed(2)} km 的跑量，代表訓練不是零星單點，而是有開始堆量。`,
+        `前半段與後半段相比，後半段單次平均距離 ${distanceShift > 0 ? "增加" : "下降"} ${Math.abs(distanceShift).toFixed(2)} km，平均配速則 ${paceShift > 0 ? "變慢" : "變快"} ${formatPace(Math.abs(paceShift))} 左右。`,
+        `最長訓練是 ${longest.date} 的 ${longest.duration}；最遠距離是 ${farthest.date} 的 ${farthest.distanceKm.toFixed(2)} km；最快配速則出現在 ${fastest.date} 的 ${fastest.pace}。`,
+        `目前這個頁面先固定以室外跑步為主，後續如果你要再分成室外跑步趨勢版或室外跑步教練判讀版，我可以直接在這個基礎上繼續調整。`
+      ];
+
+      document.getElementById("insights").innerHTML = insights.map((item) => `<li>${item}</li>`).join("");
+    }
+
+    function renderTable() {
+      document.getElementById("dataTable").innerHTML = runs.map((run) => `
+        <tr>
+          <td>${run.date}</td>
+          <td>${run.type}</td>
+          <td>${run.duration}</td>
+          <td>${run.distanceKm.toFixed(2)} km</td>
+          <td>${run.pace}</td>
+          <td>${run.heartRate} 下/分</td>
+          <td>${run.effort}｜${run.effortLabel}</td>
+        </tr>
+      `).join("");
+    }
+
+    renderStats();
+    renderProgressOverviewChart();
+    renderDistanceTrendChart();
+    renderCumulativeTrendChart();
+    renderRelationshipChart();
+    renderInsights();
+    renderTable();
+  </script>
+</body>
+</html>
