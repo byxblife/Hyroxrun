@@ -126,7 +126,6 @@
       grid-template-columns: repeat(4, minmax(180px, 1fr));
       gap: 14px;
       margin-top: 24px;
-      overflow-x: auto;
       padding-bottom: 4px;
     }
 
@@ -209,7 +208,8 @@
 
     .chart-wrap {
       width: 100%;
-      overflow: auto;
+      overflow-x: auto;
+      overflow-y: hidden;
       border-radius: 18px;
       background: linear-gradient(180deg, rgba(89, 168, 255, 0.08), rgba(255, 255, 255, 0.96));
       border: 1px solid rgba(221, 230, 232, 0.95);
@@ -309,15 +309,107 @@
       .two-col {
         grid-template-columns: 1fr;
       }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .shell {
+        padding: 18px 14px 44px;
+      }
+
+      .hero,
+      .panel,
+      .note-card,
+      .stat-card {
+        border-radius: 20px;
+      }
+
+      .hero {
+        gap: 16px;
+        padding: 18px;
+      }
+
+      .hero h1 {
+        font-size: 22px;
+      }
+
+      .hero p,
+      .notice,
+      .panel .desc,
+      .note-card ul {
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        padding: 7px 10px;
+      }
+
+      .panel,
+      .note-card,
+      .stat-card {
+        padding: 16px;
+      }
+
+      .panel h2,
+      .note-card h3 {
+        font-size: 18px;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        padding-bottom: 0;
+      }
+
+      .stat-card {
+        min-height: 138px;
+      }
+
+      .stat-value {
+        font-size: 22px;
+      }
+
+      .stat-label,
+      .stat-sub,
+      .legend,
+      .footnote,
+      table,
+      th,
+      td {
+        font-size: 12px;
+      }
+
+      .chart-wrap {
+        padding: 8px;
+      }
+
+      svg {
+        min-width: 0;
+      }
+
+      .table-wrap {
+        margin-top: 14px;
+      }
+
+      th,
+      td {
+        padding: 10px 8px;
+      }
     }
 
     @media (max-width: 640px) {
       .shell {
-        padding: 20px 14px 56px;
+        padding: 14px 10px 36px;
       }
 
       .hero-top {
         flex-direction: column;
+        gap: 10px;
       }
 
       .version-meta {
@@ -326,14 +418,26 @@
       }
 
       .stats {
-        grid-template-columns: repeat(4, minmax(160px, 1fr));
+        grid-template-columns: 1fr 1fr;
       }
 
-      .hero,
+      .hero {
+        padding: 16px;
+      }
+
+      .hero h1 {
+        font-size: 20px;
+      }
+
       .panel,
       .note-card,
       .stat-card {
-        border-radius: 20px;
+        padding: 14px;
+      }
+
+      .panel h2,
+      .note-card h3 {
+        font-size: 17px;
       }
     }
   </style>
