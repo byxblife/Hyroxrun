@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -303,6 +304,7 @@
     }
 
     @media (max-width: 980px) {
+
       .grid,
       .two-col {
         grid-template-columns: 1fr;
@@ -336,6 +338,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="shell">
     <section class="hero">
@@ -348,7 +351,7 @@
       </div>
       <h1>跑步訓練狀態圖表預覽</h1>
       <p>
-        這個頁面先用 <code>03_Records/outdoor_run.csv</code> 裡的室外跑步資料做第一版視覺化。
+        這個頁面先用 <code>outdoor_run紀錄表</code> 裡的室外跑步資料做第一版視覺化。
         這次改成更偏「進步趨勢」的看法，先把「訓練時間、距離、平均配速」三條變化線排在同一個時間軸上，
         讓你先看最近是不是變得更能跑、更能撐，或只是總量上升但速度還沒跟上。
       </p>
@@ -874,4 +877,5 @@
     renderTable();
   </script>
 </body>
+
 </html>
