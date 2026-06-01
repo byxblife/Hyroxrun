@@ -449,8 +449,8 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.4</div>
-          <div class="update-line">Update: 2026.05.31</div>
+          <div>Ver. 0.1.5</div>
+          <div class="update-line">Update: 2026.06.01</div>
         </div>
       </div>
       <h1>跑步訓練狀態圖表預覽</h1>
@@ -476,7 +476,7 @@
           第一排看有沒有越跑越久，第二排看有沒有越跑越遠，第三排看平均配速有沒有改善。
         </p>
         <div class="chart-wrap">
-          <svg id="progressOverviewChart" viewBox="0 0 760 560" aria-label="進步趨勢總覽圖"></svg>
+          <svg id="progressOverviewChart" viewBox="0 0 760 650" aria-label="進步趨勢總覽圖"></svg>
         </div>
         <div class="legend">
           <span><i class="swatch" style="background:#59a8ff;"></i> 訓練時間趨勢</span>
@@ -588,7 +588,8 @@
       { date: "2026-05-22", type: "室外跑步", duration: "0:22:57", distanceKm: 2.92, pace: "7'51\"", heartRate: 151, effort: 6, effortLabel: "適中", target2400: "17:13" },
       { date: "2026-05-23", type: "室外跑步", duration: "0:36:01", distanceKm: 3.77, pace: "9'33\"", heartRate: 139, effort: 5, effortLabel: "適中", target2400: "21:48" },
       { date: "2026-05-27", type: "室外跑步", duration: "0:35:28", distanceKm: 4.24, pace: "8'21\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:19" },
-      { date: "2026-05-30", type: "室外跑步", duration: "0:42:16", distanceKm: 5.46, pace: "7'44\"", heartRate: 152, effort: 6, effortLabel: "適中", target2400: "17:20" }
+      { date: "2026-05-30", type: "室外跑步", duration: "0:42:16", distanceKm: 5.46, pace: "7'44\"", heartRate: 152, effort: 6, effortLabel: "適中", target2400: "17:20" },
+      { date: "2026-06-01", type: "室外跑步", duration: "0:42:02", distanceKm: 5.04, pace: "8'20\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:39" }
     ];
 
     function parseDurationToMinutes(text) {
@@ -689,11 +690,13 @@
     function renderProgressOverviewChart() {
       const svg = document.getElementById("progressOverviewChart");
       const width = 760;
-      const height = 560;
-      const margin = { top: 28, right: 28, bottom: 54, left: 72 };
+      const height = 650;
+      const margin = { top: 12, right: 20, bottom: 54, left: 42 };
       const chartWidth = width - margin.left - margin.right;
-      const rowHeight = 130;
-      const rowGap = 34;
+      const rowHeight = 152;
+      const rowGap = 48;
+      const headerBand = 28;
+      const plotBottomPadding = 16;
       const rows = [
         {
           key: "durationMinutes",
@@ -725,6 +728,9 @@
       const markup = rows.map((row, rowIndex) => {
         const top = margin.top + rowIndex * (rowHeight + rowGap);
         const bottom = top + rowHeight;
+        const plotTop = top + headerBand;
+        const plotBottom = bottom - plotBottomPadding;
+        const plotHeight = plotBottom - plotTop;
         const min = Math.min(...row.values);
         const max = Math.max(...row.values);
         const padding = (max - min) * 0.15 || 1;
@@ -733,7 +739,7 @@
         const yScale = (value) => {
           const normalized = (value - domainMin) / (domainMax - domainMin);
           const base = row.invert ? normalized : 1 - normalized;
-          return top + base * rowHeight;
+          return plotTop + base * plotHeight;
         };
         const points = runs.map((run, index) => `${xScale(index)},${yScale(run[row.key])}`).join(" ");
         const firstLabel = row.format(row.values[0]);
@@ -746,10 +752,10 @@
         return `
           <g>
             <rect x="${margin.left}" y="${top}" width="${chartWidth}" height="${rowHeight}" rx="18" fill="rgba(255,255,255,0.86)" stroke="rgba(221,230,232,0.95)" />
-            <text x="${margin.left}" y="${top - 8}" font-size="13" fill="#6d8d9a">${row.label}${row.hint ? `｜${row.hint}` : ""}</text>
-            <text x="${margin.left + chartWidth}" y="${top - 8}" text-anchor="end" font-size="12" fill="${row.color}">起點 ${firstLabel}｜最新 ${lastLabel}｜${trendText}</text>
+            <text x="${margin.left + 14}" y="${top + 19}" font-size="13" font-weight="700" fill="#6d8d9a">${row.label}${row.hint ? `｜${row.hint}` : ""}</text>
+            <text x="${margin.left + chartWidth - 14}" y="${top + 19}" text-anchor="end" font-size="12" font-weight="700" fill="${row.color}">起點 ${firstLabel}｜最新 ${lastLabel}｜${trendText}</text>
             ${runs.map((run, index) => `
-              <line x1="${xScale(index)}" y1="${top}" x2="${xScale(index)}" y2="${bottom}" stroke="rgba(221,230,232,0.95)" stroke-dasharray="3 6" />
+              <line x1="${xScale(index)}" y1="${plotTop}" x2="${xScale(index)}" y2="${plotBottom}" stroke="rgba(221,230,232,0.95)" stroke-dasharray="3 6" />
             `).join("")}
             <polyline points="${points}" fill="none" stroke="${row.color}" stroke-width="3.5"></polyline>
             ${runs.map((run, index) => `
@@ -757,7 +763,7 @@
                 <circle cx="${xScale(index)}" cy="${yScale(run[row.key])}" r="6" fill="${row.color}" stroke="#ffffff" stroke-width="3">
                   <title>${run.date}｜${row.label} ${row.format(run[row.key])}</title>
                 </circle>
-                <text x="${xScale(index)}" y="${bottom + 18}" text-anchor="middle" font-size="11" fill="#6d8d9a">${run.dateLabel}</text>
+                <text x="${xScale(index)}" y="${bottom + 22}" text-anchor="middle" font-size="11" fill="#6d8d9a">${run.dateLabel}</text>
               </g>
             `).join("")}
           </g>
@@ -973,7 +979,7 @@
       const svg = document.getElementById("cumulativeTrendChart");
       const width = 640;
       const height = 400;
-      const margin = { top: 58, right: 70, bottom: 54, left: 72 };
+      const margin = { top: 58, right: 52, bottom: 54, left: 72 };
       const chartWidth = width - margin.left - margin.right;
       const chartHeight = height - margin.top - margin.bottom;
 
