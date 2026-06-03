@@ -151,15 +151,6 @@
       overflow: hidden;
     }
 
-    .stat-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 auto auto 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent), rgba(89, 168, 255, 0.28));
-    }
-
     .stat-label {
       color: var(--accent-deep);
       font-size: 13px;
@@ -214,6 +205,14 @@
       background: linear-gradient(180deg, rgba(89, 168, 255, 0.08), rgba(255, 255, 255, 0.96));
       border: 1px solid rgba(221, 230, 232, 0.95);
       padding: 12px;
+    }
+
+    .chart-wrap.chart-wrap-transparent {
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      padding: 0;
     }
 
     svg {
@@ -475,7 +474,7 @@
           還是能直接對照同一天的時間、距離與配速是否一起進步。
           第一排看有沒有越跑越久，第二排看有沒有越跑越遠，第三排看平均配速有沒有改善。
         </p>
-        <div class="chart-wrap">
+        <div class="chart-wrap chart-wrap-transparent">
           <svg id="progressOverviewChart" viewBox="0 0 760 650" aria-label="進步趨勢總覽圖"></svg>
         </div>
         <div class="legend">
