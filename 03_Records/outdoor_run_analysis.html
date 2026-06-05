@@ -448,8 +448,8 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.6</div>
-          <div class="update-line">Update: 2026.06.03</div>
+          <div>Ver. 0.1.8</div>
+          <div class="update-line">Update: 2026.06.06</div>
         </div>
       </div>
       <h1>跑步訓練狀態圖表預覽</h1>
@@ -539,6 +539,18 @@
     </section>
 
     <section class="panel" style="margin-top: 20px;">
+      <h2>補充圖：心率區間累積占比</h2>
+      <p class="desc">
+        這張圖統計有心率區間資料的室外跑步紀錄，呈現每個 Zone 累積時間占比。
+        如果長跑目標是控制在 Zone 2 或 Zone 3，可以先看這兩區加起來是否逐漸提高。
+      </p>
+      <div class="chart-wrap">
+        <svg id="heartRateZoneChart" viewBox="0 0 760 340" aria-label="心率區間累積占比圖"></svg>
+      </div>
+      <div class="legend" id="heartRateZoneSummary"></div>
+    </section>
+
+    <section class="panel" style="margin-top: 20px;">
       <h2>補充圖：時間 × 距離 × 配速關係</h2>
       <p class="desc">
         這張保留下來當第二層判讀。當你先確認趨勢後，再回頭看單次訓練，
@@ -583,13 +595,14 @@
       { date: "2026-05-12", type: "室外跑步", duration: "0:20:38", distanceKm: 2.59, pace: "7'57\"", heartRate: 150, effort: 6, effortLabel: "適中", target2400: "18:27" },
       { date: "2026-05-15", type: "室外跑步", duration: "0:27:06", distanceKm: 2.90, pace: "9'20\"", heartRate: 145, effort: 6, effortLabel: "適中", target2400: "20:55" },
       { date: "2026-05-17", type: "室外跑步", duration: "0:34:07", distanceKm: 3.50, pace: "9'44\"", heartRate: 135, effort: 5, effortLabel: "適中", target2400: "19:31" },
-      { date: "2026-05-20", type: "室外跑步", duration: "0:38:49", distanceKm: 4.09, pace: "9'29\"", heartRate: 145, effort: 6, effortLabel: "適中", target2400: "19:12" },
-      { date: "2026-05-22", type: "室外跑步", duration: "0:22:57", distanceKm: 2.92, pace: "7'51\"", heartRate: 151, effort: 6, effortLabel: "適中", target2400: "17:13" },
-      { date: "2026-05-23", type: "室外跑步", duration: "0:36:01", distanceKm: 3.77, pace: "9'33\"", heartRate: 139, effort: 5, effortLabel: "適中", target2400: "21:48" },
-      { date: "2026-05-27", type: "室外跑步", duration: "0:35:28", distanceKm: 4.24, pace: "8'21\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:19" },
-      { date: "2026-05-30", type: "室外跑步", duration: "0:42:16", distanceKm: 5.46, pace: "7'44\"", heartRate: 152, effort: 6, effortLabel: "適中", target2400: "17:20" },
-      { date: "2026-06-01", type: "室外跑步", duration: "0:42:02", distanceKm: 5.04, pace: "8'20\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:39" },
-      { date: "2026-06-03", type: "室外跑步", duration: "0:44:21", distanceKm: 5.07, pace: "8'44\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:18" }
+      { date: "2026-05-20", type: "室外跑步", duration: "0:38:49", distanceKm: 4.09, pace: "9'29\"", heartRate: 145, effort: 6, effortLabel: "適中", target2400: "19:12", heartRateZones: ["07:10", "07:37", "12:45", "11:18", "00:00"] },
+      { date: "2026-05-22", type: "室外跑步", duration: "0:22:57", distanceKm: 2.92, pace: "7'51\"", heartRate: 151, effort: 6, effortLabel: "適中", target2400: "17:13", heartRateZones: ["02:39", "04:32", "02:33", "08:37", "04:35"] },
+      { date: "2026-05-23", type: "室外跑步", duration: "0:36:01", distanceKm: 3.77, pace: "9'33\"", heartRate: 139, effort: 5, effortLabel: "適中", target2400: "21:48", heartRateZones: ["05:30", "20:12", "10:20", "00:00", "00:00"] },
+      { date: "2026-05-27", type: "室外跑步", duration: "0:35:28", distanceKm: 4.24, pace: "8'21\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:19", heartRateZones: ["05:09", "07:48", "09:13", "13:19", "00:00"] },
+      { date: "2026-05-30", type: "室外跑步", duration: "0:42:16", distanceKm: 5.46, pace: "7'44\"", heartRate: 152, effort: 6, effortLabel: "適中", target2400: "17:20", heartRateZones: ["02:05", "02:35", "15:19", "21:59", "00:18"] },
+      { date: "2026-06-01", type: "室外跑步", duration: "0:42:02", distanceKm: 5.04, pace: "8'20\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:39", heartRateZones: ["06:01", "07:39", "08:26", "19:50", "00:05"] },
+      { date: "2026-06-03", type: "室外跑步", duration: "0:44:21", distanceKm: 5.07, pace: "8'44\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "18:18", heartRateZones: ["04:46", "15:08", "10:15", "09:24", "04:49"] },
+      { date: "2026-06-05", type: "室外跑步", duration: "0:36:12", distanceKm: 4.22, pace: "8'34\"", heartRate: 138, effort: 5, effortLabel: "適中", target2400: "17:47", heartRateZones: ["16:27", "05:30", "07:11", "05:02", "01:46"] }
     ];
 
     function parseDurationToMinutes(text) {
@@ -618,6 +631,22 @@
       const totalSeconds = Math.round(value * 60);
       const minutes = Math.floor(totalSeconds / 60);
       const seconds = totalSeconds % 60;
+      return `${minutes}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    function parseZoneClockToSeconds(text) {
+      if (!text) return 0;
+      const parts = text.split(":").map(Number);
+      return parts[0] * 60 + parts[1];
+    }
+
+    function formatSecondsToClock(totalSeconds) {
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      if (hours > 0) {
+        return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+      }
       return `${minutes}:${String(seconds).padStart(2, "0")}`;
     }
 
@@ -861,6 +890,70 @@
       `;
     }
 
+    function renderHeartRateZoneChart() {
+      const svg = document.getElementById("heartRateZoneChart");
+      const summary = document.getElementById("heartRateZoneSummary");
+      const zoneRuns = runs.filter((run) => run.heartRateZones?.some((zoneTime) => parseZoneClockToSeconds(zoneTime) > 0));
+
+      if (!zoneRuns.length) {
+        svg.innerHTML = "";
+        summary.innerHTML = `<span>目前還沒有心率區間資料</span>`;
+        return;
+      }
+
+      const width = 760;
+      const height = 340;
+      const margin = { top: 54, right: 34, bottom: 34, left: 84 };
+      const barX = margin.left;
+      const barWidth = width - margin.left - margin.right - 116;
+      const rowGap = 42;
+      const zoneLabels = ["Zone 1", "Zone 2", "Zone 3", "Zone 4", "Zone 5"];
+      const zoneColors = ["#91c5ff", "#2bd983", "#00b86b", "#fd9a57", "#f26b6b"];
+      const zoneTotals = zoneLabels.map((_, index) => zoneRuns.reduce((sum, run) => (
+        sum + parseZoneClockToSeconds(run.heartRateZones[index])
+      ), 0));
+      const totalSeconds = zoneTotals.reduce((sum, value) => sum + value, 0);
+      const zoneData = zoneLabels.map((label, index) => ({
+        label,
+        color: zoneColors[index],
+        seconds: zoneTotals[index],
+        percent: totalSeconds ? (zoneTotals[index] / totalSeconds) * 100 : 0
+      }));
+      const targetPercent = zoneData[1].percent + zoneData[2].percent;
+      const topZone = [...zoneData].sort((a, b) => b.seconds - a.seconds)[0];
+      const xScale = (percent) => barX + (percent / 100) * barWidth;
+
+      const rowsMarkup = zoneData.map((zone, index) => {
+        const y = margin.top + index * rowGap;
+        const fillWidth = Math.max(xScale(zone.percent) - barX, zone.percent > 0 ? 5 : 0);
+        return `
+          <g>
+            <text x="${barX - 18}" y="${y + 16}" text-anchor="end" font-size="13" font-weight="700" fill="#2a5b6d">${zone.label}</text>
+            <rect x="${barX}" y="${y}" width="${barWidth}" height="24" rx="12" fill="rgba(221,230,232,0.72)" />
+            <rect x="${barX}" y="${y}" width="${fillWidth}" height="24" rx="12" fill="${zone.color}" />
+            <text x="${Math.min(xScale(zone.percent) + 10, barX + barWidth + 8)}" y="${y + 16}" font-size="13" font-weight="800" fill="${zone.color}">${zone.percent.toFixed(1)}%</text>
+            <text x="${barX + barWidth + 78}" y="${y + 16}" text-anchor="end" font-size="12" fill="#6d8d9a">${formatSecondsToClock(zone.seconds)}</text>
+          </g>
+        `;
+      }).join("");
+
+      svg.innerHTML = `
+        <text x="${margin.left}" y="24" font-size="13" font-weight="800" fill="#2a5b6d">統計來源：${zoneRuns.length} 次跑步｜Zone 2 + Zone 3：${targetPercent.toFixed(1)}%｜最高：${topZone.label} ${topZone.percent.toFixed(1)}%</text>
+        <text x="${barX}" y="44" font-size="11" fill="#6d8d9a">每條長條以全部心率區間累積時間為 100%</text>
+        ${rowsMarkup}
+        <line x1="${barX}" y1="${height - 24}" x2="${barX + barWidth}" y2="${height - 24}" stroke="rgba(221,230,232,0.95)" stroke-width="1.5" />
+        <text x="${barX}" y="${height - 6}" text-anchor="middle" font-size="11" fill="#6d8d9a">0%</text>
+        <text x="${barX + barWidth / 2}" y="${height - 6}" text-anchor="middle" font-size="11" fill="#6d8d9a">50%</text>
+        <text x="${barX + barWidth}" y="${height - 6}" text-anchor="middle" font-size="11" fill="#6d8d9a">100%</text>
+      `;
+
+      summary.innerHTML = `
+        <span><i class="swatch" style="background:#2bd983;"></i> Zone 2 + Zone 3：${targetPercent.toFixed(1)}%</span>
+        <span><i class="swatch" style="background:#fd9a57;"></i> 目前最高：${topZone.label}｜${topZone.percent.toFixed(1)}%</span>
+        <span>統計 ${zoneRuns.length} 次有心率區間資料的跑步，未含早期空白紀錄</span>
+      `;
+    }
+
     function renderDistanceTrendChart() {
       const svg = document.getElementById("distanceTrendChart");
       const width = 760;
@@ -1083,6 +1176,7 @@
     renderDistanceTrendChart();
     renderTarget2400Chart();
     renderCumulativeTrendChart();
+    renderHeartRateZoneChart();
     renderRelationshipChart();
     renderInsights();
     renderTable();
