@@ -113,7 +113,6 @@
 
     .notice {
       padding: 14px 16px;
-      border-left: 4px solid var(--warn);
       border-radius: 12px;
       background: rgba(253, 109, 87, 0.10);
       color: var(--ink);
@@ -748,7 +747,7 @@
           color: "#00d96d",
           values: runs.map((run) => run.paceMinutes),
           format: (value) => formatPace(value),
-          invert: true,
+          invert: false,
           hint: "越低代表越快"
         }
       ];
@@ -764,8 +763,14 @@
         const min = Math.min(...row.values);
         const max = Math.max(...row.values);
         const padding = (max - min) * 0.15 || 1;
-        const domainMin = min - padding;
-        const domainMax = max + padding;
+        let domainMin = min - padding;
+        let domainMax = max + padding;
+        if (row.key === "paceMinutes") {
+          const targetPace = 6 + 40 / 60; // 6'40" (6.6667 min)
+          if (domainMin > targetPace) {
+            domainMin = targetPace - 0.15; // 預留一點下方空間 (約9秒)
+          }
+        }
         const yScale = (value) => {
           const normalized = (value - domainMin) / (domainMax - domainMin);
           const base = row.invert ? normalized : 1 - normalized;
@@ -775,7 +780,7 @@
         const firstLabel = row.format(row.values[0]);
         const lastLabel = row.format(row.values[row.values.length - 1]);
         const delta = row.values[row.values.length - 1] - row.values[0];
-        const trendText = row.invert
+        const trendText = row.key === "paceMinutes"
           ? `${delta < 0 ? "較快" : "較慢"} ${formatPace(Math.abs(delta))}`
           : `${delta > 0 ? "增加" : "下降"} ${row.key === "distanceKm" ? `${Math.abs(delta).toFixed(2)} km` : `${Math.round(Math.abs(delta))} 分`}`;
 
@@ -787,6 +792,10 @@
             ${runs.map((run, index) => `
               <line x1="${xScale(index)}" y1="${plotTop}" x2="${xScale(index)}" y2="${plotBottom}" stroke="rgba(221,230,232,0.95)" stroke-dasharray="3 6" />
             `).join("")}
+            ${row.key === "paceMinutes" ? `
+              <line x1="${margin.left}" y1="${yScale(6 + 40 / 60)}" x2="${margin.left + chartWidth}" y2="${yScale(6 + 40 / 60)}" stroke="#fd6d57" stroke-width="1.5" stroke-dasharray="4 4" />
+              <text x="${margin.left + 14}" y="${yScale(6 + 40 / 60) - 6}" font-size="11" font-weight="700" fill="#fd6d57">目標配速 6'40"</text>
+            ` : ""}
             <polyline points="${points}" fill="none" stroke="${row.color}" stroke-width="3.5"></polyline>
             ${runs.map((run, index) => `
               <g>
