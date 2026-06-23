@@ -311,6 +311,12 @@
       }
     }
 
+    @media (orientation: landscape) {
+      .chart-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     @media (max-width: 1180px), (orientation: portrait) {
 
       .stats {
@@ -510,7 +516,7 @@
 
     <section class="stats" id="stats"></section>
 
-    <section class="grid">
+    <section class="grid chart-grid">
       <article class="panel">
         <h2>主圖：進步趨勢總覽</h2>
         <p class="desc">
@@ -557,7 +563,7 @@
       </article>
     </section>
 
-    <section class="grid" style="margin-top: 20px;">
+    <section class="grid chart-grid" style="margin-top: 20px;">
       <article class="panel">
         <h2>補充圖：距離趨勢放大看</h2>
         <p class="desc">
