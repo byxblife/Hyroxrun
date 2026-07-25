@@ -499,8 +499,8 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.21</div>
-          <div class="update-line">Update: 2026.07.25</div>
+          <div>Ver. 0.1.22</div>
+          <div class="update-line">Update: 07/25</div>
         </div>
       </div>
       <h1>跑步訓練狀態圖表預覽</h1>
@@ -722,6 +722,10 @@
       return `${minutes}'${String(seconds).padStart(2, "0")}"`;
     }
 
+    function formatDateLabel(dateText) {
+      return dateText.slice(5).replace("-", "/");
+    }
+
     function getDateAxisFontSize(totalCount = runs.length) {
       if (totalCount >= 24) return 7.5;
       if (totalCount >= 18) return 8.5;
@@ -744,7 +748,7 @@
       durationMinutes: parseDurationToMinutes(item.duration),
       paceMinutes: parsePaceToMinutes(item.pace),
       target2400Minutes: item.target2400 ? parseClockTextToMinutes(item.target2400) : null,
-      dateLabel: item.date.slice(5)
+      dateLabel: formatDateLabel(item.date)
     }));
 
     const cumulativeRuns = runs.reduce((result, run) => {
@@ -781,7 +785,7 @@
         {
           label: "平均配速",
           value: formatPace(avgPace),
-          sub: `最長單次訓練：${longest.date}｜${longest.distanceKm.toFixed(2)} km`
+          sub: `最長單次訓練：${longest.dateLabel}｜${longest.distanceKm.toFixed(2)} km`
         }
       ];
 
@@ -879,7 +883,7 @@
             ${runs.map((run, index) => `
               <g>
                 <circle cx="${xScale(index)}" cy="${yScale(run[row.key])}" r="6" fill="${row.color}" stroke="#ffffff" stroke-width="3">
-                  <title>${run.date}｜${row.label} ${row.format(run[row.key])}</title>
+                  <title>${run.dateLabel}｜${row.label} ${row.format(run[row.key])}</title>
                 </circle>
                 <text x="${xScale(index)}" y="${bottom + 22}" text-anchor="middle" font-size="${dateAxisFontSize}" fill="#6d8d9a">${run.dateLabel}</text>
               </g>
@@ -960,7 +964,7 @@
       const pointMarkup = runs.map((run) => `
         <g>
           <circle cx="${xScale(run.durationMinutes)}" cy="${yScale(run.distanceKm)}" r="8" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
-            <title>${run.date}｜${run.duration}｜${run.distanceKm.toFixed(2)} km｜${run.pace}</title>
+            <title>${run.dateLabel}｜${run.duration}｜${run.distanceKm.toFixed(2)} km｜${run.pace}</title>
           </circle>
           <text x="${xScale(run.durationMinutes)}" y="${yScale(run.distanceKm) - 14}" text-anchor="middle" font-size="${pointDateFontSize}" fill="#2a5b6d">
             ${run.dateLabel}
@@ -1082,7 +1086,7 @@
         ${runs.map((run, index) => `
           <g>
             <circle cx="${xScale(index)}" cy="${yScale(run.distanceKm)}" r="7" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
-              <title>${run.date}｜距離 ${run.distanceKm.toFixed(2)} km</title>
+              <title>${run.dateLabel}｜距離 ${run.distanceKm.toFixed(2)} km</title>
             </circle>
             <text x="${xScale(index)}" y="${yScale(run.distanceKm) - 14}" text-anchor="middle" font-size="11" fill="#2a5b6d">${run.distanceKm.toFixed(2)}</text>
           </g>
@@ -1142,7 +1146,7 @@
         ${targetRuns.map((run, index) => `
           <g>
             <circle cx="${xScale(index)}" cy="${yScale(run.target2400Minutes)}" r="${run.date === best.date || run.date === latest.date ? 8 : 6}" fill="${run.date === best.date ? "#00d96d" : "#fd6d57"}" stroke="#ffffff" stroke-width="3">
-              <title>${run.date}｜2.4 公里 ${run.target2400}</title>
+              <title>${run.dateLabel}｜2.4 公里 ${run.target2400}</title>
             </circle>
             ${run.date === best.date || run.date === latest.date ? `
               <text x="${xScale(index)}" y="${yScale(run.target2400Minutes) - 14}" text-anchor="middle" font-size="11" fill="${run.date === best.date ? "#00a95a" : "#fd6d57"}">${run.target2400}</text>
@@ -1155,8 +1159,8 @@
 
       summary.innerHTML = `
         <span><i class="swatch" style="background:#fd6d57;"></i> 2.4 公里完成時間趨勢</span>
-        <span><i class="swatch" style="background:#00d96d;"></i> 最佳 ${best.date}｜${best.target2400}</span>
-        <span>最新 ${latest.date}｜${latest.target2400}｜${summaryText}</span>
+        <span><i class="swatch" style="background:#00d96d;"></i> 最佳 ${best.dateLabel}｜${best.target2400}</span>
+        <span>最新 ${latest.dateLabel}｜${latest.target2400}｜${summaryText}</span>
       `;
     }
 
@@ -1220,10 +1224,10 @@
         ${cumulativeRuns.map((run, index) => `
           <g>
             <circle cx="${xScale(index)}" cy="${yDuration(run.cumulativeDuration)}" r="6" fill="#59a8ff" stroke="#ffffff" stroke-width="3">
-              <title>${run.date}｜累積訓練時間 ${Math.round(run.cumulativeDuration)} 分</title>
+              <title>${run.dateLabel}｜累積訓練時間 ${Math.round(run.cumulativeDuration)} 分</title>
             </circle>
             <circle cx="${xScale(index)}" cy="${yDistance(run.cumulativeDistance)}" r="6" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
-              <title>${run.date}｜累積距離 ${run.cumulativeDistance.toFixed(2)} km</title>
+              <title>${run.dateLabel}｜累積距離 ${run.cumulativeDistance.toFixed(2)} km</title>
             </circle>
           </g>
         `).join("")}
@@ -1249,14 +1253,14 @@
       const totalDuration = cumulativeRuns[cumulativeRuns.length - 1].cumulativeDuration;
       const totalDistance = cumulativeRuns[cumulativeRuns.length - 1].cumulativeDistance;
       const targetInsight = targetRuns.length
-        ? `2.4 公里目標目前最佳是 ${targetBest.date} 的 ${targetBest.target2400}；最新一次是 ${targetLatest.date} 的 ${targetLatest.target2400}，和最佳相比 ${targetLatest.target2400Minutes > targetBest.target2400Minutes ? "慢了" : "快了"} ${formatMinutesToClock(Math.abs(targetLatest.target2400Minutes - targetBest.target2400Minutes))}。`
+        ? `2.4 公里目標目前最佳是 ${targetBest.dateLabel} 的 ${targetBest.target2400}；最新一次是 ${targetLatest.dateLabel} 的 ${targetLatest.target2400}，和最佳相比 ${targetLatest.target2400Minutes > targetBest.target2400Minutes ? "慢了" : "快了"} ${formatMinutesToClock(Math.abs(targetLatest.target2400Minutes - targetBest.target2400Minutes))}。`
         : "目前還沒有足夠的 2.4 公里完成時間資料，所以這一版先不對 2.4 公里目標做趨勢判讀。";
 
       const insights = [
         `從目前 ${runs.length} 次跑步來看，你已累積約 ${Math.round(totalDuration)} 分鐘、${totalDistance.toFixed(2)} km 的跑量，代表訓練不是零星單點，而是有開始堆量。`,
         `前半段與後半段相比，後半段單次平均距離 ${distanceShift > 0 ? "增加" : "下降"} ${Math.abs(distanceShift).toFixed(2)} km，平均配速則 ${paceShift > 0 ? "變慢" : "變快"} ${formatPace(Math.abs(paceShift))} 左右。`,
         targetInsight,
-        `最長訓練是 ${longest.date} 的 ${longest.duration}；最遠距離是 ${farthest.date} 的 ${farthest.distanceKm.toFixed(2)} km；最快配速則出現在 ${fastest.date} 的 ${fastest.pace}。`,
+        `最長訓練是 ${longest.dateLabel} 的 ${longest.duration}；最遠距離是 ${farthest.dateLabel} 的 ${farthest.distanceKm.toFixed(2)} km；最快配速則出現在 ${fastest.dateLabel} 的 ${fastest.pace}。`,
         `目前這個頁面先固定以室外跑步為主，後續如果你要再分成室外跑步趨勢版或室外跑步教練判讀版，我可以直接在這個基礎上繼續調整。`
       ];
 
@@ -1266,7 +1270,7 @@
     function renderTable() {
       document.getElementById("dataTable").innerHTML = runs.map((run) => `
         <tr>
-          <td>${run.date}</td>
+          <td>${run.dateLabel}</td>
           <td>${run.type}</td>
           <td>${run.duration}</td>
           <td>${run.distanceKm.toFixed(2)} km</td>
