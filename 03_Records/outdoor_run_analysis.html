@@ -499,7 +499,7 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.20</div>
+          <div>Ver. 0.1.21</div>
           <div class="update-line">Update: 2026.07.25</div>
         </div>
       </div>
@@ -722,6 +722,19 @@
       return `${minutes}'${String(seconds).padStart(2, "0")}"`;
     }
 
+    function getDateAxisFontSize(totalCount = runs.length) {
+      if (totalCount >= 24) return 7.5;
+      if (totalCount >= 18) return 8.5;
+      if (totalCount >= 12) return 10;
+      return 11;
+    }
+
+    function getPointDateFontSize(totalCount = runs.length) {
+      if (totalCount >= 24) return 9;
+      if (totalCount >= 18) return 10;
+      return 11;
+    }
+
     function average(numbers) {
       return numbers.reduce((sum, value) => sum + value, 0) / numbers.length;
     }
@@ -791,6 +804,7 @@
       const rowGap = 48;
       const headerBand = 28;
       const plotBottomPadding = 16;
+      const dateAxisFontSize = getDateAxisFontSize();
       const rows = [
         {
           key: "durationMinutes",
@@ -867,7 +881,7 @@
                 <circle cx="${xScale(index)}" cy="${yScale(run[row.key])}" r="6" fill="${row.color}" stroke="#ffffff" stroke-width="3">
                   <title>${run.date}｜${row.label} ${row.format(run[row.key])}</title>
                 </circle>
-                <text x="${xScale(index)}" y="${bottom + 22}" text-anchor="middle" font-size="11" fill="#6d8d9a">${run.dateLabel}</text>
+                <text x="${xScale(index)}" y="${bottom + 22}" text-anchor="middle" font-size="${dateAxisFontSize}" fill="#6d8d9a">${run.dateLabel}</text>
               </g>
             `).join("")}
           </g>
@@ -890,6 +904,7 @@
 
       const xValues = runs.map((run) => run.durationMinutes);
       const yValues = runs.map((run) => run.distanceKm);
+      const pointDateFontSize = getPointDateFontSize();
 
       const xMin = Math.floor((Math.min(...xValues) - 2) / 2) * 2;
       const xMax = Math.ceil((Math.max(...xValues) + 2) / 2) * 2;
@@ -947,7 +962,7 @@
           <circle cx="${xScale(run.durationMinutes)}" cy="${yScale(run.distanceKm)}" r="8" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
             <title>${run.date}｜${run.duration}｜${run.distanceKm.toFixed(2)} km｜${run.pace}</title>
           </circle>
-          <text x="${xScale(run.durationMinutes)}" y="${yScale(run.distanceKm) - 14}" text-anchor="middle" font-size="11" fill="#2a5b6d">
+          <text x="${xScale(run.durationMinutes)}" y="${yScale(run.distanceKm) - 14}" text-anchor="middle" font-size="${pointDateFontSize}" fill="#2a5b6d">
             ${run.dateLabel}
           </text>
         </g>
@@ -1036,6 +1051,7 @@
       const margin = { top: 26, right: 20, bottom: 54, left: 92 };
       const chartWidth = width - margin.left - margin.right;
       const chartHeight = height - margin.top - margin.bottom;
+      const dateAxisFontSize = getDateAxisFontSize();
 
       const distanceValues = runs.map((run) => run.distanceKm);
       const distanceMin = Math.floor((Math.min(...distanceValues) - 0.2) * 4) / 4;
@@ -1058,7 +1074,7 @@
           <text x="${margin.left - 14}" y="${yScale(tick) + 4}" text-anchor="end" font-size="10" fill="#6d8d9a">${tick.toFixed(1)} km</text>
         `).join("")}
         ${runs.map((run, index) => `
-          <text x="${xScale(index)}" y="${height - 18}" text-anchor="middle" font-size="12" fill="#6d8d9a">${run.dateLabel}</text>
+          <text x="${xScale(index)}" y="${height - 18}" text-anchor="middle" font-size="${dateAxisFontSize}" fill="#6d8d9a">${run.dateLabel}</text>
         `).join("")}
         <line x1="${margin.left}" y1="${margin.top + chartHeight}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
         <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
@@ -1085,6 +1101,7 @@
       const chartWidth = width - margin.left - margin.right;
       const chartHeight = height - margin.top - margin.bottom;
       const targetRuns = runs.filter((run) => run.target2400Minutes !== null);
+      const dateAxisFontSize = getDateAxisFontSize(targetRuns.length);
 
       if (!targetRuns.length) {
         svg.innerHTML = "";
@@ -1117,7 +1134,7 @@
           <text x="${margin.left - 12}" y="${yScale(tick) + 4}" text-anchor="end" font-size="12" fill="#fd6d57">${formatMinutesToClock(tick)}</text>
         `).join("")}
         ${targetRuns.map((run, index) => `
-          <text x="${xScale(index)}" y="${height - 18}" text-anchor="middle" font-size="12" fill="#6d8d9a">${run.dateLabel}</text>
+          <text x="${xScale(index)}" y="${height - 18}" text-anchor="middle" font-size="${dateAxisFontSize}" fill="#6d8d9a">${run.dateLabel}</text>
         `).join("")}
         <line x1="${margin.left}" y1="${margin.top + chartHeight}" x2="${margin.left + chartWidth}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
         <line x1="${margin.left}" y1="${margin.top}" x2="${margin.left}" y2="${margin.top + chartHeight}" stroke="#dde6e8" stroke-width="1.5" />
@@ -1158,6 +1175,7 @@
       const durationTickStep = durationMax > 360 ? 40 : 20;
       const distanceTickStep = distanceMax > 40 ? 5 : 2;
       const xLabelStep = cumulativeRuns.length > 12 ? 2 : 1;
+      const dateAxisFontSize = getDateAxisFontSize(cumulativeRuns.length);
 
       const xScale = (index) => margin.left + (index / (cumulativeRuns.length - 1)) * chartWidth;
       const yDuration = (value) => margin.top + chartHeight - (value / durationMax) * chartHeight;
@@ -1187,7 +1205,7 @@
         `).join("")}
         ${cumulativeRuns.map((run, index) => `
           ${index % xLabelStep === 0 || index === cumulativeRuns.length - 1 ? `
-            <text x="${xScale(index)}" y="${height - 20}" text-anchor="middle" font-size="10" fill="#6d8d9a">${run.dateLabel}</text>
+            <text x="${xScale(index)}" y="${height - 20}" text-anchor="middle" font-size="${dateAxisFontSize}" fill="#6d8d9a">${run.dateLabel}</text>
           ` : ""}
         `).join("")}
         <text x="${margin.left}" y="${margin.top - 28}" font-size="13" font-weight="700" fill="#59a8ff">累積訓練時間（分鐘）</text>
