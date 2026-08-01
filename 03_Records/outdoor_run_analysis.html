@@ -499,8 +499,8 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.24</div>
-          <div class="update-line">Update: 07/31</div>
+          <div>Ver. 0.1.25</div>
+          <div class="update-line">Update: 08/01</div>
         </div>
       </div>
       <h1>跑步訓練狀態圖表預覽</h1>
@@ -1270,7 +1270,8 @@
     }
 
     function renderTable() {
-      document.getElementById("dataTable").innerHTML = runs.map((run) => `
+      const tableRuns = [...runs].sort((a, b) => b.date.localeCompare(a.date));
+      document.getElementById("dataTable").innerHTML = tableRuns.map((run) => `
         <tr>
           <td>${run.dateLabel}</td>
           <td>${run.type}</td>
