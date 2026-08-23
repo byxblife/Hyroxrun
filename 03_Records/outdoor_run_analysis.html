@@ -265,6 +265,243 @@
       gap: 8px;
     }
 
+    .calendar-panel {
+      display: grid;
+      gap: 18px;
+    }
+
+    .calendar-summary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .calendar-summary strong {
+      color: var(--ink);
+    }
+
+    .calendar-layout {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr) 92px;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .calendar-side {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      justify-items: center;
+      padding: 14px 8px;
+      border: 1px solid rgba(221, 230, 232, 0.95);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(89, 168, 255, 0.08), rgba(255, 255, 255, 0.94));
+      overflow: hidden;
+    }
+
+    .calendar-month-label {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .calendar-nav {
+      width: 54px;
+      height: 54px;
+      border: 1px solid rgba(89, 168, 255, 0.24);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      color: var(--accent-deep);
+      font-size: 24px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .calendar-nav:hover {
+      background: rgba(89, 168, 255, 0.10);
+    }
+
+    .calendar-nav:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    .mini-calendar {
+      width: 100%;
+      display: grid;
+      gap: 6px;
+      justify-items: center;
+      color: var(--muted);
+      font-size: 9px;
+      line-height: 1.1;
+    }
+
+    .mini-calendar-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px 2px;
+      text-align: center;
+    }
+
+    .mini-calendar-day {
+      min-width: 0;
+      min-height: 18px;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .mini-calendar-day.has-run {
+      background: rgba(89, 168, 255, 0.14);
+      color: var(--accent-deep);
+      font-weight: 800;
+    }
+
+    .calendar-main {
+      border: 1px solid rgba(221, 230, 232, 0.95);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow);
+      padding: 22px 20px 20px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .calendar-main-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .calendar-main-title {
+      display: grid;
+      gap: 6px;
+    }
+
+    .calendar-main-title h3 {
+      font-size: 26px;
+      color: var(--ink);
+    }
+
+    .calendar-main-title p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .calendar-chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(89, 168, 255, 0.10);
+      color: var(--accent-deep);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .calendar-weekdays,
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .calendar-weekdays {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .calendar-day {
+      min-height: 82px;
+      border-radius: 18px;
+      border: 1px solid rgba(221, 230, 232, 0.95);
+      background: linear-gradient(180deg, rgba(89, 168, 255, 0.05), rgba(255, 255, 255, 0.96));
+      padding: 10px 8px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .calendar-day.is-empty {
+      background: rgba(255, 255, 255, 0.45);
+      border-style: dashed;
+      color: rgba(109, 141, 154, 0.45);
+    }
+
+    .calendar-day.is-today {
+      border-color: rgba(89, 168, 255, 0.55);
+      box-shadow: inset 0 0 0 2px rgba(89, 168, 255, 0.18);
+    }
+
+    .calendar-day.has-run {
+      background: linear-gradient(180deg, rgba(89, 168, 255, 0.16), rgba(255, 255, 255, 0.98));
+      border-color: rgba(89, 168, 255, 0.34);
+    }
+
+    .calendar-day-number {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .calendar-day-status {
+      min-height: 28px;
+      display: grid;
+      place-items: center;
+      font-size: 36px;
+      line-height: 1;
+      font-weight: 900;
+      color: var(--good);
+    }
+
+    .calendar-day-note {
+      font-size: 8px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .calendar-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .calendar-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .calendar-legend-mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      font-weight: 900;
+      border: 1px solid rgba(89, 168, 255, 0.24);
+      background: rgba(89, 168, 255, 0.12);
+      color: var(--good);
+    }
+
     .swatch {
       width: 14px;
       height: 14px;
@@ -444,6 +681,26 @@
       td {
         padding: 10px 8px;
       }
+
+      .calendar-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-side {
+        grid-template-columns: 1fr auto auto;
+        grid-template-rows: auto;
+        gap: 12px;
+        justify-items: stretch;
+      }
+
+      .calendar-main-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .calendar-day {
+        min-height: 70px;
+      }
     }
 
     @media (max-width: 640px) {
@@ -482,6 +739,34 @@
       .panel h2,
       .note-card h3 {
         font-size: 17px;
+      }
+
+      .calendar-weekdays,
+      .calendar-days {
+        gap: 6px;
+      }
+
+      .calendar-day {
+        min-height: 62px;
+        padding: 8px 6px 6px;
+      }
+
+      .calendar-day-number {
+        font-size: 14px;
+      }
+
+      .calendar-day-status {
+        font-size: 16px;
+      }
+
+      .calendar-day-note,
+      .calendar-summary,
+      .mini-calendar {
+        font-size: 11px;
+      }
+
+      .mini-calendar {
+        font-size: 8px;
       }
     }
 
@@ -587,6 +872,48 @@
         </div>
         <div class="legend" id="target2400Summary"></div>
       </article>
+    </section>
+
+    <section class="panel" style="margin-top: 20px;">
+      <div class="calendar-panel">
+        <div>
+          <h2>補充圖：每月跑步訓練月曆</h2>
+          <p class="desc">
+            這一塊不是看跑得多快，而是幫你回顧「哪幾天有真的出去跑」。中間顯示今天所在月份，左右保留前後月，
+            讓你可以往前回顧，也可以順手看看下個月有哪些空白天數還能安排。
+          </p>
+        </div>
+        <div class="calendar-summary" id="trainingCalendarSummary"></div>
+        <div class="calendar-layout">
+          <div class="calendar-side">
+            <div class="calendar-month-label" id="prevMonthLabel"></div>
+            <div class="mini-calendar" id="prevMiniCalendar"></div>
+            <button class="calendar-nav" id="calendarPrevBtn" type="button" aria-label="切換到上個月">&lt;</button>
+          </div>
+
+          <div class="calendar-main">
+            <div class="calendar-main-top">
+              <div class="calendar-main-title">
+                <h3 id="currentMonthLabel"></h3>
+                <p id="currentMonthRange"></p>
+              </div>
+              <div class="calendar-chip" id="currentMonthChip"></div>
+            </div>
+            <div class="calendar-weekdays" id="calendarWeekdays"></div>
+            <div class="calendar-days" id="calendarDays"></div>
+            <div class="calendar-legend">
+              <span><i class="calendar-legend-mark">✓</i> 有跑步訓練紀錄</span>
+              <span><i class="calendar-legend-mark" style="background:rgba(255,255,255,0.92); color:var(--accent-deep);">今</i> 今天</span>
+            </div>
+          </div>
+
+          <div class="calendar-side">
+            <div class="calendar-month-label" id="nextMonthLabel"></div>
+            <div class="mini-calendar" id="nextMiniCalendar"></div>
+            <button class="calendar-nav" id="calendarNextBtn" type="button" aria-label="切換到下個月">&gt;</button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="panel" style="margin-top: 20px;">
@@ -760,6 +1087,20 @@
       dateLabel: formatDateLabel(item.date)
     }));
 
+    const today = new Date("2026-08-23T12:00:00+08:00");
+    const weekdayLabels = ["一", "二", "三", "四", "五", "六", "日"];
+    const runDateSet = new Set(runs.map((run) => run.date));
+    const runDatesByMonth = runs.reduce((result, run) => {
+      const monthKey = run.date.slice(0, 7);
+      if (!result[monthKey]) result[monthKey] = [];
+      result[monthKey].push(run.date);
+      return result;
+    }, {});
+    const calendarState = {
+      year: today.getFullYear(),
+      month: today.getMonth()
+    };
+
     const cumulativeRuns = runs.reduce((result, run) => {
       const previous = result[result.length - 1];
       result.push({
@@ -769,6 +1110,156 @@
       });
       return result;
     }, []);
+
+    function getMonthDate(year, month, day = 1) {
+      return new Date(year, month, day, 12, 0, 0);
+    }
+
+    function formatMonthLabel(year, month) {
+      return `${year} 年 ${month + 1} 月`;
+    }
+
+    function formatMonthKey(year, month) {
+      return `${year}-${String(month + 1).padStart(2, "0")}`;
+    }
+
+    function formatDateKey(year, month, day) {
+      return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+
+    function getMonthDays(year, month) {
+      return new Date(year, month + 1, 0).getDate();
+    }
+
+    function getWeekdayOffset(year, month) {
+      const weekday = getMonthDate(year, month).getDay();
+      return weekday === 0 ? 6 : weekday - 1;
+    }
+
+    function countMonthTrainingDays(year, month) {
+      return (runDatesByMonth[formatMonthKey(year, month)] || []).length;
+    }
+
+    function getMonthEmptyDays(year, month) {
+      return getMonthDays(year, month) - countMonthTrainingDays(year, month);
+    }
+
+    function getLongestMonthlyGap(year, month) {
+      const totalDays = getMonthDays(year, month);
+      let currentGap = 0;
+      let longestGap = 0;
+      for (let day = 1; day <= totalDays; day += 1) {
+        const hasRun = runDateSet.has(formatDateKey(year, month, day));
+        if (hasRun) {
+          longestGap = Math.max(longestGap, currentGap);
+          currentGap = 0;
+        } else {
+          currentGap += 1;
+        }
+      }
+      return Math.max(longestGap, currentGap);
+    }
+
+    function getCurrentMonthPastEmptyDays(year, month) {
+      if (year !== today.getFullYear() || month !== today.getMonth()) {
+        return getMonthEmptyDays(year, month);
+      }
+      let emptyDays = 0;
+      for (let day = 1; day <= today.getDate(); day += 1) {
+        if (!runDateSet.has(formatDateKey(year, month, day))) emptyDays += 1;
+      }
+      return emptyDays;
+    }
+
+    function renderMiniCalendar(targetId, year, month) {
+      const container = document.getElementById(targetId);
+      const totalDays = getMonthDays(year, month);
+      const offset = getWeekdayOffset(year, month);
+      const cells = [];
+
+      for (let index = 0; index < offset; index += 1) {
+        cells.push(`<div class="mini-calendar-day"></div>`);
+      }
+
+      for (let day = 1; day <= totalDays; day += 1) {
+        const dateKey = formatDateKey(year, month, day);
+        const hasRun = runDateSet.has(dateKey);
+        cells.push(`
+          <div class="mini-calendar-day ${hasRun ? "has-run" : ""}">
+            ${day}
+          </div>
+        `);
+      }
+
+      container.innerHTML = `
+        <div class="mini-calendar-grid">
+          ${cells.join("")}
+        </div>
+        <div>${countMonthTrainingDays(year, month)} 天有訓練</div>
+      `;
+    }
+
+    function renderTrainingCalendar() {
+      const { year, month } = calendarState;
+      const prevMonthDate = getMonthDate(year, month - 1);
+      const nextMonthDate = getMonthDate(year, month + 1);
+      const monthKey = formatMonthKey(year, month);
+      const totalDays = getMonthDays(year, month);
+      const offset = getWeekdayOffset(year, month);
+      const trainingDays = countMonthTrainingDays(year, month);
+      const emptyDays = getMonthEmptyDays(year, month);
+      const longestGap = getLongestMonthlyGap(year, month);
+      const pastEmptyDays = getCurrentMonthPastEmptyDays(year, month);
+      const monthDates = runDatesByMonth[monthKey] || [];
+
+      document.getElementById("prevMonthLabel").textContent = `${prevMonthDate.getMonth() + 1} 月`;
+      document.getElementById("nextMonthLabel").textContent = `${nextMonthDate.getMonth() + 1} 月`;
+      document.getElementById("currentMonthLabel").textContent = formatMonthLabel(year, month);
+      document.getElementById("currentMonthRange").textContent = monthDates.length
+        ? `本月有跑步紀錄的日期：${monthDates.map((dateText) => Number(dateText.slice(8))).join("、")} 日`
+        : "本月目前還沒有跑步訓練紀錄。";
+      document.getElementById("currentMonthChip").textContent = `本月共 ${trainingDays} 天有訓練`;
+      document.getElementById("trainingCalendarSummary").innerHTML = `
+        <span><strong>${formatMonthLabel(year, month)}</strong> 已訓練 <strong>${trainingDays}</strong> 天</span>
+        <span>本月空白天數 <strong>${emptyDays}</strong> 天</span>
+        <span>${year === today.getFullYear() && month === today.getMonth() ? `截至今天尚未訓練的日子 <strong>${pastEmptyDays}</strong> 天` : `本月最長未訓練區段 <strong>${longestGap}</strong> 天`}</span>
+      `;
+      document.getElementById("calendarWeekdays").innerHTML = weekdayLabels.map((label) => `<div>${label}</div>`).join("");
+
+      const dayCells = [];
+      for (let index = 0; index < offset; index += 1) {
+        dayCells.push(`<div class="calendar-day is-empty"></div>`);
+      }
+
+      for (let day = 1; day <= totalDays; day += 1) {
+        const dateKey = formatDateKey(year, month, day);
+        const hasRun = runDateSet.has(dateKey);
+        const isToday = year === today.getFullYear() && month === today.getMonth() && day === today.getDate();
+        dayCells.push(`
+          <div class="calendar-day ${hasRun ? "has-run" : ""} ${isToday ? "is-today" : ""}">
+            <div class="calendar-day-number">${day}</div>
+            <div class="calendar-day-status">${hasRun ? "✓" : ""}</div>
+            <div class="calendar-day-note">${hasRun ? "有訓練" : isToday ? "今天" : ""}</div>
+          </div>
+        `);
+      }
+
+      document.getElementById("calendarDays").innerHTML = dayCells.join("");
+      renderMiniCalendar("prevMiniCalendar", prevMonthDate.getFullYear(), prevMonthDate.getMonth());
+      renderMiniCalendar("nextMiniCalendar", nextMonthDate.getFullYear(), nextMonthDate.getMonth());
+    }
+
+    function shiftCalendarMonth(delta) {
+      const nextDate = getMonthDate(calendarState.year, calendarState.month + delta);
+      calendarState.year = nextDate.getFullYear();
+      calendarState.month = nextDate.getMonth();
+      renderTrainingCalendar();
+    }
+
+    function setupTrainingCalendarControls() {
+      document.getElementById("calendarPrevBtn").addEventListener("click", () => shiftCalendarMonth(-1));
+      document.getElementById("calendarNextBtn").addEventListener("click", () => shiftCalendarMonth(1));
+    }
 
     function renderStats() {
       const avgDuration = average(runs.map((run) => run.durationMinutes));
@@ -1300,6 +1791,8 @@
     renderRelationshipChart();
     renderInsights();
     renderTable();
+    renderTrainingCalendar();
+    setupTrainingCalendarControls();
   </script>
 </body>
 
