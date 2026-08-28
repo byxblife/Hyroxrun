@@ -366,6 +366,16 @@
       font-weight: 800;
     }
 
+    .mini-calendar-day.short-run {
+      background: rgba(255, 157, 0, 0.18);
+      color: #FF9D00;
+    }
+
+    .mini-calendar-day.long-run {
+      background: rgba(0, 217, 109, 0.16);
+      color: #008e49;
+    }
+
     .calendar-main {
       border: 1px solid rgba(221, 230, 232, 0.95);
       border-radius: 24px;
@@ -453,6 +463,16 @@
       border-color: rgba(89, 168, 255, 0.34);
     }
 
+    .calendar-day.short-run {
+      background: linear-gradient(180deg, rgba(255, 157, 0, 0.14), rgba(255, 255, 255, 0.98));
+      border-color: rgba(255, 157, 0, 0.28);
+    }
+
+    .calendar-day.long-run {
+      background: linear-gradient(180deg, rgba(0, 217, 109, 0.14), rgba(255, 255, 255, 0.98));
+      border-color: rgba(0, 217, 109, 0.24);
+    }
+
     .calendar-day-number {
       font-size: 11px;
       font-weight: 800;
@@ -473,6 +493,16 @@
       font-size: 8px;
       color: var(--muted);
       line-height: 1.4;
+    }
+
+    .calendar-day-status.short-run,
+    .calendar-day-note.short-run {
+      color: #FF9D00;
+    }
+
+    .calendar-day-status.long-run,
+    .calendar-day-note.long-run {
+      color: var(--good);
     }
 
     .calendar-legend {
@@ -500,6 +530,12 @@
       border: 1px solid rgba(89, 168, 255, 0.24);
       background: rgba(89, 168, 255, 0.12);
       color: var(--good);
+    }
+
+    .calendar-legend-mark.short-run {
+      border-color: rgba(255, 157, 0, 0.28);
+      background: rgba(255, 157, 0, 0.14);
+      color: #FF9D00;
     }
 
     .swatch {
@@ -1092,6 +1128,10 @@
     const today = new Date("2026-08-23T12:00:00+08:00");
     const weekdayLabels = ["一", "二", "三", "四", "五", "六", "日"];
     const runDateSet = new Set(runs.map((run) => run.date));
+    const runByDate = runs.reduce((result, run) => {
+      result[run.date] = run;
+      return result;
+    }, {});
     const runDatesByMonth = runs.reduce((result, run) => {
       const monthKey = run.date.slice(0, 7);
       if (!result[monthKey]) result[monthKey] = [];
@@ -1173,6 +1213,12 @@
       return emptyDays;
     }
 
+    function getRunCategory(dateKey) {
+      const run = runByDate[dateKey];
+      if (!run) return null;
+      return run.durationMinutes <= 40 ? "short-run" : "long-run";
+    }
+
     function renderMiniCalendar(targetId, year, month) {
       const container = document.getElementById(targetId);
       const totalDays = getMonthDays(year, month);
@@ -1186,8 +1232,9 @@
       for (let day = 1; day <= totalDays; day += 1) {
         const dateKey = formatDateKey(year, month, day);
         const hasRun = runDateSet.has(dateKey);
+        const runCategory = getRunCategory(dateKey);
         cells.push(`
-          <div class="mini-calendar-day ${hasRun ? "has-run" : ""}">
+          <div class="mini-calendar-day ${hasRun ? `has-run ${runCategory}` : ""}" title="${hasRun ? `${runByDate[dateKey].duration}｜${runCategory === "short-run" ? "40 分鐘內" : "超過 40 分鐘"}` : ""}">
             ${day}
           </div>
         `);
@@ -1213,6 +1260,8 @@
       const longestGap = getLongestMonthlyGap(year, month);
       const pastEmptyDays = getCurrentMonthPastEmptyDays(year, month);
       const monthDates = runDatesByMonth[monthKey] || [];
+      const shortRunDays = monthDates.filter((dateKey) => getRunCategory(dateKey) === "short-run").length;
+      const longRunDays = monthDates.filter((dateKey) => getRunCategory(dateKey) === "long-run").length;
 
       document.getElementById("prevMonthLabel").textContent = `${prevMonthDate.getMonth() + 1} 月`;
       document.getElementById("nextMonthLabel").textContent = `${nextMonthDate.getMonth() + 1} 月`;
@@ -1223,6 +1272,8 @@
       document.getElementById("currentMonthChip").textContent = `本月共 ${trainingDays} 天有訓練`;
       document.getElementById("trainingCalendarSummary").innerHTML = `
         <span><strong>${formatMonthLabel(year, month)}</strong> 已訓練 <strong>${trainingDays}</strong> 天</span>
+        <span>超過 40 分鐘 <strong>${longRunDays}</strong> 天</span>
+        <span>40 分鐘內 <strong>${shortRunDays}</strong> 天</span>
         <span>本月空白天數 <strong>${emptyDays}</strong> 天</span>
         <span>${year === today.getFullYear() && month === today.getMonth() ? `截至今天尚未訓練的日子 <strong>${pastEmptyDays}</strong> 天` : `本月最長未訓練區段 <strong>${longestGap}</strong> 天`}</span>
       `;
@@ -1236,12 +1287,13 @@
       for (let day = 1; day <= totalDays; day += 1) {
         const dateKey = formatDateKey(year, month, day);
         const hasRun = runDateSet.has(dateKey);
+        const runCategory = getRunCategory(dateKey);
         const isToday = year === today.getFullYear() && month === today.getMonth() && day === today.getDate();
         dayCells.push(`
-          <div class="calendar-day ${hasRun ? "has-run" : ""} ${isToday ? "is-today" : ""}">
+          <div class="calendar-day ${hasRun ? `has-run ${runCategory}` : ""} ${isToday ? "is-today" : ""}">
             <div class="calendar-day-number">${day}</div>
-            <div class="calendar-day-status">${hasRun ? "✓" : ""}</div>
-            <div class="calendar-day-note">${hasRun ? "有訓練" : isToday ? "今天" : ""}</div>
+            <div class="calendar-day-status ${hasRun ? runCategory : ""}">${hasRun ? "✓" : ""}</div>
+            <div class="calendar-day-note ${hasRun ? runCategory : ""}">${hasRun ? (runCategory === "short-run" ? "40 分內" : "超過 40 分") : isToday ? "今天" : ""}</div>
           </div>
         `);
       }
