@@ -1525,7 +1525,7 @@
 
       const pointMarkup = runs.map((run) => `
         <g>
-          <circle cx="${xScale(run.durationMinutes)}" cy="${yScale(run.distanceKm)}" r="8" fill="#2a5b6d" stroke="#ffffff" stroke-width="3">
+          <circle cx="${xScale(run.durationMinutes)}" cy="${yScale(run.distanceKm)}" r="4" fill="#2a5b6d" stroke="#ffffff" stroke-width="2">
             <title>${run.dateLabel}｜${run.duration}｜${run.distanceKm.toFixed(2)} km｜${run.pace}</title>
           </circle>
           <text x="${xScale(run.durationMinutes)}" y="${yScale(run.distanceKm) - 14}" text-anchor="middle" font-size="${pointDateFontSize}" fill="#2a5b6d">
