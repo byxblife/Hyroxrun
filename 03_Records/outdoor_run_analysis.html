@@ -820,7 +820,7 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.46</div>
+          <div>Ver. 0.1.47</div>
           <div class="update-line">Update: 10/09</div>
         </div>
       </div>
@@ -1144,7 +1144,7 @@
       dateLabel: formatDateLabel(item.date)
     }));
 
-    const today = new Date("2026-08-23T12:00:00+08:00");
+    const today = new Date("2026-10-09T12:00:00+08:00");
     const weekdayLabels = ["日", "一", "二", "三", "四", "五", "六"];
     const runDateSet = new Set(runs.map((run) => run.date));
     const runByDate = runs.reduce((result, run) => {
@@ -1159,7 +1159,7 @@
     }, {});
     const calendarState = {
       year: 2026,
-      month: 8
+      month: 9
     };
 
     const cumulativeRuns = runs.reduce((result, run) => {
