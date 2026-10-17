@@ -820,8 +820,8 @@
       <div class="hero-top">
         <div class="eyebrow">Stage 2｜運動紀錄員草稿</div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.1.47</div>
-          <div class="update-line">Update: 10/09</div>
+          <div>Ver. 0.1.48</div>
+          <div class="update-line">Update: 10/17</div>
         </div>
       </div>
       <h1>跑步訓練狀態圖表預覽</h1>
@@ -1060,7 +1060,10 @@
       { date: "2026-09-26", type: "室外跑步", duration: "0:32:39", distanceKm: 4.52, pace: "7'13\"", heartRate: 146, effort: 6, effortLabel: "適中", target2400: "16:48", heartRateZones: ["04:08", "03:02", "18:31", "05:08", "00:00"] },
       { date: "2026-09-28", type: "室外跑步", duration: "1:25:43", distanceKm: 12.04, pace: "7'07\"", heartRate: 153, effort: 6, effortLabel: "適中", target2400: "16:48", heartRateZones: ["00:56", "11:29", "21:29", "50:45", "01:01"] },
       { date: "2026-10-05", type: "室外跑步", duration: "0:31:02", distanceKm: 4.55, pace: "6'49\"", heartRate: 150, effort: 6, effortLabel: "適中", target2400: "16:06", heartRateZones: ["01:30", "05:46", "05:31", "18:17", "00:00"] },
-      { date: "2026-10-09", type: "室外跑步", duration: "1:23:54", distanceKm: 12.29, pace: "6'49\"", heartRate: 155, effort: 7, effortLabel: "困難", target2400: "15:30", heartRateZones: ["02:25", "03:47", "17:24", "52:04", "07:22"] }
+      { date: "2026-10-09", type: "室外跑步", duration: "1:23:54", distanceKm: 12.29, pace: "6'49\"", heartRate: 155, effort: 7, effortLabel: "困難", target2400: "15:30", heartRateZones: ["02:25", "03:47", "17:24", "52:04", "07:22"] },
+      { date: "2026-10-12", type: "室外跑步", duration: "0:31:43", distanceKm: 4.74, pace: "6'41\"", heartRate: 149, effort: 6, effortLabel: "適中", target2400: "16:11", heartRateZones: ["00:33", "06:16", "13:48", "09:36", "00:00"] },
+      { date: "2026-10-13", type: "室外跑步", duration: "0:31:04", distanceKm: 4.59, pace: "6'46\"", heartRate: 142, effort: 5, effortLabel: "適中", target2400: "16:03", heartRateZones: ["05:14", "02:54", "19:39", "02:52", "00:00"] },
+      { date: "2026-10-17", type: "室外跑步", duration: "0:34:59", distanceKm: 2.96, pace: "11'49\"", heartRate: 101, effort: 3, effortLabel: "輕鬆", target2400: "28:07", heartRateZones: ["35:01", "00:00", "00:00", "00:00", "00:00"] }
     ];
 
     function parseDurationToMinutes(text) {
@@ -1144,7 +1147,7 @@
       dateLabel: formatDateLabel(item.date)
     }));
 
-    const today = new Date("2026-10-09T12:00:00+08:00");
+    const today = new Date("2026-10-17T12:00:00+08:00");
     const weekdayLabels = ["日", "一", "二", "三", "四", "五", "六"];
     const runDateSet = new Set(runs.map((run) => run.date));
     const runByDate = runs.reduce((result, run) => {
