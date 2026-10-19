@@ -9,5 +9,17 @@
 # Allow only this HTML file
 !03_Records/outdoor_run_analysis.html
 
+# Allow website data files
+!03_Records/data/
+!03_Records/data/hyrox_training_plan_2027_v0.1.xlsx
+!03_Records/data/hyrox_training_plan_data.js
+!03_Records/data/hyrox_competition_rules.md
+
+# Allow original station illustrations used by the website
+!03_Records/assets/
+!03_Records/assets/hyrox-stations/
+!03_Records/assets/hyrox-stations/*.png
+03_Records/assets/hyrox-stations/._*
+
 # Allow gitignore itself
 !.gitignore
