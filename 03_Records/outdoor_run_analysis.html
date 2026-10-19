@@ -20,6 +20,8 @@
       --blue-soft: rgba(89, 168, 255, 0.10);
       --good: #00d96d;
       --warn: #fd6d57;
+      --danger: #c9362f;
+      --danger-soft: rgba(201, 54, 47, 0.10);
       --shadow: 0 18px 50px rgba(42, 91, 109, 0.08);
       --shadow-strong: 0 20px 44px rgba(89, 168, 255, 0.16);
       --panel-strong: linear-gradient(180deg, rgba(89, 168, 255, 0.16), rgba(255, 255, 255, 0.98));
@@ -670,6 +672,104 @@
       margin-bottom: 20px;
     }
 
+    .race-countdown-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+      align-items: center;
+      gap: clamp(20px, 4vw, 48px);
+      margin-bottom: 20px;
+      padding: clamp(20px, 3vw, 30px);
+      border: 1px solid var(--card-emphasis);
+      border-radius: 24px;
+      background: var(--panel-strong);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .race-countdown-lead {
+      min-width: 0;
+    }
+
+    .race-countdown-label {
+      display: block;
+      color: var(--accent-deep);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .race-countdown-number {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-top: 10px;
+      color: var(--ink);
+    }
+
+    .race-countdown-number[hidden] {
+      display: none;
+    }
+
+    .race-countdown-value {
+      font-size: clamp(48px, 8vw, 82px);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+    }
+
+    .race-countdown-unit {
+      font-size: clamp(18px, 2.6vw, 28px);
+      font-weight: 800;
+    }
+
+    .race-countdown-status {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .race-countdown-details {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+      padding-left: clamp(18px, 3vw, 34px);
+      border-left: 1px solid var(--line);
+    }
+
+    .race-countdown-details span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .race-countdown-details time {
+      color: var(--ink);
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 900;
+      line-height: 1.15;
+    }
+
+    .race-countdown-details strong {
+      margin-top: 8px;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .race-countdown-card.is-urgent {
+      border-color: rgba(201, 54, 47, 0.32);
+      background: linear-gradient(180deg, var(--danger-soft), rgba(255, 255, 255, 0.98));
+    }
+
+    .race-countdown-card.is-urgent .race-countdown-value,
+    .race-countdown-card.is-urgent .race-countdown-status {
+      color: var(--danger);
+    }
+
+    .race-countdown-card.is-complete .race-countdown-status {
+      color: var(--accent-deep);
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 900;
+    }
+
     .training-toolbar {
       display: flex;
       align-items: center;
@@ -1244,6 +1344,18 @@
         align-items: stretch;
       }
 
+      .race-countdown-card {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .race-countdown-details {
+        padding-top: 18px;
+        padding-left: 0;
+        border-top: 1px solid var(--line);
+        border-left: 0;
+      }
+
       .app-tabs {
         margin-top: 16px;
       }
@@ -1404,7 +1516,7 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.2.3</div>
+          <div>Ver. 0.2.4</div>
           <div class="update-line">Update: 10/19</div>
         </div>
       </div>
@@ -1606,6 +1718,24 @@
     </div>
 
     <div class="app-tab-panel" id="panel-training-plan" role="tabpanel" aria-labelledby="tab-training-plan" hidden>
+      <section class="race-countdown-card" id="raceCountdown" role="status" aria-live="polite" aria-atomic="true"
+        aria-labelledby="raceCountdownLabel">
+        <div class="race-countdown-lead">
+          <span class="race-countdown-label" id="raceCountdownLabel">距離比賽還有</span>
+          <div class="race-countdown-number" id="raceCountdownNumber">
+            <strong class="race-countdown-value" id="raceCountdownValue">—</strong>
+            <span class="race-countdown-unit">天</span>
+          </div>
+          <p class="race-countdown-status" id="raceCountdownStatus">正在計算今日倒數</p>
+        </div>
+        <div class="race-countdown-details">
+          <span>比賽日期</span>
+          <time datetime="2027-03-13">2027/03/13</time>
+          <strong>HYROX 台北站</strong>
+          <span>男子個人公開組</span>
+        </div>
+      </section>
+
       <section class="hero tab-intro">
         <h1>21 週訓練計畫</h1>
         <p>
@@ -1674,6 +1804,46 @@
     const appTabPanels = [...document.querySelectorAll(".app-tab-panel")];
     let rulesHaveLoaded = false;
 
+    const raceDate = Object.freeze({ year: 2027, monthIndex: 2, day: 13 });
+    const millisecondsPerDay = 24 * 60 * 60 * 1000;
+
+    function daysUntilRace(referenceDate = new Date()) {
+      const today = Date.UTC(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate());
+      const raceDay = Date.UTC(raceDate.year, raceDate.monthIndex, raceDate.day);
+      return Math.round((raceDay - today) / millisecondsPerDay);
+    }
+
+    function updateRaceCountdown(referenceDate = new Date()) {
+      const card = document.getElementById("raceCountdown");
+      const label = document.getElementById("raceCountdownLabel");
+      const number = document.getElementById("raceCountdownNumber");
+      const value = document.getElementById("raceCountdownValue");
+      const status = document.getElementById("raceCountdownStatus");
+      if (!card || !label || !number || !value || !status) return;
+
+      const remainingDays = daysUntilRace(referenceDate);
+      const isUrgent = remainingDays >= 0 && remainingDays <= 30;
+      const isComplete = remainingDays < 0;
+      card.classList.toggle("is-urgent", isUrgent);
+      card.classList.toggle("is-complete", isComplete);
+
+      if (isComplete) {
+        label.textContent = "比賽已完成";
+        number.hidden = true;
+        status.textContent = "2027/03/13 比賽日已結束";
+        return;
+      }
+
+      label.textContent = "距離比賽還有";
+      number.hidden = false;
+      value.textContent = String(remainingDays);
+      status.textContent = remainingDays === 0
+        ? "今天就是比賽日"
+        : isUrgent
+          ? "最後 30 天提醒"
+          : "備賽進行中";
+    }
+
     function activateAppTab(targetName) {
       appTabButtons.forEach((button) => {
         const selected = button.dataset.tabTarget === targetName;
@@ -1684,6 +1854,7 @@
         panel.hidden = panel.id !== `panel-${targetName}`;
       });
       if (targetName === "training-plan") {
+        updateRaceCountdown();
         renderTrainingPlan();
       }
       if (targetName === "race-rules" && !rulesHaveLoaded) {
@@ -2861,6 +3032,10 @@
     renderTable();
     renderTrainingCalendar();
     setupTrainingCalendarControls();
+    updateRaceCountdown();
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) updateRaceCountdown();
+    });
     activateAppTab("training-records");
   </script>
 </body>
