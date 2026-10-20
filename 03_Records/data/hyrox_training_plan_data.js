@@ -1,25 +1,25 @@
 window.HYROX_TRAINING_PLAN = {
   "meta": {
-    "version": "v0.2",
-    "approvedDate": "2026-10-19",
-    "planStart": "2026-10-19",
+    "version": "v0.3",
+    "approvedDate": "2026-10-20",
+    "planStart": "2026-10-20",
     "planEnd": "2027-03-13",
     "raceDate": "2027-03-13",
     "raceName": "HYROX MEN 男子公開組｜SATURDAY 台北站",
     "weekStartsOn": "星期日",
     "sessionCount": 63,
     "gymSessionCount": 10,
-    "sourceWorkbook": "hyrox_training_plan_2027_v0.2.xlsx"
+    "sourceWorkbook": "hyrox_training_plan_2027_v0.3.xlsx"
   },
   "sessions": [
     {
       "id": "W01-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 1,
       "weekStart": "2026-10-18",
       "month": "2026/10",
-      "date": "2026-10-19",
-      "weekday": "星期一",
+      "date": "2026-10-20",
+      "weekday": "星期二",
       "dateFlex": "優先固定；需要時可於同週前後移一天",
       "phase": "居家基礎",
       "weekFocus": "建立規律與正確動作，不追求疲勞",
@@ -39,11 +39,11 @@ window.HYROX_TRAINING_PLAN = {
       "gymProgression": "本階段不需要健身房。",
       "safety": "右腳踝若高於平常 3／10、在跑步中出現、隔天仍明顯，下一次降低距離或強度；腫脹、跛行或無法承重則停止並尋求專業評估。",
       "status": "有效",
-      "adjustment": ""
+      "adjustment": "由 2026/10/19 移至 2026/10/20；課程內容、時間與強度不變，後續課程不順延。"
     },
     {
       "id": "W01-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 1,
       "weekStart": "2026-10-18",
       "month": "2026/10",
@@ -72,7 +72,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W01-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 1,
       "weekStart": "2026-10-18",
       "month": "2026/10",
@@ -101,7 +101,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W02-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 2,
       "weekStart": "2026-10-25",
       "month": "2026/10",
@@ -130,7 +130,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W02-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 2,
       "weekStart": "2026-10-25",
       "month": "2026/10",
@@ -159,7 +159,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W02-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 2,
       "weekStart": "2026-10-25",
       "month": "2026/10",
@@ -188,7 +188,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W03-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 3,
       "weekStart": "2026-11-01",
       "month": "2026/11",
@@ -217,7 +217,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W03-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 3,
       "weekStart": "2026-11-01",
       "month": "2026/11",
@@ -246,7 +246,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W03-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 3,
       "weekStart": "2026-11-01",
       "month": "2026/11",
@@ -275,7 +275,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W04-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 4,
       "weekStart": "2026-11-08",
       "month": "2026/11",
@@ -304,7 +304,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W04-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 4,
       "weekStart": "2026-11-08",
       "month": "2026/11",
@@ -333,7 +333,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W04-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 4,
       "weekStart": "2026-11-08",
       "month": "2026/11",
@@ -362,7 +362,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W05-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 5,
       "weekStart": "2026-11-15",
       "month": "2026/11",
@@ -391,7 +391,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W05-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 5,
       "weekStart": "2026-11-15",
       "month": "2026/11",
@@ -420,7 +420,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W05-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 5,
       "weekStart": "2026-11-15",
       "month": "2026/11",
@@ -449,7 +449,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W06-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 6,
       "weekStart": "2026-11-22",
       "month": "2026/11",
@@ -478,7 +478,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W06-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 6,
       "weekStart": "2026-11-22",
       "month": "2026/11",
@@ -507,7 +507,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W06-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 6,
       "weekStart": "2026-11-22",
       "month": "2026/11",
@@ -536,7 +536,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W07-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 7,
       "weekStart": "2026-11-29",
       "month": "2026/11",
@@ -565,7 +565,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W07-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 7,
       "weekStart": "2026-11-29",
       "month": "2026/12",
@@ -594,7 +594,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W07-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 7,
       "weekStart": "2026-11-29",
       "month": "2026/12",
@@ -623,7 +623,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W08-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 8,
       "weekStart": "2026-12-06",
       "month": "2026/12",
@@ -652,7 +652,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W08-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 8,
       "weekStart": "2026-12-06",
       "month": "2026/12",
@@ -681,7 +681,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W08-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 8,
       "weekStart": "2026-12-06",
       "month": "2026/12",
@@ -710,7 +710,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W09-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 9,
       "weekStart": "2026-12-13",
       "month": "2026/12",
@@ -739,7 +739,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W09-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 9,
       "weekStart": "2026-12-13",
       "month": "2026/12",
@@ -768,7 +768,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W09-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 9,
       "weekStart": "2026-12-13",
       "month": "2026/12",
@@ -797,7 +797,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W10-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 10,
       "weekStart": "2026-12-20",
       "month": "2026/12",
@@ -826,7 +826,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W10-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 10,
       "weekStart": "2026-12-20",
       "month": "2026/12",
@@ -855,7 +855,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W10-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 10,
       "weekStart": "2026-12-20",
       "month": "2026/12",
@@ -884,7 +884,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W11-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 11,
       "weekStart": "2026-12-27",
       "month": "2026/12",
@@ -913,7 +913,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W11-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 11,
       "weekStart": "2026-12-27",
       "month": "2026/12",
@@ -942,7 +942,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W11-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 11,
       "weekStart": "2026-12-27",
       "month": "2027/01",
@@ -971,7 +971,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W12-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 12,
       "weekStart": "2027-01-03",
       "month": "2027/01",
@@ -1000,7 +1000,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W12-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 12,
       "weekStart": "2027-01-03",
       "month": "2027/01",
@@ -1029,7 +1029,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W12-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 12,
       "weekStart": "2027-01-03",
       "month": "2027/01",
@@ -1058,7 +1058,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W13-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 13,
       "weekStart": "2027-01-10",
       "month": "2027/01",
@@ -1087,7 +1087,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W13-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 13,
       "weekStart": "2027-01-10",
       "month": "2027/01",
@@ -1116,7 +1116,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W13-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 13,
       "weekStart": "2027-01-10",
       "month": "2027/01",
@@ -1145,7 +1145,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W14-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 14,
       "weekStart": "2027-01-17",
       "month": "2027/01",
@@ -1174,7 +1174,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W14-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 14,
       "weekStart": "2027-01-17",
       "month": "2027/01",
@@ -1203,7 +1203,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W14-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 14,
       "weekStart": "2027-01-17",
       "month": "2027/01",
@@ -1232,7 +1232,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W15-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 15,
       "weekStart": "2027-01-24",
       "month": "2027/01",
@@ -1261,7 +1261,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W15-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 15,
       "weekStart": "2027-01-24",
       "month": "2027/01",
@@ -1290,7 +1290,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W15-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 15,
       "weekStart": "2027-01-24",
       "month": "2027/01",
@@ -1319,7 +1319,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W16-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 16,
       "weekStart": "2027-01-31",
       "month": "2027/02",
@@ -1348,7 +1348,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W16-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 16,
       "weekStart": "2027-01-31",
       "month": "2027/02",
@@ -1377,7 +1377,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W16-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 16,
       "weekStart": "2027-01-31",
       "month": "2027/02",
@@ -1406,7 +1406,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W17-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 17,
       "weekStart": "2027-02-07",
       "month": "2027/02",
@@ -1435,7 +1435,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W17-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 17,
       "weekStart": "2027-02-07",
       "month": "2027/02",
@@ -1464,7 +1464,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W17-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 17,
       "weekStart": "2027-02-07",
       "month": "2027/02",
@@ -1493,7 +1493,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W18-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 18,
       "weekStart": "2027-02-14",
       "month": "2027/02",
@@ -1522,7 +1522,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W18-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 18,
       "weekStart": "2027-02-14",
       "month": "2027/02",
@@ -1551,7 +1551,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W18-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 18,
       "weekStart": "2027-02-14",
       "month": "2027/02",
@@ -1580,7 +1580,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W19-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 19,
       "weekStart": "2027-02-21",
       "month": "2027/02",
@@ -1609,7 +1609,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W19-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 19,
       "weekStart": "2027-02-21",
       "month": "2027/02",
@@ -1638,7 +1638,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W19-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 19,
       "weekStart": "2027-02-21",
       "month": "2027/02",
@@ -1667,7 +1667,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W20-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 20,
       "weekStart": "2027-02-28",
       "month": "2027/03",
@@ -1696,7 +1696,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W20-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 20,
       "weekStart": "2027-02-28",
       "month": "2027/03",
@@ -1725,7 +1725,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W20-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 20,
       "weekStart": "2027-02-28",
       "month": "2027/03",
@@ -1754,7 +1754,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W21-A",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 21,
       "weekStart": "2027-03-07",
       "month": "2027/03",
@@ -1783,7 +1783,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W21-B",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 21,
       "weekStart": "2027-03-07",
       "month": "2027/03",
@@ -1812,7 +1812,7 @@ window.HYROX_TRAINING_PLAN = {
     },
     {
       "id": "W21-C",
-      "version": "v0.2",
+      "version": "v0.3",
       "week": 21,
       "weekStart": "2027-03-07",
       "month": "2027/03",
