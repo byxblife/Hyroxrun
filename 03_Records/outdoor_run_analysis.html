@@ -825,6 +825,27 @@
       line-height: 1.6;
     }
 
+    .app-context-notice {
+      width: fit-content;
+      max-width: 100%;
+      margin: 16px 0 0;
+      padding: 9px 12px;
+      border: 1px solid rgba(201, 54, 47, 0.14);
+      border-radius: 12px;
+      background: rgba(253, 109, 87, 0.10);
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .app-context-notice strong {
+      color: #8d2f28;
+    }
+
+    .app-context-notice[hidden] {
+      display: none;
+    }
+
     .app-tabs {
       display: flex;
       gap: 8px;
@@ -1760,11 +1781,14 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <a class="version-meta" href="outdoor_run_changelog.html"
-          aria-label="查看更新紀錄，版本 0.2.11，更新日期 10 月 25 日">
+          aria-label="查看更新紀錄，版本 0.2.12，更新日期 10 月 25 日">
           <span class="version-meta-label">查看更新紀錄</span>
-          <span class="update-line">Ver. 0.2.11｜10/25</span>
+          <span class="update-line">Ver. 0.2.12｜10/25</span>
         </a>
       </div>
+      <p class="app-context-notice" id="trainingRecordsContext">
+        <strong>訓練紀錄：</strong>以時間、距離與平均配速查看進步趨勢；僅納入室外跑步，已排除步行資料。
+      </p>
       <nav class="app-tabs" role="tablist" aria-label="HYROX 訓練中心主要分頁">
         <button class="app-tab-button" id="tab-training-records" type="button" role="tab"
           aria-selected="true" aria-controls="panel-training-records" data-tab-target="training-records">
@@ -1783,19 +1807,6 @@
 
     <main>
     <div class="app-tab-panel" id="panel-training-records" role="tabpanel" aria-labelledby="tab-training-records">
-    <section class="hero">
-      <h1>跑步訓練狀態</h1>
-      <p>
-        這個頁面先用 <code>outdoor_run 紀錄表</code> 裡的室外跑步資料做第一版視覺化。
-        這次改成更偏「進步趨勢」的看法，先把「訓練時間、距離、平均配速」三條變化線排在同一個時間軸上，
-        讓你先看最近是不是變得更能跑、更能撐，或只是總量上升但速度還沒跟上。
-      </p>
-      <div class="notice">
-        這一版圖表先完全以「室外跑步」為主做分析與判讀。
-        目前已排除步行資料，避免不同運動型態混在一起影響判讀。
-      </div>
-    </section>
-
     <section class="stats" id="stats"></section>
 
     <section class="panel" style="margin-top: 20px;">
@@ -2104,6 +2115,7 @@
     }
 
     function activateAppTab(targetName) {
+      document.getElementById("trainingRecordsContext").hidden = targetName !== "training-records";
       appTabButtons.forEach((button) => {
         const selected = button.dataset.tabTarget === targetName;
         button.setAttribute("aria-selected", String(selected));
