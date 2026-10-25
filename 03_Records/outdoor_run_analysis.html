@@ -285,9 +285,94 @@
       color: var(--ink);
     }
 
+    .run-goal-progress {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      overflow: hidden;
+      border: 1px solid rgba(89, 168, 255, 0.22);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(89, 168, 255, 0.08), rgba(255, 255, 255, 0.96));
+    }
+
+    .run-goal-item {
+      display: grid;
+      gap: 8px;
+      padding: 16px 18px;
+    }
+
+    .run-goal-item + .run-goal-item {
+      border-left: 1px solid rgba(89, 168, 255, 0.18);
+    }
+
+    .run-goal-heading,
+    .run-goal-value-row,
+    .run-goal-footer {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .run-goal-heading {
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .run-goal-period,
+    .run-goal-footer,
+    .run-goal-source {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .run-goal-value {
+      color: var(--ink);
+      font-size: clamp(22px, 2.8vw, 30px);
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .run-goal-target {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .run-goal-track {
+      height: 8px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(89, 168, 255, 0.14);
+    }
+
+    .run-goal-bar {
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+
+    .run-goal-item.is-complete .run-goal-bar {
+      background: var(--good);
+    }
+
+    .run-goal-item.is-complete .run-goal-status {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .run-goal-item.is-unset .run-goal-bar {
+      background: var(--line);
+    }
+
+    .run-goal-source {
+      margin-top: -8px;
+    }
+
     .calendar-layout {
       display: grid;
-      grid-template-columns: 92px minmax(0, 1fr) 92px;
+      grid-template-columns: 132px minmax(0, 1fr) 132px;
       gap: 18px;
       align-items: stretch;
     }
@@ -310,6 +395,37 @@
       font-weight: 800;
       color: var(--ink);
       text-align: center;
+    }
+
+    .calendar-side-summary {
+      display: grid;
+      gap: 5px;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .calendar-side-goal {
+      display: grid;
+      gap: 2px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .calendar-side-goal strong {
+      color: var(--accent-deep);
+      font-size: 15px;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .calendar-side-goal.is-complete strong {
+      color: var(--good);
+    }
+
+    .calendar-side-goal span {
+      font-size: 9px;
+      line-height: 1.25;
+      letter-spacing: 0.02em;
     }
 
     .calendar-nav {
@@ -1317,11 +1433,25 @@
         grid-template-columns: 1fr;
       }
 
+      .run-goal-progress {
+        grid-template-columns: 1fr;
+      }
+
+      .run-goal-item + .run-goal-item {
+        border-top: 1px solid rgba(89, 168, 255, 0.18);
+        border-left: 0;
+      }
+
       .calendar-side {
         grid-template-columns: 1fr auto auto;
         grid-template-rows: auto;
         gap: 12px;
         justify-items: stretch;
+      }
+
+      .calendar-side-summary {
+        justify-items: start;
+        text-align: left;
       }
 
       .calendar-main-top {
@@ -1516,8 +1646,8 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.2.5</div>
-          <div class="update-line">Update: 10/20</div>
+          <div>Ver. 0.2.7</div>
+          <div class="update-line">Update: 10/25</div>
         </div>
       </div>
       <nav class="app-tabs" role="tablist" aria-label="HYROX 訓練中心主要分頁">
@@ -1635,9 +1765,14 @@
           </p>
         </div>
         <div class="calendar-summary" id="trainingCalendarSummary"></div>
+        <div class="run-goal-progress" id="runGoalProgress" role="group" aria-label="目前跑量目標進度"></div>
+        <p class="run-goal-source" id="runGoalSource"></p>
         <div class="calendar-layout">
           <div class="calendar-side">
-            <div class="calendar-month-label" id="prevMonthLabel"></div>
+            <div class="calendar-side-summary">
+              <div class="calendar-month-label" id="prevMonthLabel"></div>
+              <div class="calendar-side-goal" id="prevMonthRunGoal"></div>
+            </div>
             <div class="mini-calendar" id="prevMiniCalendar"></div>
             <button class="calendar-nav" id="calendarPrevBtn" type="button" aria-label="切換到上個月">&lt;</button>
           </div>
@@ -1659,7 +1794,10 @@
           </div>
 
           <div class="calendar-side">
-            <div class="calendar-month-label" id="nextMonthLabel"></div>
+            <div class="calendar-side-summary">
+              <div class="calendar-month-label" id="nextMonthLabel"></div>
+              <div class="calendar-side-goal" id="nextMonthRunGoal"></div>
+            </div>
             <div class="mini-calendar" id="nextMiniCalendar"></div>
             <button class="calendar-nav" id="calendarNextBtn" type="button" aria-label="切換到下個月">&gt;</button>
           </div>
@@ -1753,7 +1891,7 @@
         <h2>查看訓練安排</h2>
         <p class="desc">週檢視可閱讀每次課程細節；月檢視可快速確認哪幾天安排訓練。</p>
         <p class="desc">
-          計畫來源：<a href="data/hyrox_training_plan_2027_v0.3.xlsx" download>下載訓練計畫 Excel</a>。
+          計畫來源：<a href="data/hyrox_training_plan_2027_v0.5.xlsx" download>下載訓練計畫 Excel</a>。
           日後可先調整 Excel，再更新網頁資料，保留依真實訓練狀況修訂的彈性。
         </p>
         <div class="training-toolbar">
@@ -1798,7 +1936,7 @@
     </main>
   </div>
 
-  <script src="data/hyrox_training_plan_data.js?v=0.3"></script>
+  <script src="data/hyrox_training_plan_data.js?v=0.5"></script>
   <script>
     const appTabButtons = [...document.querySelectorAll(".app-tab-button")];
     const appTabPanels = [...document.querySelectorAll(".app-tab-panel")];
@@ -2311,7 +2449,8 @@
       dateLabel: formatDateLabel(item.date)
     }));
 
-    const today = new Date("2026-10-18T12:00:00+08:00");
+    const today = new Date();
+    today.setHours(12, 0, 0, 0);
     const weekdayLabels = ["日", "一", "二", "三", "四", "五", "六"];
     const runDateSet = new Set(runs.map((run) => run.date));
     const runByDate = runs.reduce((result, run) => {
@@ -2325,8 +2464,8 @@
       return result;
     }, {});
     const calendarState = {
-      year: 2026,
-      month: 9
+      year: today.getFullYear(),
+      month: today.getMonth()
     };
 
     const cumulativeRuns = runs.reduce((result, run) => {
@@ -2404,6 +2543,131 @@
       return run.durationMinutes <= 40 ? "short-run" : "long-run";
     }
 
+    function getWeekBounds(referenceDate) {
+      const start = new Date(referenceDate);
+      start.setDate(start.getDate() - start.getDay());
+      start.setHours(12, 0, 0, 0);
+      const end = new Date(start);
+      end.setDate(end.getDate() + 6);
+      return { start, end };
+    }
+
+    function sumRunDistance(startDateKey, endDateKey) {
+      return runs
+        .filter((run) => run.date >= startDateKey && run.date <= endDateKey)
+        .reduce((sum, run) => sum + run.distanceKm, 0);
+    }
+
+    function findRunningTarget(type, startDateKey, endDateKey) {
+      return (trainingPlanData.runningTargets ?? []).find((target) => (
+        target.type === type && target.start === startDateKey && target.end === endDateKey
+      ));
+    }
+
+    function getMonthlyRunSummary(year, month) {
+      const monthStart = new Date(year, month, 1, 12, 0, 0);
+      const monthEnd = new Date(year, month + 1, 0, 12, 0, 0);
+      const monthStartKey = dateKey(monthStart);
+      const monthEndKey = dateKey(monthEnd);
+      const target = findRunningTarget("monthly", monthStartKey, monthEndKey);
+      const targetKm = Number(target?.targetKm);
+
+      return {
+        actualKm: sumRunDistance(monthStartKey, monthEndKey),
+        targetKm: Number.isFinite(targetKm) && targetKm > 0 ? targetKm : null,
+      };
+    }
+
+    function renderCalendarSideGoal(targetId, year, month) {
+      const container = document.getElementById(targetId);
+      const { actualKm, targetKm } = getMonthlyRunSummary(year, month);
+      const hasTarget = targetKm !== null;
+      const isComplete = hasTarget && actualKm >= targetKm;
+      const targetText = hasTarget ? targetKm.toFixed(1) : "—";
+
+      container.classList.toggle("is-complete", isComplete);
+      container.setAttribute(
+        "aria-label",
+        `${year} 年 ${month + 1} 月，實際跑量 ${actualKm.toFixed(1)} 公里，${hasTarget ? `目標跑量 ${targetText} 公里` : "目標尚未設定"}`,
+      );
+      container.innerHTML = `
+        <strong>${actualKm.toFixed(1)} / ${targetText} km</strong>
+        <span>實際 / 目標</span>
+      `;
+    }
+
+    function formatShortDate(date) {
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    }
+
+    function renderRunGoalItem({ label, period, actualKm, target }) {
+      const targetKm = Number(target?.targetKm);
+      const hasTarget = Number.isFinite(targetKm) && targetKm > 0;
+      const percent = hasTarget ? (actualKm / targetKm) * 100 : null;
+      const isComplete = hasTarget && actualKm >= targetKm;
+      const difference = hasTarget ? Math.abs(actualKm - targetKm) : null;
+      const status = !hasTarget
+        ? "目標尚未設定"
+        : isComplete
+          ? difference < 0.05
+            ? "已達成目標"
+            : `已達成目標，超過 ${difference.toFixed(1)} 公里`
+          : `距離目標尚差 ${difference.toFixed(1)} 公里`;
+      const progress = hasTarget ? Math.min(100, Math.max(0, percent)) : 0;
+
+      return `
+        <section class="run-goal-item ${isComplete ? "is-complete" : ""} ${hasTarget ? "" : "is-unset"}"
+          aria-label="${label}，已跑 ${actualKm.toFixed(1)} 公里，${hasTarget ? `目標 ${targetKm.toFixed(1)} 公里，達成 ${Math.round(percent)}%` : "目標尚未設定"}">
+          <div class="run-goal-heading">
+            <span>${label}</span>
+            <span class="run-goal-period">${period}</span>
+          </div>
+          <div class="run-goal-value-row">
+            <strong class="run-goal-value">${actualKm.toFixed(1)} km</strong>
+            <span class="run-goal-target">${hasTarget ? `目標 ${targetKm.toFixed(1)} km` : "目標尚未設定"}</span>
+          </div>
+          <div class="run-goal-track" aria-hidden="true">
+            <div class="run-goal-bar" style="width: ${progress.toFixed(1)}%"></div>
+          </div>
+          <div class="run-goal-footer">
+            <span class="run-goal-status">${status}</span>
+            <span>${hasTarget ? `${Math.round(percent)}%` : "—"}</span>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderRunGoalProgress() {
+      const weekBounds = getWeekBounds(today);
+      const weekStartKey = dateKey(weekBounds.start);
+      const weekEndKey = dateKey(weekBounds.end);
+      const monthStart = new Date(today.getFullYear(), today.getMonth(), 1, 12, 0, 0);
+      const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0, 12, 0, 0);
+      const monthStartKey = dateKey(monthStart);
+      const monthEndKey = dateKey(monthEnd);
+      const weeklyTarget = findRunningTarget("weekly", weekStartKey, weekEndKey);
+      const monthlyTarget = findRunningTarget("monthly", monthStartKey, monthEndKey);
+      const latestRunDate = runs.reduce((latest, run) => run.date > latest ? run.date : latest, "");
+
+      document.getElementById("runGoalProgress").innerHTML = [
+        renderRunGoalItem({
+          label: "本週累積跑量",
+          period: `${formatShortDate(weekBounds.start)}～${formatShortDate(weekBounds.end)}`,
+          actualKm: sumRunDistance(weekStartKey, weekEndKey),
+          target: weeklyTarget,
+        }),
+        renderRunGoalItem({
+          label: "本月累積跑量",
+          period: formatMonthLabel(today.getFullYear(), today.getMonth()),
+          actualKm: sumRunDistance(monthStartKey, monthEndKey),
+          target: monthlyTarget,
+        }),
+      ].join("");
+      document.getElementById("runGoalSource").textContent = latestRunDate
+        ? `資料更新至 ${latestRunDate.replaceAll("-", "/")}｜僅統計 outdoor_run.csv 的室外跑步紀錄`
+        : "目前尚無室外跑步紀錄";
+    }
+
     function renderMiniCalendar(targetId, year, month) {
       const container = document.getElementById(targetId);
       const totalDays = getMonthDays(year, month);
@@ -2450,6 +2714,8 @@
 
       document.getElementById("prevMonthLabel").textContent = `${prevMonthDate.getMonth() + 1} 月`;
       document.getElementById("nextMonthLabel").textContent = `${nextMonthDate.getMonth() + 1} 月`;
+      renderCalendarSideGoal("prevMonthRunGoal", prevMonthDate.getFullYear(), prevMonthDate.getMonth());
+      renderCalendarSideGoal("nextMonthRunGoal", nextMonthDate.getFullYear(), nextMonthDate.getMonth());
       document.getElementById("currentMonthLabel").textContent = formatMonthLabel(year, month);
       document.getElementById("currentMonthRange").textContent = monthDates.length
         ? `本月有跑步紀錄的日期：${monthDates.map((dateText) => Number(dateText.slice(8))).join("、")} 日`
@@ -3031,6 +3297,7 @@
     renderInsights();
     renderTable();
     renderTrainingCalendar();
+    renderRunGoalProgress();
     setupTrainingCalendarControls();
     updateRaceCountdown();
     document.addEventListener("visibilitychange", () => {
