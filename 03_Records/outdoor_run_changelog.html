@@ -357,7 +357,7 @@
           <h1>更新紀錄</h1>
           <p class="intro">依日期由新到舊整理網站功能、資料與版面更新。預設先顯示最新 10 筆，需要時可在頁面下方展開較早紀錄。</p>
         </div>
-        <p class="record-count"><strong>51</strong>筆更新紀錄</p>
+        <p class="record-count"><strong>52</strong>筆更新紀錄</p>
       </div>
     </header>
 
@@ -366,9 +366,20 @@
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-25">2026/10/25</time>
+            <span class="version-badge">Ver. 0.2.10</span>
+            <span class="action-badge">編輯</span>
+            <span class="latest-badge">最新</span>
+          </div>
+          <div class="change-detail">
+            <p>將訓練紀錄的跑步次數、平均訓練時間、平均距離與平均配速四張卡片整併為一張「戶外跑步累積摘要」；桌機版橫向四欄，手機版為單卡內 2 欄×2 列，補充說明集中於底部，並保留原有資料計算。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span>待補 Git 參考</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-25">2026/10/25</time>
             <span class="version-badge">Ver. 0.2.9</span>
             <span class="action-badge">新增／編輯</span>
-            <span class="latest-badge">最新</span>
           </div>
           <div class="change-detail">
             <p>將主頁右上角版本資訊改為「查看更新紀錄」按鍵，並新增獨立公開頁 <code>outdoor_run_changelog.html</code>。公開頁內容由本機 <code>Changelog.md</code> 的更新紀錄產生，預設顯示最新 10 筆並可展開較早紀錄；「2027 台北站備賽」可返回主頁。原始 PRD 與 Changelog 仍僅保留本機。</p>
@@ -471,21 +482,20 @@
             <p class="git-reference"><span>Git 參考</span><code>b45437a style: remove stage labels from page sections</code></p>
           </div>
         </article>
+      </div>
+
+      <div class="change-list" id="olderRecords" role="list" aria-label="較早更新紀錄" hidden>
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-19">2026/10/19</time>
             <span class="version-badge">Ver. 0.2.0</span>
             <span class="action-badge">新增／編輯</span>
-            
           </div>
           <div class="change-detail">
             <p>將頁面擴充為「HYROX 訓練中心」並新增三個主要分頁；每次開啟預設為「訓練紀錄」。新增 2026/10/19～2027/03/13 的 21 週訓練計畫，提供週／月檢視與 Excel 下載，但不提供 Checkbox 回填。新增男子公開組八站規則、Markdown 內容來源及八張原創線條示意圖，並完成手機版與鍵盤操作調整。網站功能檔已同步 GitHub；PRD 與 Changelog 僅保留本機。</p>
             <p class="git-reference"><span>Git 參考</span><code>cf9c088 feat: add HYROX training center tabs</code></p>
           </div>
         </article>
-      </div>
-
-      <div class="change-list" id="olderRecords" role="list" aria-label="較早更新紀錄" hidden>
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-09-13">2026/09/13</time>
@@ -982,7 +992,7 @@
 
       <div class="history-actions">
         <button class="history-toggle" id="historyToggle" type="button" aria-expanded="false" aria-controls="olderRecords">
-          顯示更早紀錄（41 筆）
+          顯示更早紀錄（42 筆）
         </button>
       </div>
     </main>
@@ -991,7 +1001,7 @@
   <script>
     const historyToggle = document.getElementById("historyToggle");
     const olderRecords = document.getElementById("olderRecords");
-    const olderCount = 41;
+    const olderCount = 42;
 
     historyToggle.addEventListener("click", () => {
       const willExpand = olderRecords.hidden;

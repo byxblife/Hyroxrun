@@ -152,9 +152,6 @@
     }
 
     .stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(180px, 1fr));
-      gap: 14px;
       margin-top: 24px;
       padding-bottom: 4px;
     }
@@ -168,19 +165,52 @@
       min-width: 0;
     }
 
-    .stat-card {
+    .stats-summary-card {
       border: 1px solid var(--card-emphasis);
       border-radius: 24px;
       background: var(--panel-strong);
       box-shadow: var(--shadow-strong);
-      padding: 18px;
-      min-height: 180px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      overflow: hidden;
+      padding: 20px;
       min-width: 0;
+    }
+
+    .stats-summary-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .stats-summary-title {
+      margin: 0;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .stats-summary-scope {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .stats-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin: 18px 0 0;
+      padding: 0;
+    }
+
+    .stat-metric {
+      min-width: 0;
+      padding: 4px 18px;
+      border-left: 1px solid rgba(47, 123, 246, 0.16);
+    }
+
+    .stat-metric:first-child {
+      padding-left: 0;
+      border-left: 0;
     }
 
     .stat-label {
@@ -191,14 +221,20 @@
     }
 
     .stat-value {
+      margin: 0;
       font-size: 28px;
       font-weight: 800;
       line-height: 1;
       color: var(--ink);
     }
 
-    .stat-sub {
-      margin-top: 8px;
+    .stats-summary-footer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 18px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(47, 123, 246, 0.16);
       color: var(--muted);
       font-size: 13px;
       line-height: 1.5;
@@ -1356,10 +1392,6 @@
         grid-template-columns: 1fr;
       }
 
-      .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
       .week-overview,
       .station-content {
         grid-template-columns: 1fr;
@@ -1379,7 +1411,7 @@
       .hero,
       .panel,
       .note-card,
-      .stat-card {
+      .stats-summary-card {
         border-radius: 20px;
       }
 
@@ -1407,7 +1439,7 @@
 
       .panel,
       .note-card,
-      .stat-card {
+      .stats-summary-card {
         padding: 16px;
       }
 
@@ -1416,14 +1448,22 @@
         font-size: 18px;
       }
 
-      .stats {
+      .stats-metrics {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-        padding-bottom: 0;
+        margin-top: 12px;
       }
 
-      .stat-card {
-        min-height: 138px;
+      .stat-metric {
+        padding: 14px 12px;
+      }
+
+      .stat-metric:nth-child(odd) {
+        padding-left: 0;
+        border-left: 0;
+      }
+
+      .stat-metric:nth-child(n + 3) {
+        border-top: 1px solid rgba(47, 123, 246, 0.16);
       }
 
       .stat-value {
@@ -1431,7 +1471,8 @@
       }
 
       .stat-label,
-      .stat-sub,
+      .stats-summary-scope,
+      .stats-summary-footer,
       .legend,
       .footnote,
       table,
@@ -1585,10 +1626,6 @@
         font-size: 10px;
       }
 
-      .stats {
-        grid-template-columns: 1fr 1fr;
-      }
-
       .hero {
         padding: 16px;
       }
@@ -1599,7 +1636,7 @@
 
       .panel,
       .note-card,
-      .stat-card {
+      .stats-summary-card {
         padding: 14px;
       }
 
@@ -1659,8 +1696,9 @@
     }
 
     @media (max-width: 520px) {
-      .stats {
-        grid-template-columns: 1fr;
+      .stats-summary-footer {
+        flex-direction: column;
+        gap: 4px;
       }
     }
   </style>
@@ -1676,9 +1714,9 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <a class="version-meta" href="outdoor_run_changelog.html"
-          aria-label="查看更新紀錄，版本 0.2.9，更新日期 10 月 25 日">
+          aria-label="查看更新紀錄，版本 0.2.10，更新日期 10 月 25 日">
           <span class="version-meta-label">查看更新紀錄</span>
-          <span class="update-line">Ver. 0.2.9｜10/25</span>
+          <span class="update-line">Ver. 0.2.10｜10/25</span>
         </a>
       </div>
       <nav class="app-tabs" role="tablist" aria-label="HYROX 訓練中心主要分頁">
@@ -2802,36 +2840,47 @@
       const avgDistance = average(runs.map((run) => run.distanceKm));
       const avgPace = average(runs.map((run) => run.paceMinutes));
       const longest = [...runs].sort((a, b) => b.durationMinutes - a.durationMinutes)[0];
-      const cards = [
+      const metrics = [
         {
-          label: "跑步筆數",
-          value: `${runs.length} 次`,
-          sub: "已排除步行資料"
+          label: "跑步次數",
+          value: `${runs.length} 次`
         },
         {
           label: "平均訓練時間",
-          value: formatMinutesToClock(avgDuration),
-          sub: "每次跑步平均投入時間"
+          value: formatMinutesToClock(avgDuration)
         },
         {
           label: "平均距離",
-          value: `${avgDistance.toFixed(2)} km`,
-          sub: "單次平均完成距離"
+          value: `${avgDistance.toFixed(2)} km`
         },
         {
           label: "平均配速",
-          value: formatPace(avgPace),
-          sub: `最長單次訓練：${longest.dateLabel}｜${longest.distanceKm.toFixed(2)} km`
+          value: formatPace(avgPace)
         }
       ];
 
-      document.getElementById("stats").innerHTML = cards.map((card) => `
-        <article class="stat-card">
-          <div class="stat-label">${card.label}</div>
-          <div class="stat-value">${card.value}</div>
-          <div class="stat-sub">${card.sub}</div>
+      document.getElementById("stats").innerHTML = `
+        <article class="stats-summary-card" aria-labelledby="statsSummaryTitle" aria-describedby="statsSummaryScope statsSummaryNote">
+          <div class="stats-summary-header">
+            <div>
+              <h2 class="stats-summary-title" id="statsSummaryTitle">戶外跑步累積摘要</h2>
+              <p class="stats-summary-scope" id="statsSummaryScope">所有戶外跑步紀錄</p>
+            </div>
+          </div>
+          <dl class="stats-metrics">
+            ${metrics.map((metric) => `
+              <div class="stat-metric">
+                <dt class="stat-label">${metric.label}</dt>
+                <dd class="stat-value">${metric.value}</dd>
+              </div>
+            `).join("")}
+          </dl>
+          <div class="stats-summary-footer" id="statsSummaryNote">
+            <span>已排除步行資料</span>
+            <span>最長單次：${longest.dateLabel}・${longest.distanceKm.toFixed(2)} km</span>
+          </div>
         </article>
-      `).join("");
+      `;
     }
 
     function renderProgressOverviewChart() {
