@@ -357,7 +357,7 @@
           <h1>更新紀錄</h1>
           <p class="intro">依日期由新到舊整理網站功能、資料與版面更新。預設先顯示最新 10 筆，需要時可在頁面下方展開較早紀錄。</p>
         </div>
-        <p class="record-count"><strong>52</strong>筆更新紀錄</p>
+        <p class="record-count"><strong>53</strong>筆更新紀錄</p>
       </div>
     </header>
 
@@ -366,9 +366,20 @@
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-25">2026/10/25</time>
+            <span class="version-badge">Ver. 0.2.11</span>
+            <span class="action-badge">新增／編輯</span>
+            <span class="latest-badge">最新</span>
+          </div>
+          <div class="change-detail">
+            <p>「跑步資料明細」改為每次開啟或重新整理時預設只顯示最近 10 筆，並新增可顯示動態總筆數的「展開全部」按鍵；展開後可再次收合為最近 10 筆，收合時回到明細標題。資料排序、欄位、圖表與原始 CSV 均維持不變。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>d04a887 新增跑步明細展開與收合功能</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-25">2026/10/25</time>
             <span class="version-badge">Ver. 0.2.10</span>
             <span class="action-badge">編輯</span>
-            <span class="latest-badge">最新</span>
           </div>
           <div class="change-detail">
             <p>將訓練紀錄的跑步次數、平均訓練時間、平均距離與平均配速四張卡片整併為一張「戶外跑步累積摘要」；桌機版橫向四欄，手機版為單卡內 2 欄×2 列，補充說明集中於底部，並保留原有資料計算。PRD 與 Changelog 仍僅保留本機。</p>
@@ -470,21 +481,20 @@
             <p class="git-reference"><span>Git 參考</span><code>a76ac47 fix: correct SkiErg illustration perspective</code></p>
           </div>
         </article>
+      </div>
+
+      <div class="change-list" id="olderRecords" role="list" aria-label="較早更新紀錄" hidden>
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-19">2026/10/19</time>
             <span class="version-badge">Ver. 0.2.1</span>
             <span class="action-badge">編輯</span>
-            
           </div>
           <div class="change-detail">
             <p>移除訓練紀錄、訓練計畫與比賽規則三個內容頁上方的 Stage 階段標籤，保留主要分頁按鍵、各頁標題與原有內容；同步調整分頁開頭間距。PRD 與 Changelog 仍僅保留本機。</p>
             <p class="git-reference"><span>Git 參考</span><code>b45437a style: remove stage labels from page sections</code></p>
           </div>
         </article>
-      </div>
-
-      <div class="change-list" id="olderRecords" role="list" aria-label="較早更新紀錄" hidden>
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-19">2026/10/19</time>
@@ -992,7 +1002,7 @@
 
       <div class="history-actions">
         <button class="history-toggle" id="historyToggle" type="button" aria-expanded="false" aria-controls="olderRecords">
-          顯示更早紀錄（42 筆）
+          顯示更早紀錄（43 筆）
         </button>
       </div>
     </main>
@@ -1001,7 +1011,7 @@
   <script>
     const historyToggle = document.getElementById("historyToggle");
     const olderRecords = document.getElementById("olderRecords");
-    const olderCount = 42;
+    const olderCount = 43;
 
     historyToggle.addEventListener("click", () => {
       const willExpand = olderRecords.hidden;
