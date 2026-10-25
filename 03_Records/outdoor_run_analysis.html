@@ -82,13 +82,41 @@
     }
 
     .version-meta {
+      display: inline-flex;
       flex-shrink: 0;
-      text-align: right;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid rgba(89, 168, 255, 0.24);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.9);
       color: var(--meta-gray);
+      box-shadow: 0 8px 22px rgba(42, 91, 109, 0.07);
       font-size: 10px;
       font-weight: 800;
       line-height: 1.4;
       letter-spacing: 0.01em;
+      text-align: right;
+      text-decoration: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .version-meta:hover {
+      border-color: rgba(89, 168, 255, 0.58);
+      box-shadow: 0 10px 26px rgba(89, 168, 255, 0.14);
+      transform: translateY(-1px);
+    }
+
+    .version-meta:focus-visible {
+      outline: 3px solid rgba(89, 168, 255, 0.34);
+      outline-offset: 3px;
+    }
+
+    .version-meta-label {
+      color: var(--ink);
+      font-size: 12px;
     }
 
     .version-meta .update-line {
@@ -1551,6 +1579,8 @@
       }
 
       .version-meta {
+        align-items: flex-start;
+        align-self: flex-start;
         text-align: left;
         font-size: 10px;
       }
@@ -1645,10 +1675,11 @@
           <h1>HYROX 訓練中心</h1>
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
-        <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.2.8</div>
-          <div class="update-line">Update: 10/25</div>
-        </div>
+        <a class="version-meta" href="outdoor_run_changelog.html"
+          aria-label="查看更新紀錄，版本 0.2.9，更新日期 10 月 25 日">
+          <span class="version-meta-label">查看更新紀錄</span>
+          <span class="update-line">Ver. 0.2.9｜10/25</span>
+        </a>
       </div>
       <nav class="app-tabs" role="tablist" aria-label="HYROX 訓練中心主要分頁">
         <button class="app-tab-button" id="tab-training-records" type="button" role="tab"

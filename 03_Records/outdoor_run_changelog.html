@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" translate="no" class="notranslate">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google" content="notranslate" />
+  <meta name="description" content="HYROX 訓練中心更新紀錄" />
+  <title>更新紀錄｜HYROX 訓練中心</title>
+  <style>
+    :root {
+      --bg: #edfaff;
+      --panel: #ffffff;
+      --ink: #2a5b6d;
+      --muted: #6d8d9a;
+      --line: #dde6e8;
+      --accent: #59a8ff;
+      --accent-soft: rgba(89, 168, 255, 0.12);
+      --accent-border: rgba(89, 168, 255, 0.28);
+      --good: #00a95c;
+      --shadow: 0 18px 50px rgba(42, 91, 109, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 0;
+      overflow-x: hidden;
+      font-family: "PingFang TC", "Noto Sans TC", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(89, 168, 255, 0.16), transparent 32%),
+        linear-gradient(180deg, #f7fdff 0%, var(--bg) 100%);
+    }
+
+    a,
+    button {
+      font: inherit;
+    }
+
+    .shell {
+      width: min(100%, 1080px);
+      margin: 0 auto;
+      padding: 32px 20px 72px;
+    }
+
+    .page-header,
+    .changelog-panel {
+      border: 1px solid rgba(221, 230, 232, 0.95);
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: var(--shadow);
+    }
+
+    .page-header {
+      display: grid;
+      gap: 24px;
+      padding: 28px;
+      border-radius: 28px;
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      min-height: 44px;
+      gap: 8px;
+      padding: 8px 13px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+    }
+
+    .home-link:hover {
+      border-color: var(--accent-border);
+      background: rgba(89, 168, 255, 0.18);
+      transform: translateX(-1px);
+    }
+
+    .home-link:focus-visible,
+    .history-toggle:focus-visible {
+      outline: 3px solid rgba(89, 168, 255, 0.38);
+      outline-offset: 3px;
+    }
+
+    .header-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+    }
+
+    .header-copy {
+      display: grid;
+      gap: 10px;
+    }
+
+    .kicker {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    h1,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.05;
+    }
+
+    .intro {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .record-count {
+      min-width: 132px;
+      padding-left: 22px;
+      border-left: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: right;
+    }
+
+    .record-count strong {
+      display: block;
+      color: var(--ink);
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .changelog-panel {
+      margin-top: 24px;
+      padding: 10px 28px 28px;
+      border-radius: 28px;
+    }
+
+    .change-list {
+      display: grid;
+    }
+
+    .change-entry {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 26px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .change-meta {
+      display: flex;
+      align-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 7px;
+      height: fit-content;
+    }
+
+    .change-meta time {
+      flex-basis: 100%;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .version-badge,
+    .action-badge,
+    .latest-badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .version-badge {
+      background: var(--accent-soft);
+      color: var(--ink);
+    }
+
+    .action-badge {
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .latest-badge {
+      background: rgba(0, 169, 92, 0.12);
+      color: #087a48;
+    }
+
+    .change-detail {
+      min-width: 0;
+    }
+
+    .change-detail > p:first-child {
+      font-size: 15px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    code {
+      padding: 2px 5px;
+      border-radius: 6px;
+      background: rgba(89, 168, 255, 0.1);
+      color: var(--ink);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.88em;
+      overflow-wrap: anywhere;
+    }
+
+    .git-reference {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .git-reference span {
+      color: var(--ink);
+      font-weight: 800;
+    }
+
+    .history-actions {
+      display: flex;
+      justify-content: center;
+      padding-top: 24px;
+    }
+
+    .history-toggle {
+      min-height: 48px;
+      padding: 11px 18px;
+      border: 1px solid var(--accent-border);
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 800;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .history-toggle:hover {
+      border-color: rgba(89, 168, 255, 0.58);
+      background: rgba(89, 168, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 700px) {
+      .shell {
+        padding: 14px 10px 36px;
+      }
+
+      .page-header {
+        gap: 18px;
+        padding: 18px 16px;
+        border-radius: 20px;
+      }
+
+      .header-content {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .record-count {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        min-width: 0;
+        padding-top: 14px;
+        padding-left: 0;
+        border-top: 1px solid var(--line);
+        border-left: 0;
+        text-align: left;
+      }
+
+      .record-count strong {
+        font-size: 24px;
+      }
+
+      .changelog-panel {
+        margin-top: 14px;
+        padding: 0 16px 20px;
+        border-radius: 20px;
+      }
+
+      .change-entry {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 20px 0;
+      }
+
+      .change-meta time {
+        flex-basis: auto;
+        margin-right: auto;
+      }
+
+      .change-detail > p:first-child {
+        font-size: 14px;
+        line-height: 1.75;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .home-link,
+      .history-toggle {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+    <header class="page-header">
+      <a class="home-link" href="outdoor_run_analysis.html">
+        <span aria-hidden="true">←</span>
+        <span>2027 台北站備賽</span>
+      </a>
+      <div class="header-content">
+        <div class="header-copy">
+          <p class="kicker">HYROX 訓練中心</p>
+          <h1>更新紀錄</h1>
+          <p class="intro">依日期由新到舊整理網站功能、資料與版面更新。預設先顯示最新 10 筆，需要時可在頁面下方展開較早紀錄。</p>
+        </div>
+        <p class="record-count"><strong>51</strong>筆更新紀錄</p>
+      </div>
+    </header>
+
+    <main class="changelog-panel" id="main-content">
+      <div class="change-list" role="list" aria-label="最新更新紀錄">
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-25">2026/10/25</time>
+            <span class="version-badge">Ver. 0.2.9</span>
+            <span class="action-badge">新增／編輯</span>
+            <span class="latest-badge">最新</span>
+          </div>
+          <div class="change-detail">
+            <p>將主頁右上角版本資訊改為「查看更新紀錄」按鍵，並新增獨立公開頁 <code>outdoor_run_changelog.html</code>。公開頁內容由本機 <code>Changelog.md</code> 的更新紀錄產生，預設顯示最新 10 筆並可展開較早紀錄；「2027 台北站備賽」可返回主頁。原始 PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-25">2026/10/25</time>
+            <span class="version-badge">Ver. 0.2.8</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>將完整的「每月跑步訓練月曆」卡片移至跑步筆數、平均訓練時間、平均距離與平均配速四個摘要數字之後，並置於「主圖：進步趨勢總覽」之前。月曆內容、跑量計算、月份切換、Excel 與資料來源均維持不變。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-25">2026/10/25</time>
+            <span class="version-badge">Ver. 0.2.7</span>
+            <span class="action-badge">新增／編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>每月跑步訓練月曆左右兩側的相鄰月份新增「實際跑量／目標跑量」比較；沒有目標時顯示 <code>—</code>，未來月份尚無紀錄時顯示 <code>0.0</code>。新增非破壞式 Excel <code>hyrox_training_plan_2027_v0.5.xlsx</code>，明確設定 2026 年 11 月目標為 30 公里，保留 v0.4 且不使用自動沿用。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-25">2026/10/25</time>
+            <span class="version-badge">Ver. 0.2.6</span>
+            <span class="action-badge">新增／編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>每月跑步訓練月曆新增本週與本月累積跑量進度；每次開啟頁面自動取得裝置今日日期，週期採星期日至星期六。初始設定本週 8 公里、2026 年 10 月 30 公里，只統計 <code>outdoor_run.csv</code> 的室外跑步；未設定期間顯示「目標尚未設定」，不沿用上一期。新增非破壞式 Excel <code>hyrox_training_plan_2027_v0.4.xlsx</code> 與「跑量目標」分頁，保留 v0.3。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-20">2026/10/20</time>
+            <span class="version-badge">Ver. 0.2.5</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>將第一週 <code>W01-A 基礎肌力 A 入門</code> 從 2026/10/19 星期一移至 2026/10/20 星期二；課程內容、時間、強度及後續課程日期不變。新增非破壞式 Excel <code>hyrox_training_plan_2027_v0.3.xlsx</code> 並保留 v0.2；網頁計畫開始日、訓練資料、下載連結與快取版本同步更新。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>25dd3d2 調整第一堂訓練日期至 10 月 20 日</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-19">2026/10/19</time>
+            <span class="version-badge">Ver. 0.2.4</span>
+            <span class="action-badge">新增</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>在訓練計畫分頁最上方新增比賽倒數卡片，依裝置今日日期自動計算至 2027/03/13 的剩餘天數，比賽日為第 0 天；倒數 30 天內數字改為紅色並增加文字提醒，比賽日後顯示「比賽已完成」。卡片支援桌機與手機版，並會在開啟頁面、切換至訓練計畫分頁及重新回到瀏覽器頁面時更新。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>bf34fd8 新增訓練計畫比賽倒數卡片</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-19">2026/10/19</time>
+            <span class="version-badge">Ver. 0.2.3</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>將健身房課程由 16 次調整為 10 次，採前期每 2～3 週一次、最後 5 週每週一次；六個原健身房日期改為居家替代，並降低健身房前一日的跑步強度。新增非破壞式 Excel <code>hyrox_training_plan_2027_v0.2.xlsx</code>，保留 v0.1；網頁訓練資料與下載連結同步改為 v0.2，並加入資料版本標記避免瀏覽器沿用舊快取。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>9e576c5 feat: revise training plan to ten gym sessions</code>、<code>73ef3a5 fix: refresh training plan data cache</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-19">2026/10/19</time>
+            <span class="version-badge">Ver. 0.2.2</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>修正 SkiErg 示意圖的操作方向與物理透視：新增非破壞式版本 <code>01-skierg-v2.png</code>，改為男子背部朝向鏡頭、後方微偏 10～15 度並正面操作機台，左右拉繩各自連接對應握把且不交叉。保留原始圖片，不覆蓋或刪除。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>a76ac47 fix: correct SkiErg illustration perspective</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-19">2026/10/19</time>
+            <span class="version-badge">Ver. 0.2.1</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>移除訓練紀錄、訓練計畫與比賽規則三個內容頁上方的 Stage 階段標籤，保留主要分頁按鍵、各頁標題與原有內容；同步調整分頁開頭間距。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>b45437a style: remove stage labels from page sections</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-19">2026/10/19</time>
+            <span class="version-badge">Ver. 0.2.0</span>
+            <span class="action-badge">新增／編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>將頁面擴充為「HYROX 訓練中心」並新增三個主要分頁；每次開啟預設為「訓練紀錄」。新增 2026/10/19～2027/03/13 的 21 週訓練計畫，提供週／月檢視與 Excel 下載，但不提供 Checkbox 回填。新增男子公開組八站規則、Markdown 內容來源及八張原創線條示意圖，並完成手機版與鍵盤操作調整。網站功能檔已同步 GitHub；PRD 與 Changelog 僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>cf9c088 feat: add HYROX training center tabs</code></p>
+          </div>
+        </article>
+      </div>
+
+      <div class="change-list" id="olderRecords" role="list" aria-label="較早更新紀錄" hidden>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-09-13">2026/09/13</time>
+            <span class="version-badge">Ver. 0.1.34</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>將「時間 × 距離 × 配速關係」圖的資料圓點半徑由 <code>8</code> 縮小為 <code>4</code>，白色外框由 <code>3</code> 縮小為 <code>2</code>，降低密集訓練資料遮蔽相鄰日期與數值的情況。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-28">2026/08/28</time>
+            <span class="version-badge">Ver. 0.1.30</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>1. 補強「每月跑步訓練月曆」的訓練時長分色規則：跑步時間 <code>40 分鐘以下（含 40 分鐘）</code> 改為橘色標記，<code>超過 40 分鐘</code> 維持綠色標記，並同步套用到中央主月曆、左右小月曆與摘要說明。<br>2. 將短時訓練使用的橘色色碼統一調整為 <code>#FF9D00</code>。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-27">2026/08/27</time>
+            <span class="version-badge">Ver. 0.1.30</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-08-27</code> 室外跑步資料至 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-24">2026/08/24</time>
+            <span class="version-badge">Ver. 0.1.29</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-08-24</code> 室外跑步資料至 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-23">2026/08/23</time>
+            <span class="version-badge">Ver. 0.1.28</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-08-23</code> 室外跑步資料至 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-17">2026/08/17</time>
+            <span class="version-badge">Ver. 0.1.27</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-08-13</code> 與 <code>2026-08-17</code> 室外跑步資料至 <code>rawData</code>，補齊 <code>2026-07-20</code> 的 2.4 公里時間標記，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-10">2026/08/10</time>
+            <span class="version-badge">Ver. 0.1.26</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-08-03</code>、<code>2026-08-05</code>、<code>2026-08-08</code> 與 <code>2026-08-10</code> 室外跑步資料至 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-01">2026/08/01</time>
+            <span class="version-badge">Ver. 0.1.25</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>將「跑步資料明細」表格預設排序改為最新日期在上、最舊日期在下；圖表與統計仍維持原本時間序，並同步更新頁面版本號與 PRD 規格。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-01">2026/08/01</time>
+            <span class="version-badge">Ver. 0.1.24</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-31</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>a92f466 chore: update analysis data with 07/31 run record and increment version to 0.1.24</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-30">2026/07/30</time>
+            <span class="version-badge">Ver. 0.1.23</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-29</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>4f9b83a chore: update outdoor run record to v0.1.23 and add 07/29 session data</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-25">2026/07/25</time>
+            <span class="version-badge">Ver. 0.1.22</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>新增 <code>formatDateLabel()</code> 顯示格式轉換，將圖表、表格與摘要中的日期顯示統一為 <code>MM/DD</code>，但保留 <code>rawData</code> 原始日期為 <code>YYYY-MM-DD</code>。</p>
+            <p class="git-reference"><span>Git 參考</span><code>3d635e0 refactor: unify date formatting by implementing formatDateLabel helper across all visualization components</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-08-23">2026/08/23</time>
+            <span class="version-badge">Ver. 0.1.28</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>1. 新增「每月跑步訓練月曆」區塊，放在 <code>2.4公里完成趨勢</code> 下方、<code>心率區間累積占比</code> 上方，中央顯示今天所在月份，左右顯示前後月份，並保留左右切月按鈕。<br>2. 用現有跑步日期自動標出有訓練的日子，訓練日以 <code>✓</code> 呈現，並顯示本月訓練天數與空白天數摘要。<br>3. 微調月曆字級與格子尺寸，讓中央主月曆日期縮小、<code>✓</code> 放大、左右小月曆日期回到各自等寬格內，避免超出邊界。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-25">2026/07/25</time>
+            <span class="version-badge">Ver. 0.1.21</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>新增日期標籤動態縮放邏輯，依資料筆數調整圖表日期字級，降低日期重疊問題。</p>
+            <p class="git-reference"><span>Git 參考</span><code>6142d82 feat: implement dynamic font scaling for date labels on charts based on data density</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-25">2026/07/25</time>
+            <span class="version-badge">Ver. 0.1.20</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-23</code> 與 <code>2026-07-25</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>79290eb chore: update version to 0.1.20 and append outdoor run records for 07-23 and 07-25</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-20">2026/07/20</time>
+            <span class="version-badge">Ver. 0.1.19</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-20</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>15c71cd updated workout data</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-16">2026/07/16</time>
+            <span class="version-badge">Ver. 0.1.18</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-15</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>765ef43 feat: add 2026-07-15 running record and update analysis version to 0.1.18</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-09">2026/07/09</time>
+            <span class="version-badge">Ver. 0.1.17</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-07</code> 與 <code>2026-07-09</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>464bb29 feat: update outdoor run records and bump version to 0.1.17</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-05">2026/07/05</time>
+            <span class="version-badge">Ver. 0.1.16</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-04</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>dd5a850 chore: update version to 0.1.16 and add outdoor run record for 2026-07-04</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-07-01">2026/07/01</time>
+            <span class="version-badge">Ver. 0.1.15</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-07-01</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>446bdde feat: update outdoor running records to v0.1.15 and add 2026-07-01 session data</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-25">2026/06/25</time>
+            <span class="version-badge">Ver. 0.1.14</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-25</code> 室外跑步資料到頁面內的 <code>rawData</code>，更新版本資訊，並加入避免瀏覽器自動翻譯頁面的設定。</p>
+            <p class="git-reference"><span>Git 參考</span><code>6a73ee5 feat: disable browser translation, update version to 0.1.14, and append latest run record</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-23">2026/06/23</time>
+            <span class="version-badge">Ver. 0.1.13</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>針對兩組主要圖表區塊新增 <code>chart-grid</code> 規則，讓「進步趨勢總覽 / 累積訓練時間與距離」與「距離趨勢放大看 / 2.4公里完成趨勢」在橫向螢幕下也固定改成上下排列，避免四張圖在左右雙欄時被壓縮。</p>
+            <p class="git-reference"><span>Git 參考</span><code>36feeb3 style: update chart-grid layout and add landscape orientation media query for improved responsiveness</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-23">2026/06/23</time>
+            <span class="version-badge">Ver. 0.1.13</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>1. 調整 <code>outdoor_run_analysis.html</code> 的 RWD 版面規則，讓主要圖卡在直式與中大型橫式畫面改為上下排列，避免右側圖卡被壓縮。<br>2. 微調「累積訓練時間 / 距離」圖與「距離趨勢放大看」圖的 X/Y 軸刻度密度、字體尺寸與左右留白，修正日期、分鐘、公里刻度與 Y 軸標題重疊問題。</p>
+            <p class="git-reference"><span>Git 參考</span><code>7dc13c2 style: add mobile-responsive layout adjustments and overflow constraints for statistics cards</code>、<code>d6227f2 refactor: adjust responsive breakpoints and improve SVG chart labels and axis scaling</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-23">2026/06/23</time>
+            <span class="version-badge">Ver. 0.1.13</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-22</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>cc1cda7 feat: update version to 0.1.13 and append 2026-06-22 run record to analysis data</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-19">2026/06/19</time>
+            <span class="version-badge">Ver. 0.1.12</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-18</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>adf474d feat: update version to 0.1.12 and add outdoor running record for 2026-06-18</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-14">2026/06/14</time>
+            <span class="version-badge">Ver. 0.1.11</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-13</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>a2f096c feat: update run analysis with version 0.1.11 and 2026-06-13 log entry</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-10">2026/06/10</time>
+            <span class="version-badge">Ver. 0.1.10</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-10</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>ad293c6 feat: update outdoor run records with 2026-06-10 session and increment version to 0.1.10</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-09">2026/06/09</time>
+            <span class="version-badge">Ver. 0.1.9</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>調整配速圖表比例與繪製邏輯，讓「越低代表越快」更符合視覺直覺，並新增 <code>6'40&quot;</code> 目標配速虛線與標記。</p>
+            <p class="git-reference"><span>Git 參考</span><code>315aec1 fix: adjust pace chart scale and visualization to include a 6'40&quot; target reference line</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-09">2026/06/09</time>
+            <span class="version-badge">Ver. 0.1.9</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-07</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>e73c074 chore: update version to 0.1.9 and add 2026-06-07 running record</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-06">2026/06/06</time>
+            <span class="version-badge">Ver. 0.1.8</span>
+            <span class="action-badge">新增</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>在「時間 × 距離 × 配速關係」上方新增「心率區間累積占比」長條圖，統計有心率區間資料的跑步紀錄，顯示各 Zone 的時間占比、累積時間與資料來源次數。</p>
+            <p class="git-reference"><span>Git 參考</span><code>e72c60f feat: add heart rate zone distribution chart to outdoor run analysis dashboard</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-04">2026/06/04</time>
+            <span class="version-badge">Ver. 0.1.6</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-03</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>bc63c7e chore: update outdoor run record to v0.1.6 and add 2026-06-03 run entry</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-03">2026/06/03</time>
+            <span class="version-badge">Ver. 0.1.5</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>將主圖最外層 <code>chart-wrap</code> 改為視覺透明但保留 DOM 結構，並完全移除統計卡片頂部粗線，讓 UI 更簡潔。</p>
+            <p class="git-reference"><span>Git 參考</span><code>90fe8cb style: remove stat-card accent borders and add transparent chart container styling</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-01">2026/06/01</time>
+            <span class="version-badge">Ver. 0.1.5</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>微調「時間 × 距離 × 配速關係」圖右側配速參考字的字級與位置，避免與最長訓練紀錄標示重疊。</p>
+            <p class="git-reference"><span>Git 參考</span><code>84eb666 style: adjust positioning and font size of pace guide labels in outdoor run analysis</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-06-01">2026/06/01</time>
+            <span class="version-badge">Ver. 0.1.5</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-06-01</code> 室外跑步資料到頁面內的 <code>rawData</code>，更新頁面版本號與更新日期，並調整主圖與累積圖的版面比例、留白與間距，修正裁切問題與左右不均。</p>
+            <p class="git-reference"><span>Git 參考</span><code>e979328 feat: add latest run record and update chart layout and scaling logic</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-31">2026/05/31</time>
+            <span class="version-badge">Ver. 0.1.4</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-05-30</code> 室外跑步資料到頁面內的 <code>rawData</code>，並更新頁面版本號與更新日期。</p>
+            <p class="git-reference"><span>Git 參考</span><code>a74bb6f feat: update version to 0.1.4 and add 2026-05-30 running record to analysis dashboard</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-27">2026/05/27</time>
+            <span class="version-badge">Ver. 0.1.3</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>新增 <code>2.4公里完成趨勢圖</code>，同步 9 筆 <code>2.4公里</code> 完成時間到頁面資料，並在摘要區加入 <code>最佳 / 最新 / 與最佳差距</code> 的趨勢判讀。</p>
+            <p class="git-reference"><span>Git 參考</span><code>9c739d3 feat: add 2.4km completion time trend chart and update data structure to version 0.1.3</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-27">2026/05/27</time>
+            <span class="version-badge">PRD Draft</span>
+            <span class="action-badge">新增</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>建立 <code>outdoor_run_analysis_PRD.md</code>，整理目前頁面的目的、功能模組、資料來源、RWD 需求、驗收條件與後續建議。</p>
+            <p class="git-reference"><span>Git 參考</span>未提交（建立 changelog 當下為 working tree 變更）</p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-27">2026/05/27</time>
+            <span class="version-badge">Ver. 0.1.2</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>修正摘要區將跑步次數寫死為 <code>8 次</code> 的問題，改成依目前資料筆數自動顯示，避免 CSV 更新後摘要不同步。</p>
+            <p class="git-reference"><span>Git 參考</span><code>b9eb3af feat: add 2026-05-27 run data, update version to 0.1.2, and dynamicize total run count in insights</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-27">2026/05/27</time>
+            <span class="version-badge">Ver. 0.1.1</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>同步 <code>outdoor_run.csv</code> 新增的 <code>2026-05-27</code> 室外跑步資料到頁面內的 <code>rawData</code>。</p>
+            <p class="git-reference"><span>Git 參考</span><code>b9eb3af feat: add 2026-05-27 run data, update version to 0.1.2, and dynamicize total run count in insights</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-27">2026/05/27</time>
+            <span class="version-badge">Ver. 0.1.0</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>優化手機與不同螢幕尺寸的自適應版面，讓卡片、圖表與文字能在小螢幕上正常閱讀。</p>
+            <p class="git-reference"><span>Git 參考</span><code>1d835ed 調整自適應設（RWD/AWD）</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-27">2026/05/27</time>
+            <span class="version-badge">Ver. 0.1.0</span>
+            <span class="action-badge">編輯</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>補上頁面說明文字、室外跑步分析口徑與重點解讀內容。</p>
+            <p class="git-reference"><span>Git 參考</span><code>7d21bf9 更新說明</code>、<code>bbf5da8 更新說明</code>、<code>b71e54b 更新圖表說明</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-05-27">2026/05/27</time>
+            <span class="version-badge">Ver. 0.1.0</span>
+            <span class="action-badge">新增</span>
+            
+          </div>
+          <div class="change-detail">
+            <p>建立室外跑步分析頁初版，包含統計卡片、進步趨勢總覽、累積訓練時間 / 距離圖、距離趨勢圖、時間 × 距離 × 配速關係圖、資料明細表與版本資訊區。</p>
+            <p class="git-reference"><span>Git 參考</span><code>87343aa Replace demo page with outdoor run analysis</code></p>
+          </div>
+        </article>
+      </div>
+
+      <div class="history-actions">
+        <button class="history-toggle" id="historyToggle" type="button" aria-expanded="false" aria-controls="olderRecords">
+          顯示更早紀錄（41 筆）
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const historyToggle = document.getElementById("historyToggle");
+    const olderRecords = document.getElementById("olderRecords");
+    const olderCount = 41;
+
+    historyToggle.addEventListener("click", () => {
+      const willExpand = olderRecords.hidden;
+      olderRecords.hidden = !willExpand;
+      historyToggle.setAttribute("aria-expanded", String(willExpand));
+      historyToggle.textContent = willExpand
+        ? "收合較早紀錄"
+        : `顯示更早紀錄（${olderCount} 筆）`;
+    });
+  </script>
+</body>
+
+</html>
+

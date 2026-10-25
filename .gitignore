@@ -8,6 +8,7 @@
 
 # Allow only this HTML file
 !03_Records/outdoor_run_analysis.html
+!03_Records/outdoor_run_changelog.html
 
 # Allow website data files
 !03_Records/data/
