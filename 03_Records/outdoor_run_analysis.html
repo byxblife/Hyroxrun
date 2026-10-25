@@ -1646,7 +1646,7 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <div class="version-meta" aria-label="版本資訊">
-          <div>Ver. 0.2.7</div>
+          <div>Ver. 0.2.8</div>
           <div class="update-line">Update: 10/25</div>
         </div>
       </div>
@@ -1682,6 +1682,56 @@
     </section>
 
     <section class="stats" id="stats"></section>
+
+    <section class="panel" style="margin-top: 20px;">
+      <div class="calendar-panel">
+        <div>
+          <h2>補充圖：每月跑步訓練月曆</h2>
+          <p class="desc">
+            這一塊不是看跑得多快，而是幫你回顧「哪幾天有真的出去跑」。中間顯示今天所在月份，左右保留前後月，
+            讓你可以往前回顧，也可以順手看看下個月有哪些空白天數還能安排。
+          </p>
+        </div>
+        <div class="calendar-summary" id="trainingCalendarSummary"></div>
+        <div class="run-goal-progress" id="runGoalProgress" role="group" aria-label="目前跑量目標進度"></div>
+        <p class="run-goal-source" id="runGoalSource"></p>
+        <div class="calendar-layout">
+          <div class="calendar-side">
+            <div class="calendar-side-summary">
+              <div class="calendar-month-label" id="prevMonthLabel"></div>
+              <div class="calendar-side-goal" id="prevMonthRunGoal"></div>
+            </div>
+            <div class="mini-calendar" id="prevMiniCalendar"></div>
+            <button class="calendar-nav" id="calendarPrevBtn" type="button" aria-label="切換到上個月">&lt;</button>
+          </div>
+
+          <div class="calendar-main">
+            <div class="calendar-main-top">
+              <div class="calendar-main-title">
+                <h3 id="currentMonthLabel"></h3>
+                <p id="currentMonthRange"></p>
+              </div>
+              <div class="calendar-chip" id="currentMonthChip"></div>
+            </div>
+            <div class="calendar-weekdays" id="calendarWeekdays"></div>
+            <div class="calendar-days" id="calendarDays"></div>
+            <div class="calendar-legend">
+              <span><i class="calendar-legend-mark">✓</i> 有跑步訓練紀錄</span>
+              <span><i class="calendar-legend-mark" style="background:rgba(255,255,255,0.92); color:var(--accent-deep);">今</i> 今天</span>
+            </div>
+          </div>
+
+          <div class="calendar-side">
+            <div class="calendar-side-summary">
+              <div class="calendar-month-label" id="nextMonthLabel"></div>
+              <div class="calendar-side-goal" id="nextMonthRunGoal"></div>
+            </div>
+            <div class="mini-calendar" id="nextMiniCalendar"></div>
+            <button class="calendar-nav" id="calendarNextBtn" type="button" aria-label="切換到下個月">&gt;</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="grid chart-grid">
       <article class="panel">
@@ -1753,56 +1803,6 @@
         </div>
         <div class="legend" id="target2400Summary"></div>
       </article>
-    </section>
-
-    <section class="panel" style="margin-top: 20px;">
-      <div class="calendar-panel">
-        <div>
-          <h2>補充圖：每月跑步訓練月曆</h2>
-          <p class="desc">
-            這一塊不是看跑得多快，而是幫你回顧「哪幾天有真的出去跑」。中間顯示今天所在月份，左右保留前後月，
-            讓你可以往前回顧，也可以順手看看下個月有哪些空白天數還能安排。
-          </p>
-        </div>
-        <div class="calendar-summary" id="trainingCalendarSummary"></div>
-        <div class="run-goal-progress" id="runGoalProgress" role="group" aria-label="目前跑量目標進度"></div>
-        <p class="run-goal-source" id="runGoalSource"></p>
-        <div class="calendar-layout">
-          <div class="calendar-side">
-            <div class="calendar-side-summary">
-              <div class="calendar-month-label" id="prevMonthLabel"></div>
-              <div class="calendar-side-goal" id="prevMonthRunGoal"></div>
-            </div>
-            <div class="mini-calendar" id="prevMiniCalendar"></div>
-            <button class="calendar-nav" id="calendarPrevBtn" type="button" aria-label="切換到上個月">&lt;</button>
-          </div>
-
-          <div class="calendar-main">
-            <div class="calendar-main-top">
-              <div class="calendar-main-title">
-                <h3 id="currentMonthLabel"></h3>
-                <p id="currentMonthRange"></p>
-              </div>
-              <div class="calendar-chip" id="currentMonthChip"></div>
-            </div>
-            <div class="calendar-weekdays" id="calendarWeekdays"></div>
-            <div class="calendar-days" id="calendarDays"></div>
-            <div class="calendar-legend">
-              <span><i class="calendar-legend-mark">✓</i> 有跑步訓練紀錄</span>
-              <span><i class="calendar-legend-mark" style="background:rgba(255,255,255,0.92); color:var(--accent-deep);">今</i> 今天</span>
-            </div>
-          </div>
-
-          <div class="calendar-side">
-            <div class="calendar-side-summary">
-              <div class="calendar-month-label" id="nextMonthLabel"></div>
-              <div class="calendar-side-goal" id="nextMonthRunGoal"></div>
-            </div>
-            <div class="mini-calendar" id="nextMiniCalendar"></div>
-            <button class="calendar-nav" id="calendarNextBtn" type="button" aria-label="切換到下個月">&gt;</button>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="panel" style="margin-top: 20px;">
