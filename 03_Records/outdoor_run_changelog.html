@@ -357,7 +357,7 @@
           <h1>更新紀錄</h1>
           <p class="intro">依日期由新到舊整理網站功能、資料與版面更新。預設先顯示最新 10 筆，需要時可在頁面下方展開較早紀錄。</p>
         </div>
-        <p class="record-count"><strong>53</strong>筆更新紀錄</p>
+        <p class="record-count"><strong>54</strong>筆更新紀錄</p>
       </div>
     </header>
 
@@ -366,9 +366,20 @@
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-25">2026/10/25</time>
+            <span class="version-badge">Ver. 0.2.12</span>
+            <span class="action-badge">編輯</span>
+            <span class="latest-badge">最新</span>
+          </div>
+          <div class="change-detail">
+            <p>將「跑步訓練狀態」卡片的進步趨勢與資料範圍說明濃縮至「HYROX 訓練中心」頂部卡片；訓練紀錄分頁顯示單一淡紅色提示，切換至訓練計畫或比賽規則時隱藏。移除原獨立卡片並保留所有資料、圖表與計算。PRD 與 Changelog 仍僅保留本機。</p>
+            <p class="git-reference"><span>Git 參考</span><code>b96b2a3 整併跑步訓練狀態至頂部卡片</code></p>
+          </div>
+        </article>
+        <article class="change-entry" role="listitem">
+          <div class="change-meta">
+            <time datetime="2026-10-25">2026/10/25</time>
             <span class="version-badge">Ver. 0.2.11</span>
             <span class="action-badge">新增／編輯</span>
-            <span class="latest-badge">最新</span>
           </div>
           <div class="change-detail">
             <p>「跑步資料明細」改為每次開啟或重新整理時預設只顯示最近 10 筆，並新增可顯示動態總筆數的「展開全部」按鍵；展開後可再次收合為最近 10 筆，收合時回到明細標題。資料排序、欄位、圖表與原始 CSV 均維持不變。PRD 與 Changelog 仍僅保留本機。</p>
@@ -469,6 +480,9 @@
             <p class="git-reference"><span>Git 參考</span><code>9e576c5 feat: revise training plan to ten gym sessions</code>、<code>73ef3a5 fix: refresh training plan data cache</code></p>
           </div>
         </article>
+      </div>
+
+      <div class="change-list" id="olderRecords" role="list" aria-label="較早更新紀錄" hidden>
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-19">2026/10/19</time>
@@ -481,9 +495,6 @@
             <p class="git-reference"><span>Git 參考</span><code>a76ac47 fix: correct SkiErg illustration perspective</code></p>
           </div>
         </article>
-      </div>
-
-      <div class="change-list" id="olderRecords" role="list" aria-label="較早更新紀錄" hidden>
         <article class="change-entry" role="listitem">
           <div class="change-meta">
             <time datetime="2026-10-19">2026/10/19</time>
@@ -1002,7 +1013,7 @@
 
       <div class="history-actions">
         <button class="history-toggle" id="historyToggle" type="button" aria-expanded="false" aria-controls="olderRecords">
-          顯示更早紀錄（43 筆）
+          顯示更早紀錄（44 筆）
         </button>
       </div>
     </main>
@@ -1011,7 +1022,7 @@
   <script>
     const historyToggle = document.getElementById("historyToggle");
     const olderRecords = document.getElementById("olderRecords");
-    const olderCount = 43;
+    const olderCount = 44;
 
     historyToggle.addEventListener("click", () => {
       const willExpand = olderRecords.hidden;
