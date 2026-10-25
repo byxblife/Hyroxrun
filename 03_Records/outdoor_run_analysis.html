@@ -732,6 +732,42 @@
       overflow: auto;
     }
 
+    .table-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .table-toggle {
+      appearance: none;
+      min-height: 44px;
+      padding: 10px 18px;
+      border: 1px solid rgba(89, 168, 255, 0.34);
+      border-radius: 999px;
+      background: rgba(89, 168, 255, 0.10);
+      color: var(--accent-deep);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .table-toggle:hover {
+      border-color: rgba(89, 168, 255, 0.62);
+      background: rgba(89, 168, 255, 0.18);
+      transform: translateY(-1px);
+    }
+
+    .table-toggle:focus-visible {
+      outline: 3px solid rgba(89, 168, 255, 0.42);
+      outline-offset: 3px;
+    }
+
+    .table-toggle[hidden] {
+      display: none;
+    }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -1700,6 +1736,16 @@
         flex-direction: column;
         gap: 4px;
       }
+
+      .table-toggle {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .table-toggle {
+        transition: none;
+      }
     }
   </style>
 </head>
@@ -1714,9 +1760,9 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <a class="version-meta" href="outdoor_run_changelog.html"
-          aria-label="查看更新紀錄，版本 0.2.10，更新日期 10 月 25 日">
+          aria-label="查看更新紀錄，版本 0.2.11，更新日期 10 月 25 日">
           <span class="version-meta-label">查看更新紀錄</span>
-          <span class="update-line">Ver. 0.2.10｜10/25</span>
+          <span class="update-line">Ver. 0.2.11｜10/25</span>
         </a>
       </div>
       <nav class="app-tabs" role="tablist" aria-label="HYROX 訓練中心主要分頁">
@@ -1897,13 +1943,13 @@
       </div>
     </section>
 
-    <section class="panel" style="margin-top: 20px;">
-      <h2>跑步資料明細</h2>
+    <section class="panel" id="runDetailsPanel" style="margin-top: 20px;">
+      <h2 id="runDetailsHeading">跑步資料明細</h2>
       <p class="desc">
         這裡保留每筆原始紀錄的重要欄位，方便你對照圖表，確認資料是否符合你的訓練記憶。
       </p>
       <div class="table-wrap">
-        <table>
+        <table aria-labelledby="runDetailsHeading">
           <thead>
             <tr>
               <th>日期</th>
@@ -1917,6 +1963,12 @@
           </thead>
           <tbody id="dataTable"></tbody>
         </table>
+      </div>
+      <div class="table-actions">
+        <button class="table-toggle" id="tableToggle" type="button" aria-expanded="false"
+          aria-controls="dataTable">
+          展開全部
+        </button>
       </div>
       <p class="footnote">
         資料來源：<code>03_Records/outdoor_run.csv</code>。目前圖表只納入「室外跑步」資料，未納入步行。
@@ -3352,9 +3404,15 @@
       document.getElementById("insights").innerHTML = insights.map((item) => `<li>${item}</li>`).join("");
     }
 
+    const tablePreviewLimit = 10;
+    let isTableExpanded = false;
+
     function renderTable() {
       const tableRuns = [...runs].sort((a, b) => b.date.localeCompare(a.date));
-      document.getElementById("dataTable").innerHTML = tableRuns.map((run) => `
+      const visibleRuns = isTableExpanded ? tableRuns : tableRuns.slice(0, tablePreviewLimit);
+      const tableToggle = document.getElementById("tableToggle");
+
+      document.getElementById("dataTable").innerHTML = visibleRuns.map((run) => `
         <tr>
           <td>${run.dateLabel}</td>
           <td>${run.type}</td>
@@ -3365,7 +3423,23 @@
           <td>${run.effort}｜${run.effortLabel}</td>
         </tr>
       `).join("");
+
+      tableToggle.hidden = tableRuns.length <= tablePreviewLimit;
+      tableToggle.setAttribute("aria-expanded", String(isTableExpanded));
+      tableToggle.textContent = isTableExpanded
+        ? `收合為最近 ${tablePreviewLimit} 筆`
+        : `展開全部（共 ${tableRuns.length} 筆）`;
     }
+
+    document.getElementById("tableToggle").addEventListener("click", () => {
+      const willCollapse = isTableExpanded;
+      isTableExpanded = !isTableExpanded;
+      renderTable();
+
+      if (willCollapse) {
+        document.getElementById("runDetailsHeading").scrollIntoView({ block: "start" });
+      }
+    });
 
     renderStats();
     renderProgressOverviewChart();
