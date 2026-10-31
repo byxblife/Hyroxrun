@@ -1,7 +1,7 @@
 window.HYROX_TRAINING_PLAN = {
   "meta": {
-    "version": "v0.5",
-    "approvedDate": "2026-10-25",
+    "version": "v0.6",
+    "approvedDate": "2026-10-31",
     "planStart": "2026-10-20",
     "planEnd": "2027-03-13",
     "raceDate": "2027-03-13",
@@ -9,7 +9,7 @@ window.HYROX_TRAINING_PLAN = {
     "weekStartsOn": "星期日",
     "sessionCount": 63,
     "gymSessionCount": 10,
-    "sourceWorkbook": "hyrox_training_plan_2027_v0.5.xlsx"
+    "sourceWorkbook": "hyrox_training_plan_2027_v0.6.xlsx"
   },
   "runningTargets": [
     {
@@ -17,21 +17,32 @@ window.HYROX_TRAINING_PLAN = {
       "start": "2026-10-25",
       "end": "2026-10-31",
       "targetKm": 8,
-      "note": "本週課表參考目標；2026-10-25 使用者批准"
+      "targetMinutes": 80,
+      "note": "距離 8 公里於 2026-10-25 批准；時間 80 分鐘於 2026-10-31 批准"
     },
     {
       "type": "monthly",
       "start": "2026-10-01",
       "end": "2026-10-31",
       "targetKm": 30,
-      "note": "2026 年 10 月目標；2026-10-25 使用者批准"
+      "targetMinutes": 360,
+      "note": "距離 30 公里於 2026-10-25 批准；時間 360 分鐘於 2026-10-31 批准"
     },
     {
       "type": "monthly",
       "start": "2026-11-01",
       "end": "2026-11-30",
       "targetKm": 30,
-      "note": "沿用 2026 年 10 月目標；2026-10-25 使用者批准"
+      "targetMinutes": 360,
+      "note": "距離 30 公里於 2026-10-25 批准；時間 360 分鐘於 2026-10-31 批准"
+    },
+    {
+      "type": "weekly",
+      "start": "2026-11-01",
+      "end": "2026-11-07",
+      "targetKm": 10,
+      "targetMinutes": 80,
+      "note": "2026/11/01～11/07 距離 10 公里、時間 80 分鐘；2026-10-31 使用者批准"
     }
   ],
   "sessions": [

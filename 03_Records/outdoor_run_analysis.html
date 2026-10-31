@@ -360,7 +360,7 @@
 
     .run-goal-item {
       display: grid;
-      gap: 8px;
+      gap: 14px;
       padding: 16px 18px;
     }
 
@@ -380,6 +380,22 @@
     .run-goal-heading {
       color: var(--ink);
       font-size: 14px;
+      font-weight: 800;
+    }
+
+    .run-goal-metric {
+      display: grid;
+      gap: 8px;
+    }
+
+    .run-goal-metric + .run-goal-metric {
+      padding-top: 14px;
+      border-top: 1px solid rgba(89, 168, 255, 0.18);
+    }
+
+    .run-goal-metric-label {
+      color: var(--muted);
+      font-size: 12px;
       font-weight: 800;
     }
 
@@ -417,16 +433,16 @@
       background: var(--accent);
     }
 
-    .run-goal-item.is-complete .run-goal-bar {
+    .run-goal-metric.is-complete .run-goal-bar {
       background: var(--good);
     }
 
-    .run-goal-item.is-complete .run-goal-status {
+    .run-goal-metric.is-complete .run-goal-status {
       color: var(--ink);
       font-weight: 800;
     }
 
-    .run-goal-item.is-unset .run-goal-bar {
+    .run-goal-metric.is-unset .run-goal-bar {
       background: var(--line);
     }
 
@@ -1781,9 +1797,9 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <a class="version-meta" href="outdoor_run_changelog.html"
-          aria-label="查看更新紀錄，版本 0.2.14，更新日期 10 月 27 日">
+          aria-label="查看更新紀錄，版本 0.2.15，更新日期 10 月 31 日">
           <span class="version-meta-label">查看更新紀錄</span>
-          <span class="update-line">Ver. 0.2.14｜10/27</span>
+          <span class="update-line">Ver. 0.2.15｜10/31</span>
         </a>
       </div>
       <p class="app-context-notice" id="trainingRecordsContext">
@@ -1819,7 +1835,7 @@
           </p>
         </div>
         <div class="calendar-summary" id="trainingCalendarSummary"></div>
-        <div class="run-goal-progress" id="runGoalProgress" role="group" aria-label="目前跑量目標進度"></div>
+        <div class="run-goal-progress" id="runGoalProgress" role="group" aria-label="目前跑步時間與跑量目標進度"></div>
         <p class="run-goal-source" id="runGoalSource"></p>
         <div class="calendar-layout">
           <div class="calendar-side">
@@ -2023,7 +2039,7 @@
         <h2>查看訓練安排</h2>
         <p class="desc">週檢視可閱讀每次課程細節；月檢視可快速確認哪幾天安排訓練。</p>
         <p class="desc">
-          計畫來源：<a href="data/hyrox_training_plan_2027_v0.5.xlsx" download>下載訓練計畫 Excel</a>。
+          計畫來源：<a href="data/hyrox_training_plan_2027_v0.6.xlsx" download>下載訓練計畫 Excel</a>。
           日後可先調整 Excel，再更新網頁資料，保留依真實訓練狀況修訂的彈性。
         </p>
         <div class="training-toolbar">
@@ -2068,7 +2084,7 @@
     </main>
   </div>
 
-  <script src="data/hyrox_training_plan_data.js?v=0.5"></script>
+  <script src="data/hyrox_training_plan_data.js?v=0.6"></script>
   <script>
     const appTabButtons = [...document.querySelectorAll(".app-tab-button")];
     const appTabPanels = [...document.querySelectorAll(".app-tab-panel")];
@@ -2693,6 +2709,12 @@
         .reduce((sum, run) => sum + run.distanceKm, 0);
     }
 
+    function sumRunMinutes(startDateKey, endDateKey) {
+      return runs
+        .filter((run) => run.date >= startDateKey && run.date <= endDateKey)
+        .reduce((sum, run) => sum + run.durationMinutes, 0);
+    }
+
     function findRunningTarget(type, startDateKey, endDateKey) {
       return (trainingPlanData.runningTargets ?? []).find((target) => (
         target.type === type && target.start === startDateKey && target.end === endDateKey
@@ -2735,31 +2757,30 @@
       return `${date.getMonth() + 1}/${date.getDate()}`;
     }
 
-    function renderRunGoalItem({ label, period, actualKm, target }) {
-      const targetKm = Number(target?.targetKm);
-      const hasTarget = Number.isFinite(targetKm) && targetKm > 0;
-      const percent = hasTarget ? (actualKm / targetKm) * 100 : null;
-      const isComplete = hasTarget && actualKm >= targetKm;
-      const difference = hasTarget ? Math.abs(actualKm - targetKm) : null;
+    function renderRunGoalMetric({ label, goalLabel, actual, targetValue, unit, unitLabel, decimals }) {
+      const numericTarget = Number(targetValue);
+      const hasTarget = Number.isFinite(numericTarget) && numericTarget > 0;
+      const percent = hasTarget ? (actual / numericTarget) * 100 : null;
+      const isComplete = hasTarget && actual >= numericTarget;
+      const difference = hasTarget ? Math.abs(actual - numericTarget) : null;
+      const completionThreshold = decimals === 0 ? 0.5 : 0.05;
+      const formatValue = (value) => value.toFixed(decimals);
       const status = !hasTarget
         ? "目標尚未設定"
         : isComplete
-          ? difference < 0.05
+          ? difference < completionThreshold
             ? "已達成目標"
-            : `已達成目標，超過 ${difference.toFixed(1)} 公里`
-          : `距離目標尚差 ${difference.toFixed(1)} 公里`;
+            : `已達成目標，超過 ${formatValue(difference)} ${unitLabel}`
+          : `${goalLabel}目標尚差 ${formatValue(difference)} ${unitLabel}`;
       const progress = hasTarget ? Math.min(100, Math.max(0, percent)) : 0;
 
       return `
-        <section class="run-goal-item ${isComplete ? "is-complete" : ""} ${hasTarget ? "" : "is-unset"}"
-          aria-label="${label}，已跑 ${actualKm.toFixed(1)} 公里，${hasTarget ? `目標 ${targetKm.toFixed(1)} 公里，達成 ${Math.round(percent)}%` : "目標尚未設定"}">
-          <div class="run-goal-heading">
-            <span>${label}</span>
-            <span class="run-goal-period">${period}</span>
-          </div>
+        <div class="run-goal-metric ${isComplete ? "is-complete" : ""} ${hasTarget ? "" : "is-unset"}"
+          aria-label="${label}，目前 ${formatValue(actual)} ${unitLabel}，${hasTarget ? `目標 ${formatValue(numericTarget)} ${unitLabel}，達成 ${Math.round(percent)}%` : "目標尚未設定"}">
+          <div class="run-goal-metric-label">${label}</div>
           <div class="run-goal-value-row">
-            <strong class="run-goal-value">${actualKm.toFixed(1)} km</strong>
-            <span class="run-goal-target">${hasTarget ? `目標 ${targetKm.toFixed(1)} km` : "目標尚未設定"}</span>
+            <strong class="run-goal-value">${formatValue(actual)} ${unit}</strong>
+            <span class="run-goal-target">${hasTarget ? `目標 ${formatValue(numericTarget)} ${unit}` : "目標尚未設定"}</span>
           </div>
           <div class="run-goal-track" aria-hidden="true">
             <div class="run-goal-bar" style="width: ${progress.toFixed(1)}%"></div>
@@ -2768,16 +2789,45 @@
             <span class="run-goal-status">${status}</span>
             <span>${hasTarget ? `${Math.round(percent)}%` : "—"}</span>
           </div>
+        </div>
+      `;
+    }
+
+    function renderRunGoalPeriod({ label, period, startDateKey, endDateKey, target }) {
+      return `
+        <section class="run-goal-item" aria-label="${label}跑步目標進度">
+          <div class="run-goal-heading">
+            <span>${label}</span>
+            <span class="run-goal-period">${period}</span>
+          </div>
+          ${renderRunGoalMetric({
+            label: "累積跑步時間",
+            goalLabel: "時間",
+            actual: sumRunMinutes(startDateKey, endDateKey),
+            targetValue: target?.targetMinutes,
+            unit: "分鐘",
+            unitLabel: "分鐘",
+            decimals: 0,
+          })}
+          ${renderRunGoalMetric({
+            label: "累積跑量",
+            goalLabel: "跑量",
+            actual: sumRunDistance(startDateKey, endDateKey),
+            targetValue: target?.targetKm,
+            unit: "km",
+            unitLabel: "公里",
+            decimals: 1,
+          })}
         </section>
       `;
     }
 
-    function renderRunGoalProgress() {
-      const weekBounds = getWeekBounds(today);
+    function renderRunGoalProgress(referenceDate = today) {
+      const weekBounds = getWeekBounds(referenceDate);
       const weekStartKey = dateKey(weekBounds.start);
       const weekEndKey = dateKey(weekBounds.end);
-      const monthStart = new Date(today.getFullYear(), today.getMonth(), 1, 12, 0, 0);
-      const monthEnd = new Date(today.getFullYear(), today.getMonth() + 1, 0, 12, 0, 0);
+      const monthStart = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), 1, 12, 0, 0);
+      const monthEnd = new Date(referenceDate.getFullYear(), referenceDate.getMonth() + 1, 0, 12, 0, 0);
       const monthStartKey = dateKey(monthStart);
       const monthEndKey = dateKey(monthEnd);
       const weeklyTarget = findRunningTarget("weekly", weekStartKey, weekEndKey);
@@ -2785,16 +2835,18 @@
       const latestRunDate = runs.reduce((latest, run) => run.date > latest ? run.date : latest, "");
 
       document.getElementById("runGoalProgress").innerHTML = [
-        renderRunGoalItem({
-          label: "本週累積跑量",
+        renderRunGoalPeriod({
+          label: "本週",
           period: `${formatShortDate(weekBounds.start)}～${formatShortDate(weekBounds.end)}`,
-          actualKm: sumRunDistance(weekStartKey, weekEndKey),
+          startDateKey: weekStartKey,
+          endDateKey: weekEndKey,
           target: weeklyTarget,
         }),
-        renderRunGoalItem({
-          label: "本月累積跑量",
-          period: formatMonthLabel(today.getFullYear(), today.getMonth()),
-          actualKm: sumRunDistance(monthStartKey, monthEndKey),
+        renderRunGoalPeriod({
+          label: "本月",
+          period: formatMonthLabel(referenceDate.getFullYear(), referenceDate.getMonth()),
+          startDateKey: monthStartKey,
+          endDateKey: monthEndKey,
           target: monthlyTarget,
         }),
       ].join("");
