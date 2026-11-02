@@ -486,23 +486,33 @@
 
     .calendar-side-goal {
       display: grid;
-      gap: 2px;
+      gap: 6px;
       color: var(--muted);
       white-space: nowrap;
     }
 
-    .calendar-side-goal strong {
+    .calendar-side-metric {
+      display: grid;
+      gap: 2px;
+    }
+
+    .calendar-side-metric + .calendar-side-metric {
+      padding-top: 5px;
+      border-top: 1px solid rgba(89, 168, 255, 0.18);
+    }
+
+    .calendar-side-metric strong {
       color: var(--accent-deep);
       font-size: 15px;
       line-height: 1.2;
       font-variant-numeric: tabular-nums;
     }
 
-    .calendar-side-goal.is-complete strong {
+    .calendar-side-metric.is-complete strong {
       color: var(--good);
     }
 
-    .calendar-side-goal span {
+    .calendar-side-metric span {
       font-size: 9px;
       line-height: 1.25;
       letter-spacing: 0.02em;
@@ -1797,9 +1807,9 @@
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
         <a class="version-meta" href="outdoor_run_changelog.html"
-          aria-label="查看更新紀錄，版本 0.2.16，更新日期 10 月 31 日">
+          aria-label="查看更新紀錄，版本 0.2.17，更新日期 11 月 2 日">
           <span class="version-meta-label">查看更新紀錄</span>
-          <span class="update-line">Ver. 0.2.16｜10/31</span>
+          <span class="update-line">Ver. 0.2.17｜11/02</span>
         </a>
       </div>
       <p class="app-context-notice" id="trainingRecordsContext">
@@ -2729,8 +2739,11 @@
       const monthEndKey = dateKey(monthEnd);
       const target = findRunningTarget("monthly", monthStartKey, monthEndKey);
       const targetKm = Number(target?.targetKm);
+      const targetMinutes = Number(target?.targetMinutes);
 
       return {
+        actualMinutes: sumRunMinutes(monthStartKey, monthEndKey),
+        targetMinutes: Number.isFinite(targetMinutes) && targetMinutes > 0 ? targetMinutes : null,
         actualKm: sumRunDistance(monthStartKey, monthEndKey),
         targetKm: Number.isFinite(targetKm) && targetKm > 0 ? targetKm : null,
       };
@@ -2738,19 +2751,27 @@
 
     function renderCalendarSideGoal(targetId, year, month) {
       const container = document.getElementById(targetId);
-      const { actualKm, targetKm } = getMonthlyRunSummary(year, month);
-      const hasTarget = targetKm !== null;
-      const isComplete = hasTarget && actualKm >= targetKm;
-      const targetText = hasTarget ? targetKm.toFixed(1) : "—";
+      const { actualMinutes, targetMinutes, actualKm, targetKm } = getMonthlyRunSummary(year, month);
+      const hasTimeTarget = targetMinutes !== null;
+      const hasDistanceTarget = targetKm !== null;
+      const isTimeComplete = hasTimeTarget && actualMinutes >= targetMinutes;
+      const isDistanceComplete = hasDistanceTarget && actualKm >= targetKm;
+      const timeTargetText = hasTimeTarget ? targetMinutes.toFixed(0) : "—";
+      const distanceTargetText = hasDistanceTarget ? targetKm.toFixed(1) : "—";
 
-      container.classList.toggle("is-complete", isComplete);
       container.setAttribute(
         "aria-label",
-        `${year} 年 ${month + 1} 月，實際跑量 ${actualKm.toFixed(1)} 公里，${hasTarget ? `目標跑量 ${targetText} 公里` : "目標尚未設定"}`,
+        `${year} 年 ${month + 1} 月，實際跑步時間 ${actualMinutes.toFixed(0)} 分鐘，${hasTimeTarget ? `目標時間 ${timeTargetText} 分鐘` : "時間目標尚未設定"}；實際跑量 ${actualKm.toFixed(1)} 公里，${hasDistanceTarget ? `目標跑量 ${distanceTargetText} 公里` : "跑量目標尚未設定"}`,
       );
       container.innerHTML = `
-        <strong>${actualKm.toFixed(1)} / ${targetText} km</strong>
-        <span>實際 / 目標</span>
+        <div class="calendar-side-metric ${isTimeComplete ? "is-complete" : ""}">
+          <strong>${actualMinutes.toFixed(0)} / ${timeTargetText} 分鐘</strong>
+          <span>實際時間 / 目標</span>
+        </div>
+        <div class="calendar-side-metric ${isDistanceComplete ? "is-complete" : ""}">
+          <strong>${actualKm.toFixed(1)} / ${distanceTargetText} km</strong>
+          <span>實際距離 / 目標</span>
+        </div>
       `;
     }
 
