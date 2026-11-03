@@ -83,31 +83,30 @@
 
     .version-meta {
       display: inline-flex;
-      flex-shrink: 0;
-      flex-direction: column;
-      align-items: flex-end;
+      flex-wrap: wrap;
+      align-items: baseline;
       align-self: start;
-      justify-content: center;
+      justify-content: flex-start;
+      gap: 0;
       min-height: 44px;
-      padding: 8px 12px;
-      border: 1px solid rgba(89, 168, 255, 0.24);
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.9);
+      margin-top: 4px;
+      padding: 8px 0;
+      border: 0;
+      background: transparent;
       color: var(--meta-gray);
-      box-shadow: 0 8px 22px rgba(42, 91, 109, 0.07);
       font-size: 10px;
       font-weight: 800;
       line-height: 1.4;
       letter-spacing: 0.01em;
-      text-align: right;
+      text-align: left;
       text-decoration: none;
-      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+      transition: color 160ms ease;
     }
 
     .version-meta:hover {
-      border-color: rgba(89, 168, 255, 0.58);
-      box-shadow: 0 10px 26px rgba(89, 168, 255, 0.14);
-      transform: translateY(-1px);
+      color: var(--accent-deep);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     .version-meta:focus-visible {
@@ -833,9 +832,9 @@
 
     .app-header-top {
       display: grid;
-      grid-template-columns: minmax(320px, 0.9fr) minmax(440px, 1.1fr) auto;
-      align-items: center;
-      gap: 24px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
+      gap: clamp(24px, 4vw, 64px);
     }
 
     .app-title-wrap {
@@ -941,17 +940,14 @@
     }
 
     .race-countdown-card {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(180px, 0.76fr);
-      align-items: center;
-      gap: clamp(16px, 2vw, 24px);
-      min-height: 132px;
+      display: block;
+      min-width: 0;
+      min-height: 0;
       margin: 0;
-      padding: clamp(16px, 2vw, 20px);
-      border: 1px solid var(--card-emphasis);
-      border-radius: 20px;
-      background: var(--panel-strong);
-      box-shadow: 0 12px 28px rgba(89, 168, 255, 0.12);
+      padding: 10px 0 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
     }
 
     .race-countdown-lead {
@@ -1001,8 +997,8 @@
       display: grid;
       gap: 5px;
       min-width: 0;
-      padding-left: clamp(16px, 2vw, 24px);
-      border-left: 1px solid var(--line);
+      padding: 10px 0 0;
+      border: 0;
     }
 
     .race-countdown-details span {
@@ -1024,8 +1020,7 @@
     }
 
     .race-countdown-card.is-urgent {
-      border-color: rgba(201, 54, 47, 0.32);
-      background: linear-gradient(180deg, var(--danger-soft), rgba(255, 255, 255, 0.98));
+      background: transparent;
     }
 
     .race-countdown-card.is-urgent .race-countdown-value,
@@ -1447,21 +1442,6 @@
 
     @media (max-width: 1180px), (orientation: portrait) {
 
-      .app-header-top {
-        grid-template-columns: minmax(0, 1fr) auto;
-        align-items: start;
-      }
-
-      .race-countdown-card {
-        grid-column: 1 / -1;
-        grid-row: 2;
-      }
-
-      .version-meta {
-        grid-column: 2;
-        grid-row: 1;
-      }
-
       .stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1470,10 +1450,6 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
-      }
-
-      .version-meta {
-        text-align: left;
       }
 
       .chart-wrap {
@@ -1490,6 +1466,16 @@
     }
 
     @media (max-width: 980px) {
+
+      .app-header-top {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 22px;
+      }
+
+      .race-countdown-card,
+      .race-countdown-details {
+        padding: 0;
+      }
 
       .grid,
       .two-col {
@@ -1643,11 +1629,12 @@
 
       .app-header-top {
         grid-template-columns: minmax(0, 1fr);
-        gap: 16px;
+        gap: 22px;
       }
 
+      .app-title-wrap,
       .race-countdown-card,
-      .version-meta {
+      .race-countdown-details {
         grid-column: 1;
         grid-row: auto;
       }
@@ -1658,15 +1645,12 @@
       }
 
       .race-countdown-card {
-        grid-template-columns: minmax(0, 1fr) auto;
-        min-height: 0;
-        gap: 14px;
-        padding: 16px;
+        padding: 0;
       }
 
       .race-countdown-details {
-        padding-left: 14px;
-        border-left: 1px solid var(--line);
+        padding: 0;
+        border: 0;
       }
 
       .app-tabs {
@@ -1791,6 +1775,10 @@
         padding: 16px;
       }
 
+      .app-header-top {
+        gap: 16px;
+      }
+
       .app-title-wrap h1 {
         font-size: 24px;
       }
@@ -1811,8 +1799,7 @@
       }
 
       .race-countdown-card {
-        gap: 12px;
-        padding: 14px;
+        padding: 0;
       }
 
       .race-countdown-value {
@@ -1824,7 +1811,7 @@
       }
 
       .race-countdown-details {
-        padding-left: 12px;
+        padding: 0;
       }
 
       .race-countdown-details time {
@@ -1888,18 +1875,19 @@
             </div>
             <p class="race-countdown-status" id="raceCountdownStatus">正在計算今日倒數</p>
           </div>
-          <div class="race-countdown-details">
-            <span>比賽日期</span>
-            <time datetime="2027-03-13">2027/03/13</time>
-            <strong>HYROX 台北站</strong>
-            <span>男子個人公開組</span>
-          </div>
         </section>
-        <a class="version-meta" href="outdoor_run_changelog.html"
-          aria-label="查看更新紀錄，版本 0.2.19，更新日期 11 月 3 日">
-          <span class="version-meta-label">查看更新紀錄</span>
-          <span class="update-line">Ver. 0.2.19｜11/03</span>
-        </a>
+        <div class="race-countdown-details">
+          <span>比賽日期</span>
+          <time datetime="2027-03-13">2027/03/13</time>
+          <strong>HYROX 台北站</strong>
+          <span>男子個人公開組</span>
+          <a class="version-meta" href="outdoor_run_changelog.html"
+            aria-label="查看更新紀錄，版本 0.2.20，更新日期 11 月 3 日">
+            <span class="version-meta-label">查看更新紀錄</span>
+            <span aria-hidden="true">｜</span>
+            <span class="update-line">Ver. 0.2.20｜11/03</span>
+          </a>
+        </div>
       </div>
       <p class="app-context-notice" id="trainingRecordsContext">
         <strong>訓練紀錄：</strong>以時間、距離與平均配速查看進步趨勢；僅納入室外跑步，已排除步行資料。
