@@ -86,6 +86,7 @@
       flex-shrink: 0;
       flex-direction: column;
       align-items: flex-end;
+      align-self: start;
       justify-content: center;
       min-height: 44px;
       padding: 8px 12px;
@@ -831,10 +832,14 @@
     }
 
     .app-header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 20px;
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(440px, 1.1fr) auto;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .app-title-wrap {
+      min-width: 0;
     }
 
     .app-title-wrap h1 {
@@ -937,15 +942,16 @@
 
     .race-countdown-card {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+      grid-template-columns: minmax(0, 1fr) minmax(180px, 0.76fr);
       align-items: center;
-      gap: clamp(20px, 4vw, 48px);
-      margin-bottom: 20px;
-      padding: clamp(20px, 3vw, 30px);
+      gap: clamp(16px, 2vw, 24px);
+      min-height: 132px;
+      margin: 0;
+      padding: clamp(16px, 2vw, 20px);
       border: 1px solid var(--card-emphasis);
-      border-radius: 24px;
+      border-radius: 20px;
       background: var(--panel-strong);
-      box-shadow: var(--shadow-strong);
+      box-shadow: 0 12px 28px rgba(89, 168, 255, 0.12);
     }
 
     .race-countdown-lead {
@@ -963,8 +969,8 @@
     .race-countdown-number {
       display: flex;
       align-items: baseline;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 8px;
+      margin-top: 8px;
       color: var(--ink);
     }
 
@@ -973,48 +979,48 @@
     }
 
     .race-countdown-value {
-      font-size: clamp(48px, 8vw, 82px);
+      font-size: clamp(44px, 5vw, 64px);
       font-weight: 900;
       line-height: 0.9;
       letter-spacing: -0.04em;
     }
 
     .race-countdown-unit {
-      font-size: clamp(18px, 2.6vw, 28px);
+      font-size: clamp(18px, 2vw, 24px);
       font-weight: 800;
     }
 
     .race-countdown-status {
-      margin-top: 12px;
+      margin-top: 9px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
     }
 
     .race-countdown-details {
       display: grid;
-      gap: 6px;
+      gap: 5px;
       min-width: 0;
-      padding-left: clamp(18px, 3vw, 34px);
+      padding-left: clamp(16px, 2vw, 24px);
       border-left: 1px solid var(--line);
     }
 
     .race-countdown-details span {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .race-countdown-details time {
       color: var(--ink);
-      font-size: clamp(22px, 3vw, 32px);
+      font-size: clamp(21px, 2.4vw, 28px);
       font-weight: 900;
       line-height: 1.15;
     }
 
     .race-countdown-details strong {
-      margin-top: 8px;
+      margin-top: 5px;
       color: var(--ink);
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .race-countdown-card.is-urgent {
@@ -1029,7 +1035,7 @@
 
     .race-countdown-card.is-complete .race-countdown-status {
       color: var(--accent-deep);
-      font-size: clamp(22px, 3vw, 32px);
+      font-size: clamp(18px, 2vw, 24px);
       font-weight: 900;
     }
 
@@ -1441,6 +1447,21 @@
 
     @media (max-width: 1180px), (orientation: portrait) {
 
+      .app-header-top {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: start;
+      }
+
+      .race-countdown-card {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      .version-meta {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
       .stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1620,22 +1641,32 @@
         border-radius: 20px;
       }
 
-      .app-header-top,
+      .app-header-top {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+      }
+
+      .race-countdown-card,
+      .version-meta {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
       .training-toolbar {
         flex-direction: column;
         align-items: stretch;
       }
 
       .race-countdown-card {
-        grid-template-columns: 1fr;
-        gap: 18px;
+        grid-template-columns: minmax(0, 1fr) auto;
+        min-height: 0;
+        gap: 14px;
+        padding: 16px;
       }
 
       .race-countdown-details {
-        padding-top: 18px;
-        padding-left: 0;
-        border-top: 1px solid var(--line);
-        border-left: 0;
+        padding-left: 14px;
+        border-left: 1px solid var(--line);
       }
 
       .app-tabs {
@@ -1768,6 +1799,47 @@
         font-size: 13px;
       }
 
+      .app-tabs {
+        overflow-x: hidden;
+      }
+
+      .app-tab-button {
+        flex: 1 1 0;
+        min-width: 0;
+        padding-inline: 4px;
+        font-size: 13px;
+      }
+
+      .race-countdown-card {
+        gap: 12px;
+        padding: 14px;
+      }
+
+      .race-countdown-value {
+        font-size: 40px;
+      }
+
+      .race-countdown-unit {
+        font-size: 17px;
+      }
+
+      .race-countdown-details {
+        padding-left: 12px;
+      }
+
+      .race-countdown-details time {
+        font-size: 19px;
+      }
+
+      .race-countdown-details strong {
+        font-size: 13px;
+      }
+
+      .race-countdown-details span,
+      .race-countdown-status {
+        font-size: 11px;
+      }
+
       .week-context h2,
       .station-copy h2 {
         font-size: 21px;
@@ -1806,10 +1878,27 @@
           <h1>HYROX 訓練中心</h1>
           <p>集中查看訓練紀錄、21 週訓練計畫與男子公開組比賽規則。</p>
         </div>
+        <section class="race-countdown-card" id="raceCountdown" role="status" aria-live="polite" aria-atomic="true"
+          aria-labelledby="raceCountdownLabel">
+          <div class="race-countdown-lead">
+            <span class="race-countdown-label" id="raceCountdownLabel">距離比賽還有</span>
+            <div class="race-countdown-number" id="raceCountdownNumber">
+              <strong class="race-countdown-value" id="raceCountdownValue">—</strong>
+              <span class="race-countdown-unit">天</span>
+            </div>
+            <p class="race-countdown-status" id="raceCountdownStatus">正在計算今日倒數</p>
+          </div>
+          <div class="race-countdown-details">
+            <span>比賽日期</span>
+            <time datetime="2027-03-13">2027/03/13</time>
+            <strong>HYROX 台北站</strong>
+            <span>男子個人公開組</span>
+          </div>
+        </section>
         <a class="version-meta" href="outdoor_run_changelog.html"
-          aria-label="查看更新紀錄，版本 0.2.18，更新日期 11 月 2 日">
+          aria-label="查看更新紀錄，版本 0.2.19，更新日期 11 月 3 日">
           <span class="version-meta-label">查看更新紀錄</span>
-          <span class="update-line">Ver. 0.2.18｜11/02</span>
+          <span class="update-line">Ver. 0.2.19｜11/03</span>
         </a>
       </div>
       <p class="app-context-notice" id="trainingRecordsContext">
@@ -2014,24 +2103,6 @@
     </div>
 
     <div class="app-tab-panel" id="panel-training-plan" role="tabpanel" aria-labelledby="tab-training-plan" hidden>
-      <section class="race-countdown-card" id="raceCountdown" role="status" aria-live="polite" aria-atomic="true"
-        aria-labelledby="raceCountdownLabel">
-        <div class="race-countdown-lead">
-          <span class="race-countdown-label" id="raceCountdownLabel">距離比賽還有</span>
-          <div class="race-countdown-number" id="raceCountdownNumber">
-            <strong class="race-countdown-value" id="raceCountdownValue">—</strong>
-            <span class="race-countdown-unit">天</span>
-          </div>
-          <p class="race-countdown-status" id="raceCountdownStatus">正在計算今日倒數</p>
-        </div>
-        <div class="race-countdown-details">
-          <span>比賽日期</span>
-          <time datetime="2027-03-13">2027/03/13</time>
-          <strong>HYROX 台北站</strong>
-          <span>男子個人公開組</span>
-        </div>
-      </section>
-
       <section class="hero tab-intro">
         <h1>21 週訓練計畫</h1>
         <p>
