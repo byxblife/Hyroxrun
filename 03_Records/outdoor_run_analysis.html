@@ -83,30 +83,30 @@
 
     .version-meta {
       display: inline-flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      align-self: start;
-      justify-content: flex-start;
-      gap: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       min-height: 44px;
-      margin-top: 4px;
-      padding: 8px 0;
-      border: 0;
-      background: transparent;
+      min-width: 156px;
+      padding: 10px 16px;
+      border: 1px solid rgba(89, 168, 255, 0.32);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.92);
       color: var(--meta-gray);
+      box-shadow: 0 8px 22px rgba(42, 91, 109, 0.07);
       font-size: 10px;
       font-weight: 800;
       line-height: 1.4;
       letter-spacing: 0.01em;
-      text-align: left;
+      text-align: center;
       text-decoration: none;
-      transition: color 160ms ease;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
     }
 
     .version-meta:hover {
-      color: var(--accent-deep);
-      text-decoration: underline;
-      text-underline-offset: 3px;
+      border-color: rgba(89, 168, 255, 0.62);
+      box-shadow: 0 10px 26px rgba(89, 168, 255, 0.14);
+      transform: translateY(-1px);
     }
 
     .version-meta:focus-visible {
@@ -121,6 +121,12 @@
 
     .version-meta .update-line {
       color: var(--meta-gray);
+    }
+
+    .app-footer {
+      display: flex;
+      justify-content: center;
+      padding: 32px 0 8px;
     }
 
     h1,
@@ -1718,9 +1724,9 @@
       }
 
       .version-meta {
-        align-items: flex-start;
-        align-self: flex-start;
-        text-align: left;
+        align-items: center;
+        align-self: center;
+        text-align: center;
         font-size: 10px;
       }
 
@@ -1881,12 +1887,6 @@
           <time datetime="2027-03-13">2027/03/13</time>
           <strong>HYROX 台北站</strong>
           <span>男子個人公開組</span>
-          <a class="version-meta" href="outdoor_run_changelog.html"
-            aria-label="查看更新紀錄，版本 0.2.20，更新日期 11 月 3 日">
-            <span class="version-meta-label">查看更新紀錄</span>
-            <span aria-hidden="true">｜</span>
-            <span class="update-line">Ver. 0.2.20｜11/03</span>
-          </a>
         </div>
       </div>
       <p class="app-context-notice" id="trainingRecordsContext">
@@ -2151,6 +2151,13 @@
       <p class="rules-status" id="rulesStatus">規則資料來源：<code>data/hyrox_competition_rules.md</code></p>
     </div>
     </main>
+    <footer class="app-footer" aria-label="網站版本資訊">
+      <a class="version-meta" href="outdoor_run_changelog.html"
+        aria-label="查看更新紀錄，版本 0.2.21，更新日期 11 月 3 日">
+        <span class="version-meta-label">查看更新紀錄</span>
+        <span class="update-line">Ver. 0.2.21｜11/03</span>
+      </a>
+    </footer>
   </div>
 
   <script src="data/hyrox_training_plan_data.js?v=0.6"></script>
