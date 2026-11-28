@@ -1,7 +1,7 @@
 window.HYROX_TRAINING_PLAN = {
   "meta": {
-    "version": "v0.9",
-    "approvedDate": "2026-11-21",
+    "version": "v0.10",
+    "approvedDate": "2026-11-28",
     "planStart": "2026-10-20",
     "planEnd": "2027-03-13",
     "raceDate": "2027-03-13",
@@ -9,7 +9,7 @@ window.HYROX_TRAINING_PLAN = {
     "weekStartsOn": "星期日",
     "sessionCount": 63,
     "gymSessionCount": 10,
-    "sourceWorkbook": "hyrox_training_plan_2027_v0.9.xlsx"
+    "sourceWorkbook": "hyrox_training_plan_2027_v0.10.xlsx"
   },
   "runningTargets": [
     {
@@ -67,6 +67,22 @@ window.HYROX_TRAINING_PLAN = {
       "targetKm": 14,
       "targetMinutes": 90,
       "note": "2026/11/22～11/28 距離 14 公里、時間 90 分鐘；2026-11-21 使用者批准"
+    },
+    {
+      "type": "weekly",
+      "start": "2026-11-29",
+      "end": "2026-12-05",
+      "targetKm": 14.6,
+      "targetMinutes": 100,
+      "note": "2026/11/29～12/05 距離 14.6 公里、時間 100 分鐘；2026-11-28 使用者批准"
+    },
+    {
+      "type": "monthly",
+      "start": "2026-12-01",
+      "end": "2026-12-31",
+      "targetKm": 58.2,
+      "targetMinutes": 400,
+      "note": "2026 年 12 月距離 58.2 公里、時間 400 分鐘；2026-11-28 使用者批准"
     }
   ],
   "sessions": [
